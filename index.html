@@ -53,7 +53,7 @@
             color: #7c2d12;
         }
 
-        /* PERFECT PRINT STYLES - Fixes PDF Truncation/Cutoff Issue */
+        /* PRINT STYLES - Fixes PDF Cutoff Issue */
         @media print {
             body * {
                 visibility: hidden !important;
@@ -100,8 +100,8 @@
                     <i class="fa-solid fa-pen-to-square text-amber-700"></i>
                     Fill Candidate Details
                 </h2>
-                <button onclick="resetForm()" class="text-[11px] text-rose-600 hover:text-rose-800 font-semibold flex items-center gap-1">
-                    <i class="fa-solid fa-rotate-left"></i> Reset
+                <button type="button" onclick="resetForm()" class="text-[11px] bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 px-2 py-0.5 rounded font-semibold flex items-center gap-1 transition">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Form
                 </button>
             </div>
 
@@ -332,7 +332,7 @@
                 <button onclick="downloadPDF()" class="flex-1 bg-amber-700 hover:bg-amber-800 text-white font-semibold py-1.5 px-3 rounded-lg shadow-sm transition flex items-center justify-center gap-2 text-xs">
                     <i class="fa-solid fa-file-pdf"></i> Download PDF
                 </button>
-                <button onclick="window.print()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-1.5 px-3 rounded-lg shadow-sm transition flex items-center justify-center gap-2 text-xs" title="100% Accurate Print / Save PDF">
+                <button onclick="window.print()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-1.5 px-3 rounded-lg shadow-sm transition flex items-center justify-center gap-2 text-xs" title="Direct Print / Save PDF">
                     <i class="fa-solid fa-print"></i> Print
                 </button>
                 <button onclick="saveRecord()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-1.5 px-3 rounded-lg shadow-sm transition flex items-center justify-center gap-2 text-xs">
@@ -858,10 +858,50 @@
             }
         }
 
-        // --- FORM RESET & EXPORT ---
+        // --- UPDATED RESET FORM FUNCTION (KEEPS DEFAULTS FOR PHOTO & RELIGION) ---
         function resetForm() {
-            document.getElementById('biodataForm').reset();
+            // 1. Reset file inputs and customized photo back to default
             clearPhoto();
+            
+            // 2. Reset Religion back to Default ('islam')
+            document.getElementById('religion').value = 'islam';
+            updateReligionHeader();
+
+            // 3. Clear all input text fields
+            document.getElementById('fullName').value = '';
+            document.getElementById('casteInfo').value = '';
+            document.getElementById('dob').value = '';
+            document.getElementById('height').value = '';
+            document.getElementById('qualification').value = '';
+
+            // Career reset
+            document.getElementById('careerType').value = 'job';
+            handleCareerTypeChange();
+            document.getElementById('jobRole').value = '';
+            document.getElementById('jobCompany').value = '';
+            document.getElementById('jobLocation').value = '';
+            document.getElementById('jobIncome').value = '';
+            document.getElementById('busName').value = '';
+            document.getElementById('busType').value = '';
+            document.getElementById('busLocation').value = '';
+            document.getElementById('busIncome').value = '';
+            document.getElementById('purDegree').value = '';
+            document.getElementById('purCollege').value = '';
+            document.getElementById('purYear').value = '';
+            document.getElementById('purCompletion').value = '';
+            document.getElementById('otherNote').value = '';
+
+            // Parents details reset
+            document.getElementById('fatherName').value = '';
+            document.getElementById('fatherEdu').value = '';
+            document.getElementById('fatherStatus').value = '';
+            document.getElementById('fatherJob').value = '';
+            document.getElementById('motherName').value = '';
+            document.getElementById('motherEdu').value = '';
+            document.getElementById('motherStatus').value = '';
+            document.getElementById('motherJob').value = '';
+
+            // Siblings list reset
             brothersList = [];
             sistersList = [];
             document.getElementById('enableBrothers').checked = true;
@@ -870,12 +910,19 @@
             toggleSistersSection();
             renderBrothersInputs();
             renderSistersInputs();
-            updateReligionHeader();
-            handleCareerTypeChange();
+
+            // Address & Contact reset
+            document.getElementById('address').value = '';
+            document.getElementById('po').value = '';
+            document.getElementById('districtState').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('email').value = '';
+
+            // 4. Update preview UI
             updatePreview();
         }
 
-        // --- UPDATED PDF DOWNLOAD FUNCTION (PREVENTS CUTOFF) ---
+        // --- PDF DOWNLOAD FUNCTION ---
         function downloadPDF() {
             const element = document.getElementById('biodataPreviewPage');
             const name = document.getElementById('fullName').value.trim() || 'Biodata';
