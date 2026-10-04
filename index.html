@@ -24,9 +24,8 @@
         .font-biodata {
             font-family: 'Playfair Display', Georgia, serif;
         }
-        /* Custom scrollbar */
         .custom-scroll::-webkit-scrollbar {
-            width: 6px;
+            width: 5px;
         }
         .custom-scroll::-webkit-scrollbar-track {
             background: #f1f5f9;
@@ -35,17 +34,16 @@
             background: #cbd5e1;
             border-radius: 4px;
         }
-        /* Page Styling for PDF Export */
         .a4-page {
             width: 210mm;
             min-height: 297mm;
-            padding: 10mm 12mm;
+            padding: 8mm 10mm;
             margin: 0 auto;
             background: #ffffff;
             box-sizing: border-box;
             position: relative;
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            border: 3px double #8B5A2B;
+            border: 2px double #8B5A2B;
         }
         .section-header-title {
             background: #fdf8f6;
@@ -59,12 +57,12 @@
 
     <!-- Navbar Header -->
     <header class="bg-slate-900 text-white shadow-md sticky top-0 z-50 border-b border-amber-600/30">
-        <div class="max-w-7xl mx-auto px-4 py-2.5 flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <i class="fa-solid fa-scroll text-amber-500 text-xl"></i>
-                <h1 class="text-lg font-bold tracking-wide font-serif-header text-amber-100">Biodata Maker Pro</h1>
+                <h1 class="text-base font-bold tracking-wide font-serif-header text-amber-100">Biodata Maker Pro</h1>
             </div>
-            <button onclick="toggleAdminModal()" class="bg-amber-700/80 hover:bg-amber-600 text-amber-50 px-3 py-1.5 rounded-md text-xs font-semibold transition flex items-center space-x-1.5 border border-amber-500/40">
+            <button onclick="toggleAdminModal()" class="bg-amber-700/80 hover:bg-amber-600 text-amber-50 px-3 py-1 rounded text-xs font-semibold transition flex items-center space-x-1.5 border border-amber-500/40">
                 <i class="fa-solid fa-user-shield text-amber-300"></i>
                 <span>Admin Portal</span>
             </button>
@@ -72,29 +70,29 @@
     </header>
 
     <!-- Main Workspace Grid -->
-    <main class="max-w-[1600px] mx-auto p-3 lg:p-5 grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <main class="max-w-[1600px] mx-auto p-3 lg:p-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
 
         <!-- FORM INPUT PANEL -->
-        <section class="lg:col-span-5 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col max-h-[88vh]">
-            <div class="p-3 bg-slate-50 border-b border-slate-200 flex justify-between items-center shrink-0">
-                <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+        <section class="lg:col-span-5 bg-white rounded-xl shadow-sm border border-slate-200 flex flex-col max-h-[89vh]">
+            <div class="p-2.5 bg-slate-50 border-b border-slate-200 flex justify-between items-center shrink-0">
+                <h2 class="font-bold text-slate-800 text-xs flex items-center gap-2 uppercase tracking-wide">
                     <i class="fa-solid fa-pen-to-square text-amber-700"></i>
-                    Fill Details
+                    Fill Candidate Details
                 </h2>
-                <button onclick="resetForm()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold flex items-center gap-1">
-                    <i class="fa-solid fa-rotate-left"></i> Reset Form
+                <button onclick="resetForm()" class="text-[11px] text-rose-600 hover:text-rose-800 font-semibold flex items-center gap-1">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
                 </button>
             </div>
 
-            <form id="biodataForm" class="p-4 custom-scroll overflow-y-auto space-y-4 flex-1 text-xs">
+            <form id="biodataForm" class="p-3 custom-scroll overflow-y-auto space-y-3 flex-1 text-xs">
                 
                 <!-- 1. Religion & Tagline -->
-                <div class="bg-amber-50/50 p-3 rounded-lg border border-amber-200/60 space-y-2">
-                    <label class="block font-bold text-amber-900">1. Header & Religion Setting</label>
+                <div class="bg-amber-50/50 p-2.5 rounded-lg border border-amber-200/60 space-y-1.5">
+                    <label class="block font-bold text-amber-900 text-[11px]">1. Header & Religion Setting</label>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 mb-0.5">Select Religion Header Image</label>
-                            <select id="religion" onchange="updateReligionHeader()" class="w-full rounded border-slate-300 border p-1.5 bg-white outline-none focus:ring-1 focus:ring-amber-500">
+                            <label class="block text-[10px] font-medium text-slate-600 mb-0.5">Religion Symbol Image</label>
+                            <select id="religion" onchange="updateReligionHeader()" class="w-full rounded border-slate-300 border p-1 bg-white outline-none focus:ring-1 focus:ring-amber-500 text-xs">
                                 <option value="islam">Islam (islam.png)</option>
                                 <option value="hindu">Hindu (hindu.png)</option>
                                 <option value="sikh">Sikh (sikh.png)</option>
@@ -103,22 +101,22 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-medium text-slate-600 mb-0.5">Top Tagline / Text</label>
-                            <input type="text" id="headerTagline" value="In the name of Allah, the Most Gracious" oninput="updatePreview()" class="w-full rounded border-slate-300 border p-1.5 outline-none focus:ring-1 focus:ring-amber-500">
+                            <label class="block text-[10px] font-medium text-slate-600 mb-0.5">Top Tagline / Text</label>
+                            <input type="text" id="headerTagline" value="In the name of Allah, the Most Gracious" oninput="updatePreview()" class="w-full rounded border-slate-300 border p-1 outline-none focus:ring-1 focus:ring-amber-500 text-xs">
                         </div>
                     </div>
                 </div>
 
                 <!-- 2. Profile Photo Input -->
                 <div class="space-y-1">
-                    <label class="block font-bold text-slate-700">2. Candidate Photo</label>
-                    <div class="flex items-center space-x-3 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                        <div class="w-12 h-14 rounded border border-slate-300 overflow-hidden bg-slate-200 shrink-0">
+                    <label class="block font-bold text-slate-700 text-[11px]">2. Candidate Photo</label>
+                    <div class="flex items-center space-x-2 bg-slate-50 p-2 rounded-lg border border-slate-200">
+                        <div class="w-10 h-12 rounded border border-slate-300 overflow-hidden bg-slate-200 shrink-0">
                             <img id="photoPreviewThumb" src="profile.png" onerror="this.src='profile.png'" class="w-full h-full object-cover" alt="Thumb">
                         </div>
                         <div class="flex-1">
-                            <input type="file" id="photoInput" accept="image/*" onchange="handleImageUpload(event)" class="block w-full text-[11px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[11px] file:font-semibold file:bg-amber-100 file:text-amber-800 hover:file:bg-amber-200 cursor-pointer"/>
-                            <p class="text-[10px] text-slate-400 mt-0.5">Default Image: <code class="bg-slate-200 px-1 rounded">profile.png</code></p>
+                            <input type="file" id="photoInput" accept="image/*" onchange="handleImageUpload(event)" class="block w-full text-[10px] text-slate-500 file:mr-2 file:py-0.5 file:px-1.5 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-amber-100 file:text-amber-800 hover:file:bg-amber-200 cursor-pointer"/>
+                            <p class="text-[9px] text-slate-400 mt-0.5">Default Image: <code class="bg-slate-200 px-1 rounded">profile.png</code></p>
                         </div>
                         <button type="button" onclick="clearPhoto()" class="text-xs text-slate-400 hover:text-rose-600 p-1" title="Reset Photo">
                             <i class="fa-solid fa-trash"></i>
@@ -127,39 +125,39 @@
                 </div>
 
                 <!-- 3. Personal Details -->
-                <div class="space-y-2">
-                    <h3 class="font-bold text-slate-800 border-b pb-1 text-[11px] uppercase tracking-wider text-amber-900">3. Personal Details</h3>
-                    <div class="grid grid-cols-2 gap-2">
+                <div class="space-y-1.5">
+                    <h3 class="font-bold text-slate-800 border-b pb-0.5 text-[11px] uppercase tracking-wider text-amber-900">3. Personal Details</h3>
+                    <div class="grid grid-cols-2 gap-1.5">
                         <div class="col-span-2 sm:col-span-1">
-                            <label class="block text-[11px] text-slate-600">Full Name</label>
-                            <input type="text" id="fullName" value="MD RAJA" oninput="updatePreview()" class="w-full border rounded p-1.5 focus:ring-1 focus:ring-amber-500 outline-none">
+                            <label class="block text-[10px] text-slate-600">Full Name</label>
+                            <input type="text" id="fullName" value="MD RAJA" oninput="updatePreview()" class="w-full border rounded p-1 focus:ring-1 focus:ring-amber-500 outline-none text-xs">
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label class="block text-[11px] text-slate-600">Caste / Sect / Religion</label>
-                            <input type="text" id="casteInfo" value="ISLAM, SUNNI" oninput="updatePreview()" class="w-full border rounded p-1.5 focus:ring-1 focus:ring-amber-500 outline-none">
+                            <label class="block text-[10px] text-slate-600">Caste / Sect / Religion</label>
+                            <input type="text" id="casteInfo" value="ISLAM, SUNNI" oninput="updatePreview()" class="w-full border rounded p-1 focus:ring-1 focus:ring-amber-500 outline-none text-xs">
                         </div>
                         <div>
-                            <label class="block text-[11px] text-slate-600">Date of Birth</label>
-                            <input type="text" id="dob" value="04-02-1999" oninput="updatePreview()" class="w-full border rounded p-1.5 focus:ring-1 focus:ring-amber-500 outline-none">
+                            <label class="block text-[10px] text-slate-600">Date of Birth</label>
+                            <input type="text" id="dob" value="04-02-1999" oninput="updatePreview()" class="w-full border rounded p-1 focus:ring-1 focus:ring-amber-500 outline-none text-xs">
                         </div>
                         <div>
-                            <label class="block text-[11px] text-slate-600">Height</label>
-                            <input type="text" id="height" value="5 Feet 4 Inch" oninput="updatePreview()" class="w-full border rounded p-1.5 focus:ring-1 focus:ring-amber-500 outline-none">
+                            <label class="block text-[10px] text-slate-600">Height</label>
+                            <input type="text" id="height" value="5 Feet 4 Inch" oninput="updatePreview()" class="w-full border rounded p-1 focus:ring-1 focus:ring-amber-500 outline-none text-xs">
                         </div>
                         <div class="col-span-2">
-                            <label class="block text-[11px] text-slate-600">Educational Qualification</label>
-                            <input type="text" id="qualification" value="B.Tech in Computer Science" oninput="updatePreview()" class="w-full border rounded p-1.5 focus:ring-1 focus:ring-amber-500 outline-none">
+                            <label class="block text-[10px] text-slate-600">Educational Qualification</label>
+                            <input type="text" id="qualification" value="B.Tech in Computer Science" oninput="updatePreview()" class="w-full border rounded p-1 focus:ring-1 focus:ring-amber-500 outline-none text-xs">
                         </div>
                     </div>
                 </div>
 
                 <!-- 4. Dynamic Career / Education -->
-                <div class="bg-amber-50/40 p-3 rounded-lg border border-amber-200/80 space-y-2">
-                    <h3 class="font-bold text-amber-900 text-[11px] uppercase tracking-wider border-b border-amber-200/60 pb-1">4. Career & Occupation Status</h3>
+                <div class="bg-amber-50/40 p-2.5 rounded-lg border border-amber-200/80 space-y-1.5">
+                    <h3 class="font-bold text-amber-900 text-[11px] uppercase tracking-wider border-b border-amber-200/60 pb-0.5">4. Career & Occupation Status</h3>
                     
                     <div>
-                        <label class="block text-[11px] font-semibold text-slate-700 mb-1">Select Current Activity Status:</label>
-                        <select id="careerType" onchange="handleCareerTypeChange()" class="w-full border border-amber-300 rounded p-1.5 text-xs font-medium bg-white focus:ring-1 focus:ring-amber-500 outline-none">
+                        <label class="block text-[10px] font-semibold text-slate-700 mb-0.5">Select Current Activity Status:</label>
+                        <select id="careerType" onchange="handleCareerTypeChange()" class="w-full border border-amber-300 rounded p-1 text-xs font-medium bg-white focus:ring-1 focus:ring-amber-500 outline-none">
                             <option value="job" selected>Job / Employed</option>
                             <option value="business">Business / Self-Employed</option>
                             <option value="pursuing">Pursuing Education / Student</option>
@@ -168,164 +166,170 @@
                     </div>
 
                     <!-- Job Inputs -->
-                    <div id="jobFields" class="grid grid-cols-2 gap-2 pt-1">
+                    <div id="jobFields" class="grid grid-cols-2 gap-1.5 pt-0.5">
                         <div>
                             <label class="block text-[10px] text-slate-600">Job Role / Title</label>
-                            <input type="text" id="jobRole" value="Software Engineer" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="jobRole" value="Software Engineer" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600">Company Name</label>
-                            <input type="text" id="jobCompany" value="Tech Solutions Ltd." oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="jobCompany" value="Tech Solutions Ltd." oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600">Work Location</label>
-                            <input type="text" id="jobLocation" value="Bangalore" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="jobLocation" value="Bangalore" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600">Annual / Monthly Income</label>
-                            <input type="text" id="jobIncome" value="6 LPA" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="jobIncome" value="6 LPA" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                     </div>
 
                     <!-- Business Inputs -->
-                    <div id="businessFields" class="grid grid-cols-2 gap-2 pt-1 hidden">
+                    <div id="businessFields" class="grid grid-cols-2 gap-1.5 pt-0.5 hidden">
                         <div>
                             <label class="block text-[10px] text-slate-600">Business Name</label>
-                            <input type="text" id="busName" value="Raja Enterprises" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="busName" value="Raja Enterprises" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600">Business Sector</label>
-                            <input type="text" id="busType" value="Textile Retail" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="busType" value="Textile Retail" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600">Business Location</label>
-                            <input type="text" id="busLocation" value="Patna" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="busLocation" value="Patna" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600">Turnover / Income</label>
-                            <input type="text" id="busIncome" value="10 LPA" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="busIncome" value="10 LPA" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                     </div>
 
                     <!-- Student Inputs -->
-                    <div id="pursuingFields" class="grid grid-cols-2 gap-2 pt-1 hidden">
+                    <div id="pursuingFields" class="grid grid-cols-2 gap-1.5 pt-0.5 hidden">
                         <div>
                             <label class="block text-[10px] text-slate-600">Degree / Course</label>
-                            <input type="text" id="purDegree" value="B.Tech (CSE)" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="purDegree" value="B.Tech (CSE)" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600">College / University</label>
-                            <input type="text" id="purCollege" value="Sharda University" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="purCollege" value="Sharda University" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600">Current Year / Sem</label>
-                            <input type="text" id="purYear" value="Final Year" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="purYear" value="Final Year" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600">Passing Year</label>
-                            <input type="text" id="purCompletion" value="2026" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                            <input type="text" id="purCompletion" value="2026" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                         </div>
                     </div>
 
                     <!-- Other Status Inputs -->
-                    <div id="otherFields" class="pt-1 hidden">
+                    <div id="otherFields" class="pt-0.5 hidden">
                         <label class="block text-[10px] text-slate-600">Status Note</label>
-                        <input type="text" id="otherNote" value="Preparing for Competitive Services" oninput="updatePreview()" class="w-full border rounded p-1.5">
+                        <input type="text" id="otherNote" value="Preparing for Competitive Services" oninput="updatePreview()" class="w-full border rounded p-1 text-xs">
                     </div>
                 </div>
 
                 <!-- 5. Parents Details -->
-                <div class="space-y-2">
-                    <h3 class="font-bold text-slate-800 border-b pb-1 text-[11px] uppercase tracking-wider text-amber-900">5. Parents Details</h3>
-                    <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2">
-                        <p class="font-bold text-amber-900 text-[11px]">Father's Details</p>
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="fatherName" value="Md Shameem" oninput="updatePreview()" class="border rounded p-1.5" placeholder="Father Name">
-                            <input type="text" id="fatherEdu" value="12th Pass" oninput="updatePreview()" class="border rounded p-1.5" placeholder="Education">
-                            <input type="text" id="fatherStatus" value="Working" oninput="updatePreview()" class="border rounded p-1.5" placeholder="Status">
-                            <input type="text" id="fatherJob" value="Tailor / Business" oninput="updatePreview()" class="border rounded p-1.5" placeholder="Occupation">
+                <div class="space-y-1.5">
+                    <h3 class="font-bold text-slate-800 border-b pb-0.5 text-[11px] uppercase tracking-wider text-amber-900">5. Parents Details</h3>
+                    <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1.5">
+                        <p class="font-bold text-amber-900 text-[10px] uppercase">Father's Details</p>
+                        <div class="grid grid-cols-2 gap-1.5">
+                            <input type="text" id="fatherName" value="Md Shameem" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="Father Name">
+                            <input type="text" id="fatherEdu" value="12th Pass" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="Education">
+                            <input type="text" id="fatherStatus" value="Working" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="Status">
+                            <input type="text" id="fatherJob" value="Tailor / Business" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="Occupation">
                         </div>
                     </div>
 
-                    <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2">
-                        <p class="font-bold text-amber-900 text-[11px]">Mother's Details</p>
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="motherName" value="Parveen Begum" oninput="updatePreview()" class="border rounded p-1.5" placeholder="Mother Name">
-                            <input type="text" id="motherEdu" value="Matric" oninput="updatePreview()" class="border rounded p-1.5" placeholder="Education">
-                            <input type="text" id="motherStatus" value="Homemaker" oninput="updatePreview()" class="border rounded p-1.5" placeholder="Status">
-                            <input type="text" id="motherJob" value="N/A" oninput="updatePreview()" class="border rounded p-1.5" placeholder="Occupation">
+                    <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1.5">
+                        <p class="font-bold text-amber-900 text-[10px] uppercase">Mother's Details</p>
+                        <div class="grid grid-cols-2 gap-1.5">
+                            <input type="text" id="motherName" value="Parveen Begum" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="Mother Name">
+                            <input type="text" id="motherEdu" value="Matric" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="Education">
+                            <input type="text" id="motherStatus" value="Homemaker" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="Status">
+                            <input type="text" id="motherJob" value="N/A" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="Occupation">
                         </div>
                     </div>
                 </div>
 
-                <!-- 6. SECTION 6: SIBLINGS DETAILS (DYNAMIC BROTHERS & SISTERS SEPARATE SECTIONS) -->
-                <div class="space-y-3">
-                    <h3 class="font-bold text-slate-800 border-b pb-1 text-[11px] uppercase tracking-wider text-amber-900">6. Siblings Details (Brothers & Sisters)</h3>
+                <!-- 6. SIBLINGS DETAILS (WITH TOGGLE ENABLE/DISABLE FOR BROTHERS & SISTERS) -->
+                <div class="space-y-2">
+                    <h3 class="font-bold text-slate-800 border-b pb-0.5 text-[11px] uppercase tracking-wider text-amber-900">6. Siblings Details (Brothers & Sisters)</h3>
                     
                     <!-- Brothers Sub-Section -->
-                    <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-amber-900 text-[11px] flex items-center gap-1">
-                                <i class="fa-solid fa-person text-amber-700"></i> Brothers Details
-                            </span>
-                            <button type="button" onclick="addBrotherInput()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-semibold text-[10px] transition border border-amber-300">
+                    <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1.5">
+                        <div class="flex justify-between items-center border-b border-slate-200 pb-1">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" id="enableBrothers" checked onchange="toggleBrothersSection()" class="rounded text-amber-700 focus:ring-amber-500 w-3.5 h-3.5">
+                                <span class="font-bold text-amber-900 text-[11px] flex items-center gap-1">
+                                    <i class="fa-solid fa-person text-amber-700"></i> Include Brothers
+                                </span>
+                            </label>
+                            <button type="button" id="addBrotherBtn" onclick="addBrotherInput()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-semibold text-[10px] transition border border-amber-300">
                                 + Add Brother
                             </button>
                         </div>
-                        <div id="brothersInputContainer" class="space-y-2">
+                        <div id="brothersInputContainer" class="space-y-1.5">
                             <!-- Dynamic Brothers Rows will go here -->
                         </div>
                     </div>
 
                     <!-- Sisters Sub-Section -->
-                    <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-amber-900 text-[11px] flex items-center gap-1">
-                                <i class="fa-solid fa-person-dress text-amber-700"></i> Sisters Details
-                            </span>
-                            <button type="button" onclick="addSisterInput()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-semibold text-[10px] transition border border-amber-300">
+                    <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1.5">
+                        <div class="flex justify-between items-center border-b border-slate-200 pb-1">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" id="enableSisters" checked onchange="toggleSistersSection()" class="rounded text-amber-700 focus:ring-amber-500 w-3.5 h-3.5">
+                                <span class="font-bold text-amber-900 text-[11px] flex items-center gap-1">
+                                    <i class="fa-solid fa-person-dress text-amber-700"></i> Include Sisters
+                                </span>
+                            </label>
+                            <button type="button" id="addSisterBtn" onclick="addSisterInput()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-semibold text-[10px] transition border border-amber-300">
                                 + Add Sister
                             </button>
                         </div>
-                        <div id="sistersInputContainer" class="space-y-2">
+                        <div id="sistersInputContainer" class="space-y-1.5">
                             <!-- Dynamic Sisters Rows will go here -->
                         </div>
                     </div>
                 </div>
 
-                 <!-- 7. Permanent Address & Contact -->
-                <div class="space-y-2">
-                    <h3 class="font-bold text-slate-800 border-b pb-1 text-[11px] uppercase tracking-wider text-amber-900">7. Permanent Address & Contact</h3>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="address" value="Bochahan, Muzaffarpur" oninput="updatePreview()" class="border rounded p-1.5 col-span-2" placeholder="Full Address Line">
-                        <input type="text" id="po" value="Bochahan PO" oninput="updatePreview()" class="border rounded p-1.5" placeholder="Post Office">
-                        <input type="text" id="districtState" value="Muzaffarpur, Bihar (843103)" oninput="updatePreview()" class="border rounded p-1.5" placeholder="District, State (Pin)">
-                        <input type="text" id="phone" value="+91 9876543210" oninput="updatePreview()" class="border rounded p-1.5" placeholder="Phone Number">
-                        <input type="text" id="email" value="mdraja@example.com" oninput="updatePreview()" class="border rounded p-1.5 col-span-2" placeholder="Email Address">
+                <!-- 7. Permanent Address & Contact -->
+                <div class="space-y-1.5">
+                    <h3 class="font-bold text-slate-800 border-b pb-0.5 text-[11px] uppercase tracking-wider text-amber-900">7. Permanent Address & Contact</h3>
+                    <div class="grid grid-cols-2 gap-1.5">
+                        <input type="text" id="address" value="Bochahan, Muzaffarpur" oninput="updatePreview()" class="border rounded p-1 text-xs col-span-2" placeholder="Full Address Line">
+                        <input type="text" id="po" value="Bochahan PO" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="Post Office">
+                        <input type="text" id="districtState" value="Muzaffarpur, Bihar (843103)" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="District, State (Pin)">
+                        <input type="text" id="phone" value="+91 9876543210" oninput="updatePreview()" class="border rounded p-1 text-xs" placeholder="Phone Number">
+                        <input type="text" id="email" value="mdraja@example.com" oninput="updatePreview()" class="border rounded p-1 text-xs col-span-2" placeholder="Email Address">
                     </div>
                 </div>
 
             </form>
 
-            <div class="p-3 bg-slate-100 border-t border-slate-200 flex gap-2 shrink-0">
-                <button onclick="downloadPDF()" class="flex-1 bg-amber-700 hover:bg-amber-800 text-white font-semibold py-2 px-3 rounded-lg shadow-sm transition flex items-center justify-center gap-2 text-xs">
+            <div class="p-2.5 bg-slate-100 border-t border-slate-200 flex gap-2 shrink-0">
+                <button onclick="downloadPDF()" class="flex-1 bg-amber-700 hover:bg-amber-800 text-white font-semibold py-1.5 px-3 rounded-lg shadow-sm transition flex items-center justify-center gap-2 text-xs">
                     <i class="fa-solid fa-file-pdf"></i> Download PDF
                 </button>
-                <button onclick="saveRecord()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2 px-3 rounded-lg shadow-sm transition flex items-center justify-center gap-2 text-xs">
+                <button onclick="saveRecord()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-1.5 px-3 rounded-lg shadow-sm transition flex items-center justify-center gap-2 text-xs">
                     <i class="fa-solid fa-bookmark"></i> Save Record
                 </button>
             </div>
         </section>
 
         <!-- LIVE PREVIEW PANEL -->
-        <section class="lg:col-span-7 bg-slate-300/40 p-3 lg:p-4 rounded-xl border border-slate-300 flex flex-col max-h-[88vh]">
-            <div class="flex items-center justify-between mb-2 px-1 shrink-0">
-                <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+        <section class="lg:col-span-7 bg-slate-300/40 p-2.5 lg:p-3 rounded-xl border border-slate-300 flex flex-col max-h-[89vh]">
+            <div class="flex items-center justify-between mb-1.5 px-1 shrink-0">
+                <h2 class="font-bold text-slate-800 text-xs flex items-center gap-2 uppercase tracking-wide">
                     <i class="fa-solid fa-eye text-amber-700"></i>
-                    Live PDF Preview
+                    Live PDF Document Preview
                 </h2>
-                <span class="text-[11px] bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Auto Sync
+                <span class="text-[10px] bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Dynamic PDF Mode
                 </span>
             </div>
 
@@ -336,29 +340,29 @@
                 <div id="biodataPreviewPage" class="a4-page font-biodata text-slate-800 relative flex flex-col justify-between">
                     
                     <div>
-                        <!-- Religious Symbol Header (Image dynamic from choice) -->
-                        <div class="text-center mb-3 pb-2 border-b border-amber-900/20 relative">
-                            <div class="flex justify-center items-center mb-1 h-10">
-                                <img id="previewHeaderImg" src="islam.png" onerror="handleHeaderImgFallback(this)" class="h-9 object-contain max-w-[200px]" alt="Symbol">
+                        <!-- Religious Symbol Header -->
+                        <div class="text-center mb-2 pb-1 border-b border-amber-900/20 relative">
+                            <div class="flex justify-center items-center mb-0.5 h-8">
+                                <img id="previewHeaderImg" src="islam.png" onerror="handleHeaderImgFallback(this)" class="h-8 object-contain max-w-[180px]" alt="Symbol">
                             </div>
-                            <p id="previewHeaderTagline" class="text-xs italic text-amber-950 font-serif tracking-wide">In the name of Allah, the Most Gracious</p>
+                            <p id="previewHeaderTagline" class="text-[11px] italic text-amber-950 font-serif tracking-wide">In the name of Allah, the Most Gracious</p>
                         </div>
 
                         <!-- Candidate Profile Image & Header -->
-                        <div class="flex flex-col items-center justify-center text-center mb-3">
-                            <div class="w-28 h-32 border-2 border-amber-800/80 p-1 bg-white shadow-sm rounded-sm mb-1.5">
+                        <div class="flex flex-col items-center justify-center text-center mb-2">
+                            <div class="w-24 h-28 border-2 border-amber-800/80 p-0.5 bg-white shadow-sm rounded-sm mb-1">
                                 <img id="previewPhoto" src="profile.png" onerror="this.src='profile.png'" class="w-full h-full object-cover rounded-sm" alt="Profile">
                             </div>
-                            <h2 id="previewName" class="text-xl font-bold tracking-wider text-amber-900 uppercase font-serif-header">MD RAJA</h2>
-                            <p id="previewCaste" class="text-[11px] text-slate-600 font-bold uppercase tracking-widest mt-0.5">ISLAM, SUNNI</p>
+                            <h2 id="previewName" class="text-lg font-bold tracking-wider text-amber-900 uppercase font-serif-header">MD RAJA</h2>
+                            <p id="previewCaste" class="text-[10px] text-slate-600 font-bold uppercase tracking-widest mt-0.5">ISLAM, SUNNI</p>
                         </div>
 
-                        <!-- 1. PERSONAL DETAILS SECTION (OPTIMIZED GAP & ALIGNMENT) -->
-                        <div class="my-3">
-                            <div class="text-center mb-1.5">
-                                <h3 class="text-[11px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Personal Details</h3>
+                        <!-- 1. PERSONAL DETAILS SECTION -->
+                        <div class="my-2">
+                            <div class="text-center mb-1">
+                                <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Personal Details</h3>
                             </div>
-                            <div class="w-full space-y-1 text-xs text-slate-800 px-3">
+                            <div class="w-full space-y-0.5 text-[11px] text-slate-800 px-3">
                                 <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Full Name :</span><span id="prevNameVal" class="font-bold text-slate-900">MD RAJA</span></div>
                                 <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Date of Birth :</span><span id="previewDob" class="font-bold text-slate-900">04-02-1999</span></div>
                                 <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Height :</span><span id="previewHeight" class="font-bold text-slate-900">5 Feet 4 Inch</span></div>
@@ -367,25 +371,25 @@
                         </div>
 
                         <!-- 2. CAREER & OCCUPATION DETAILS -->
-                        <div class="my-3">
-                            <div class="text-center mb-1.5">
-                                <h3 class="text-[11px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Career & Occupation</h3>
+                        <div class="my-2">
+                            <div class="text-center mb-1">
+                                <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Career & Occupation</h3>
                             </div>
-                            <div id="previewCareerContainer" class="w-full space-y-1 text-xs text-slate-800 px-3">
+                            <div id="previewCareerContainer" class="w-full space-y-0.5 text-[11px] text-slate-800 px-3">
                                 <!-- Dynamic Career Fields loaded here -->
                             </div>
                         </div>
 
                         <!-- 3. PARENTS DETAILS SECTION -->
-                        <div class="my-3">
-                            <div class="text-center mb-1.5">
-                                <h3 class="text-[11px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Parents Details</h3>
+                        <div class="my-2">
+                            <div class="text-center mb-1">
+                                <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Parents Details</h3>
                             </div>
                             
                             <div class="w-full grid grid-cols-2 gap-2 px-2">
-                                <div class="bg-amber-50/30 p-2 rounded border border-amber-100/80">
-                                    <p class="text-[10px] font-bold text-amber-900 uppercase mb-1 border-b border-amber-200/50 pb-0.5 text-center">FATHER'S DETAILS</p>
-                                    <div class="space-y-0.5 text-[11px]">
+                                <div class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
+                                    <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">FATHER'S DETAILS</p>
+                                    <div class="space-y-0.5 text-[10px]">
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Name:</span><span id="previewFatherName" class="font-bold text-slate-900">Md Shameem</span></div>
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Edu:</span><span id="previewFatherEdu" class="text-slate-800">12th Pass</span></div>
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Status:</span><span id="previewFatherStatus" class="text-slate-800">Working</span></div>
@@ -393,9 +397,9 @@
                                     </div>
                                 </div>
 
-                                <div class="bg-amber-50/30 p-2 rounded border border-amber-100/80">
-                                    <p class="text-[10px] font-bold text-amber-900 uppercase mb-1 border-b border-amber-200/50 pb-0.5 text-center">MOTHER'S DETAILS</p>
-                                    <div class="space-y-0.5 text-[11px]">
+                                <div class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
+                                    <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">MOTHER'S DETAILS</p>
+                                    <div class="space-y-0.5 text-[10px]">
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Name:</span><span id="previewMotherName" class="font-bold text-slate-900">Parveen Begum</span></div>
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Edu:</span><span id="previewMotherEdu" class="text-slate-800">Matric</span></div>
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Status:</span><span id="previewMotherStatus" class="text-slate-800">Homemaker</span></div>
@@ -405,25 +409,25 @@
                             </div>
                         </div>
 
-                        <!-- 4. SECTION 6: SIBLINGS PREVIEW (SEPARATE BROTHERS AND SISTERS) -->
-                        <div class="my-3">
-                            <div class="text-center mb-1.5">
-                                <h3 class="text-[11px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Siblings Details</h3>
+                        <!-- 4. SECTION 6: SIBLINGS PREVIEW (DYNAMIC TOGGLEABLE BROTHERS & SISTERS) -->
+                        <div id="previewSiblingsSection" class="my-2">
+                            <div class="text-center mb-1">
+                                <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Siblings Details</h3>
                             </div>
                             
-                            <div class="w-full grid grid-cols-2 gap-2 px-2 text-xs">
+                            <div id="previewSiblingsGrid" class="w-full grid grid-cols-2 gap-2 px-2 text-xs">
                                 <!-- Brothers Output Card -->
-                                <div class="bg-amber-50/30 p-2 rounded border border-amber-100/80">
-                                    <p class="text-[10px] font-bold text-amber-900 uppercase mb-1 border-b border-amber-200/50 pb-0.5 text-center">BROTHERS</p>
-                                    <div id="previewBrothersList" class="space-y-1 text-[11px]">
+                                <div id="previewBrothersCard" class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
+                                    <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">BROTHERS</p>
+                                    <div id="previewBrothersList" class="space-y-0.5 text-[10px]">
                                         <!-- Dynamic Brothers Output -->
                                     </div>
                                 </div>
 
                                 <!-- Sisters Output Card -->
-                                <div class="bg-amber-50/30 p-2 rounded border border-amber-100/80">
-                                    <p class="text-[10px] font-bold text-amber-900 uppercase mb-1 border-b border-amber-200/50 pb-0.5 text-center">SISTERS</p>
-                                    <div id="previewSistersList" class="space-y-1 text-[11px]">
+                                <div id="previewSistersCard" class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
+                                    <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">SISTERS</p>
+                                    <div id="previewSistersList" class="space-y-0.5 text-[10px]">
                                         <!-- Dynamic Sisters Output -->
                                     </div>
                                 </div>
@@ -431,12 +435,12 @@
                         </div>
 
                         <!-- 5. PERMANENT ADDRESS & CONTACT -->
-                        <div class="my-3">
-                            <div class="text-center mb-1.5">
-                                <h3 class="text-[11px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Permanent Address & Contact</h3>
+                        <div class="my-2">
+                            <div class="text-center mb-1">
+                                <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Permanent Address & Contact</h3>
                             </div>
-                            <div class="w-full text-xs space-y-0.5 px-3 text-center">
-                                <p><span class="font-semibold text-slate-600">Permanent Address :</span> <span id="previewAddr" class="font-bold text-slate-800">Bochahan, Muzaffarpur, PO: Bochahan PO, District/State: Muzaffarpur, Bihar (843103)</span></p>
+                            <div class="w-full text-[11px] space-y-0.5 px-3 text-center">
+                                <p><span class="font-semibold text-slate-600">Address :</span> <span id="previewAddr" class="font-bold text-slate-800">Bochahan, Muzaffarpur, PO: Bochahan PO, District/State: Muzaffarpur, Bihar (843103)</span></p>
                                 <p><span class="font-semibold text-slate-600">Phone :</span> <span id="previewPhone" class="font-bold text-amber-900">+91 9876543210</span> | <span class="font-semibold text-slate-600">Email :</span> <span id="previewEmail" class="font-bold text-slate-800">mdraja@example.com</span></p>
                             </div>
                         </div>
@@ -444,7 +448,7 @@
                     </div>
 
                     <!-- Footer Line -->
-                    <div class="mt-4 pt-1 border-t border-amber-800/20 text-center text-[9px] text-slate-400">
+                    <div class="mt-2 pt-1 border-t border-amber-800/20 text-center text-[9px] text-slate-400">
                         Biodata generated with Biodata Maker Pro
                     </div>
 
@@ -453,7 +457,7 @@
         </section>
     </main>
 
-   <!-- ADMIN STORAGE MODAL -->
+    <!-- ADMIN STORAGE MODAL -->
     <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl max-w-xl w-full overflow-hidden flex flex-col max-h-[85vh]">
             <div class="bg-slate-900 text-white px-5 py-3 flex justify-between items-center">
@@ -530,7 +534,38 @@
             else if (rel === 'christian') symbolSvg = '✝';
 
             const parent = imgElem.parentElement;
-            parent.innerHTML = `<span class="text-2xl text-amber-800 font-bold">${symbolSvg}</span>`;
+            parent.innerHTML = `<span class="text-xl text-amber-800 font-bold">${symbolSvg}</span>`;
+        }
+
+         // --- TOGGLE BROTHERS & SISTERS SECTION ---
+        function toggleBrothersSection() {
+            const isEnabled = document.getElementById('enableBrothers').checked;
+            const container = document.getElementById('brothersInputContainer');
+            const addBtn = document.getElementById('addBrotherBtn');
+            
+            if (isEnabled) {
+                container.classList.remove('opacity-40', 'pointer-events-none');
+                addBtn.removeAttribute('disabled');
+            } else {
+                container.classList.add('opacity-40', 'pointer-events-none');
+                addBtn.setAttribute('disabled', 'true');
+            }
+            updatePreview();
+        }
+
+        function toggleSistersSection() {
+            const isEnabled = document.getElementById('enableSisters').checked;
+            const container = document.getElementById('sistersInputContainer');
+            const addBtn = document.getElementById('addSisterBtn');
+            
+            if (isEnabled) {
+                container.classList.remove('opacity-40', 'pointer-events-none');
+                addBtn.removeAttribute('disabled');
+            } else {
+                container.classList.add('opacity-40', 'pointer-events-none');
+                addBtn.setAttribute('disabled', 'true');
+            }
+            updatePreview();
         }
 
         // --- DYNAMIC BROTHERS & SISTERS LOGIC ---
@@ -568,21 +603,21 @@
             }
 
             container.innerHTML = brothersList.map((bro, idx) => `
-                <div class="bg-white p-2 rounded border border-slate-200 space-y-1 relative">
+                <div class="bg-white p-1.5 rounded border border-slate-200 space-y-1 relative">
                     <div class="flex justify-between items-center">
-                        <span class="font-semibold text-[10px] text-slate-500">Brother #${idx + 1}</span>
+                        <span class="font-semibold text-[9px] text-slate-500">Brother #${idx + 1}</span>
                         <button type="button" onclick="removeBrotherInput(${bro.id})" class="text-rose-500 hover:text-rose-700 text-[10px] font-bold">
                             &times; Remove
                         </button>
                     </div>
-                    <div class="grid grid-cols-2 gap-1.5">
-                        <input type="text" value="${bro.name}" oninput="updateBrotherData(${bro.id}, 'name', this.value)" placeholder="Brother Name" class="border rounded p-1 text-[11px]">
-                        <select onchange="updateBrotherData(${bro.id}, 'relation', this.value)" class="border rounded p-1 text-[11px] bg-white">
+                    <div class="grid grid-cols-2 gap-1">
+                        <input type="text" value="${bro.name}" oninput="updateBrotherData(${bro.id}, 'name', this.value)" placeholder="Brother Name" class="border rounded p-1 text-[10px]">
+                        <select onchange="updateBrotherData(${bro.id}, 'relation', this.value)" class="border rounded p-1 text-[10px] bg-white">
                             <option value="Elder" ${bro.relation === 'Elder' ? 'selected' : ''}>Elder Brother</option>
                             <option value="Younger" ${bro.relation === 'Younger' ? 'selected' : ''}>Younger Brother</option>
                         </select>
-                        <input type="text" value="${bro.edu}" oninput="updateBrotherData(${bro.id}, 'edu', this.value)" placeholder="Education" class="border rounded p-1 text-[11px]">
-                        <input type="text" value="${bro.job}" oninput="updateBrotherData(${bro.id}, 'job', this.value)" placeholder="Occupation/Status" class="border rounded p-1 text-[11px]">
+                        <input type="text" value="${bro.edu}" oninput="updateBrotherData(${bro.id}, 'edu', this.value)" placeholder="Education" class="border rounded p-1 text-[10px]">
+                        <input type="text" value="${bro.job}" oninput="updateBrotherData(${bro.id}, 'job', this.value)" placeholder="Occupation/Status" class="border rounded p-1 text-[10px]">
                     </div>
                 </div>
             `).join('');
@@ -622,21 +657,21 @@
             }
 
             container.innerHTML = sistersList.map((sis, idx) => `
-                <div class="bg-white p-2 rounded border border-slate-200 space-y-1 relative">
+                <div class="bg-white p-1.5 rounded border border-slate-200 space-y-1 relative">
                     <div class="flex justify-between items-center">
-                        <span class="font-semibold text-[10px] text-slate-500">Sister #${idx + 1}</span>
+                        <span class="font-semibold text-[9px] text-slate-500">Sister #${idx + 1}</span>
                         <button type="button" onclick="removeSisterInput(${sis.id})" class="text-rose-500 hover:text-rose-700 text-[10px] font-bold">
                             &times; Remove
                         </button>
                     </div>
-                    <div class="grid grid-cols-2 gap-1.5">
-                        <input type="text" value="${sis.name}" oninput="updateSisterData(${sis.id}, 'name', this.value)" placeholder="Sister Name" class="border rounded p-1 text-[11px]">
-                        <select onchange="updateSisterData(${sis.id}, 'relation', this.value)" class="border rounded p-1 text-[11px] bg-white">
+                    <div class="grid grid-cols-2 gap-1">
+                        <input type="text" value="${sis.name}" oninput="updateSisterData(${sis.id}, 'name', this.value)" placeholder="Sister Name" class="border rounded p-1 text-[10px]">
+                        <select onchange="updateSisterData(${sis.id}, 'relation', this.value)" class="border rounded p-1 text-[10px] bg-white">
                             <option value="Elder" ${sis.relation === 'Elder' ? 'selected' : ''}>Elder Sister</option>
                             <option value="Younger" ${sis.relation === 'Younger' ? 'selected' : ''}>Younger Sister</option>
                         </select>
-                        <input type="text" value="${sis.edu}" oninput="updateSisterData(${sis.id}, 'edu', this.value)" placeholder="Education" class="border rounded p-1 text-[11px]">
-                        <input type="text" value="${sis.job}" oninput="updateSisterData(${sis.id}, 'job', this.value)" placeholder="Marital Status/Details" class="border rounded p-1 text-[11px]">
+                        <input type="text" value="${sis.edu}" oninput="updateSisterData(${sis.id}, 'edu', this.value)" placeholder="Education" class="border rounded p-1 text-[10px]">
+                        <input type="text" value="${sis.job}" oninput="updateSisterData(${sis.id}, 'job', this.value)" placeholder="Marital Status/Details" class="border rounded p-1 text-[10px]">
                     </div>
                 </div>
             `).join('');
@@ -664,7 +699,7 @@
             const config = religionConfig[religionKey] || religionConfig.islam;
             
             const headerContainer = document.getElementById('previewHeaderImg').parentElement;
-            headerContainer.innerHTML = `<img id="previewHeaderImg" src="${config.img}" onerror="handleHeaderImgFallback(this)" class="h-9 object-contain max-w-[200px]" alt="Symbol">`;
+            headerContainer.innerHTML = `<img id="previewHeaderImg" src="${config.img}" onerror="handleHeaderImgFallback(this)" class="h-8 object-contain max-w-[180px]" alt="Symbol">`;
             
             document.getElementById('headerTagline').value = config.tagline;
             document.getElementById('previewHeaderTagline').textContent = config.tagline;
@@ -737,8 +772,7 @@
                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Status :</span><span class="font-bold text-slate-900">Other / Not Working</span></div>
                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Note :</span><span class="font-bold text-slate-900">${document.getElementById('otherNote').value || '-'}</span></div>
                 `;
-            }
-
+                                                    }
             // Parents
             document.getElementById('previewFatherName').textContent = document.getElementById('fatherName').value || '-';
             document.getElementById('previewFatherEdu').textContent = document.getElementById('fatherEdu').value || '-';
@@ -750,10 +784,41 @@
             document.getElementById('previewMotherStatus').textContent = document.getElementById('motherStatus').value || '-';
             document.getElementById('previewMotherJob').textContent = document.getElementById('motherJob').value || '-';
 
-            // Siblings Preview Rendering
+            // Siblings Preview Logic with Enable/Disable States
+            const isBrothersActive = document.getElementById('enableBrothers').checked;
+            const isSistersActive = document.getElementById('enableSisters').checked;
+
+            const siblingsSection = document.getElementById('previewSiblingsSection');
+            const siblingsGrid = document.getElementById('previewSiblingsGrid');
+            const broCard = document.getElementById('previewBrothersCard');
+            const sisCard = document.getElementById('previewSistersCard');
+
+            // Hide Section completely if both are unselected
+            if (!isBrothersActive && !isSistersActive) {
+                siblingsSection.classList.add('hidden');
+            } else {
+                siblingsSection.classList.remove('hidden');
+                
+                // If only one is active, make it full width
+                if (isBrothersActive && !isSistersActive) {
+                    siblingsGrid.className = "w-full grid grid-cols-1 px-2 text-xs";
+                    broCard.classList.remove('hidden');
+                    sisCard.classList.add('hidden');
+                } else if (!isBrothersActive && isSistersActive) {
+                    siblingsGrid.className = "w-full grid grid-cols-1 px-2 text-xs";
+                    broCard.classList.add('hidden');
+                    sisCard.classList.remove('hidden');
+                } else {
+                    siblingsGrid.className = "w-full grid grid-cols-2 gap-2 px-2 text-xs";
+                    broCard.classList.remove('hidden');
+                    sisCard.classList.remove('hidden');
+                }
+            }
+
+            // Render Brothers List
             const prevBroContainer = document.getElementById('previewBrothersList');
             if (brothersList.length === 0) {
-                prevBroContainer.innerHTML = `<p class="text-slate-400 font-normal">None</p>`;
+                prevBroContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
             } else {
                 prevBroContainer.innerHTML = brothersList.map(b => `
                     <div class="border-b border-amber-200/40 pb-0.5">
@@ -764,9 +829,10 @@
                 `).join('');
             }
 
+            // Render Sisters List
             const prevSisContainer = document.getElementById('previewSistersList');
             if (sistersList.length === 0) {
-                prevSisContainer.innerHTML = `<p class="text-slate-400 font-normal">None</p>`;
+                prevSisContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
             } else {
                 prevSisContainer.innerHTML = sistersList.map(s => `
                     <div class="border-b border-amber-200/40 pb-0.5">
@@ -803,6 +869,10 @@
             clearPhoto();
             brothersList = [];
             sistersList = [];
+            document.getElementById('enableBrothers').checked = true;
+            document.getElementById('enableSisters').checked = true;
+            toggleBrothersSection();
+            toggleSistersSection();
             renderBrothersInputs();
             renderSistersInputs();
             updateReligionHeader();
