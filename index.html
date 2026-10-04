@@ -1,752 +1,834 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marriage Biodata Builder Pro</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <!-- html2pdf.js for high quality PDF export -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biodata Maker Pro</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- html2pdf.js for downloading PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              700: '#8b4513',
+              800: '#6f330a',
+              900: '#522303',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
     
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-        }
-        .font-serif-header {
-            font-family: 'Cinzel', serif;
-        }
-        .font-biodata {
-            font-family: 'Playfair Display', Georgia, serif;
-        }
-        /* Custom scrollbar for preview */
-        .preview-container::-webkit-scrollbar {
-            width: 8px;
-        }
-        .preview-container::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        .preview-container::-webkit-scrollbar-thumb {
-            background: #c5a880;
-            border-radius: 4px;
-        }
-        /* A4 Page Styling for Live Preview & Export */
-        .a4-page {
-            width: 210mm;
-            min-height: 297mm;
-            padding: 12mm 15mm;
-            margin: 0 auto;
-            background: #ffffff;
-            box-sizing: border-box;
-            position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .border-double-custom {
-            border: 4px double #8B5A2B;
-        }
-    </style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f4f6;
+    }
+
+    .font-cinzel {
+      font-family: 'Cinzel', serif;
+    }
+
+    .font-playfair {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Compact inputs styling */
+    .compact-input {
+      width: 100%;
+      padding: 0.4rem 0.65rem;
+      font-size: 0.875rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .compact-input:focus {
+      border-color: #8b4513;
+      box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.15);
+    }
+
+    .compact-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #4b5563;
+      margin-bottom: 0.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    /* Print styling rules */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #pdf-preview-container, #pdf-preview-container * {
+        visibility: visible;
+      }
+      #pdf-preview-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    /* Custom PDF paper look */
+    .pdf-paper {
+      width: 210mm;
+      min-height: 297mm;
+      background: #ffffff;
+      margin: 0 auto;
+      box-sizing: border-box;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen">
+<body class="text-gray-800 antialiased min-h-screen pb-12">
 
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <i class="fa-solid fa-scroll text-amber-400 text-2xl"></i>
-                <h1 class="text-xl font-bold tracking-wide font-serif-header">Biodata Maker Pro</h1>
+  <!-- Top Bar -->
+  <header class="bg-gradient-to-r from-brand-900 via-brand-800 to-brand-700 text-white shadow-md sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-scroll text-yellow-400 text-xl"></i>
+        <h1 class="text-lg font-bold tracking-wide uppercase font-cinzel">Biodata Maker Pro</h1>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button onclick="toggleAdminModal()" class="bg-brand-700 hover:bg-brand-900 text-amber-200 text-xs font-medium py-1.5 px-3 rounded-md transition flex items-center gap-1.5 border border-amber-500/30">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Admin Portal</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Centered Container with Controlled Gaps -->
+  <main class="max-w-5xl mx-auto px-3 sm:px-6 mt-5 space-y-6">
+
+    <!-- FORM CONTAINER - OPTIMIZED GAP & CENTERING -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="bg-amber-50/60 border-b border-amber-100 px-5 py-3">
+        <h2 class="text-sm font-bold text-brand-800 uppercase tracking-wider flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square"></i> Bio-Data Creator Form
+        </h2>
+      </div>
+
+      <form id="biodataForm" class="p-4 sm:p-5 space-y-5">
+
+        <!-- 1. RELIGIOUS HEADER -->
+        <div class="bg-gray-50/80 p-3.5 rounded-lg border border-gray-100 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-brand-800 uppercase tracking-wide">1. Header Header Style / Religion Header</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="compact-label">Header Preset</label>
+              <select id="headerPreset" onchange="handleHeaderChange()" class="compact-input bg-white">
+                <option value="islam">Islamic (In the name of Allah, the Most Gracious)</option>
+                <option value="hindu">Hindu (|| Shree Ganeshay Namah ||)</option>
+                <option value="sikh">Sikh (Ik Onkar - Ek Onkar)</option>
+                <option value="christian">Christian (In God We Trust)</option>
+                <option value="custom">Custom Header Text</option>
+              </select>
             </div>
-            <div class="flex items-center space-x-3">
-                <button onclick="toggleAdminModal()" class="bg-amber-700/80 hover:bg-amber-600 px-3 py-1.5 rounded-lg text-sm font-medium transition flex items-center space-x-2 border border-amber-500/30">
-                    <i class="fa-solid fa-user-shield text-amber-300"></i>
-                    <span>Admin Portal</span>
-                </button>
+            <div>
+              <label class="compact-label">Header Text Displayed</label>
+              <input type="text" id="customHeaderText" oninput="updatePreview()" value="In the name of Allah, the Most Gracious" class="compact-input">
             </div>
+          </div>
         </div>
-    </header>
 
-    <!-- Main Container -->
-    <main class="max-w-[1600px] mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-        <!-- Form Input Section -->
-        <section class="lg:col-span-5 bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col max-h-[88vh]">
-            <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-                <h2 class="font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fa-solid fa-pen-to-square text-amber-700"></i>
-                    Fill Candidate Details
-                </h2>
-                <button onclick="resetForm()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold flex items-center gap-1">
-                    <i class="fa-solid fa-rotate-left"></i> Reset Form
-                </button>
+        <!-- 2. PROFILE PHOTO -->
+        <div class="bg-gray-50/80 p-3.5 rounded-lg border border-gray-100">
+          <span class="text-xs font-bold text-brand-800 uppercase tracking-wide block mb-2">2. Profile Photo</span>
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-md border border-gray-300 bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+              <img id="photoPreview" src="https://placehold.co/150x150/8b4513/ffffff?text=Photo" alt="Profile" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/150x150/8b4513/ffffff?text=Profile'">
             </div>
-
-            <form id="biodataForm" class="p-5 overflow-y-auto space-y-6 flex-1 text-sm">
-                
-                <!-- Religious Preference & Header -->
-                <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-200/60 space-y-3">
-                    <label class="block font-semibold text-amber-900">1. Religious Header Settings</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">Select Religion</label>
-                            <select id="religion" onchange="updateReligionHeader()" class="w-full rounded-lg border-slate-300 border p-2 focus:ring-2 focus:ring-amber-500 outline-none">
-                                <option value="islam">Islam (Bismillah)</option>
-                                <option value="hindu">Hindu (Om / Swastik)</option>
-                                <option value="sikh">Sikh (Ik Onkar)</option>
-                                <option value="christian">Christian (Cross)</option>
-                                <option value="universal">Universal / Neutral</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">Sub-heading Tagline</label>
-                            <input type="text" id="headerTagline" value="In the name of Allah, the Most Gracious" oninput="updatePreview()" class="w-full rounded-lg border-slate-300 border p-2 focus:ring-2 focus:ring-amber-500 outline-none">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Profile Photo Upload -->
-                <div class="space-y-2">
-                    <label class="block font-semibold text-slate-700">2. Profile Photo</label>
-                    <div class="flex items-center space-x-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
-                        <div class="w-16 h-16 rounded-lg border border-slate-300 overflow-hidden bg-white flex items-center justify-center shrink-0">
-                            <img id="photoPreviewThumb" src="profile.png" onerror="this.src='profile.png'" class="w-full h-full object-cover" alt="Thumb">
-                        </div>
-                        <div class="flex-1">
-                            <input type="file" id="photoInput" accept="image/*" onchange="handleImageUpload(event)" class="block w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-amber-100 file:text-amber-800 hover:file:bg-amber-200 cursor-pointer"/>
-                            <p class="text-[11px] text-slate-400 mt-1">Default photo: <code class="bg-slate-200 px-1 rounded">profile.png</code></p>
-                        </div>
-                        <button type="button" onclick="clearPhoto()" class="text-xs text-slate-500 hover:text-rose-600 p-2" title="Reset Photo">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Personal Details -->
-                <div class="space-y-3">
-                    <h3 class="font-semibold text-slate-800 border-b pb-1 text-xs uppercase tracking-wider text-amber-800">3. Personal Details</h3>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="col-span-2 sm:col-span-1">
-                            <label class="block text-xs text-slate-600 mb-1">Full Name</label>
-                            <input type="text" id="fullName" value="MD RAJA" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
-                        </div>
-                        <div class="col-span-2 sm:col-span-1">
-                            <label class="block text-xs text-slate-600 mb-1">Caste / Sect / Religion</label>
-                            <input type="text" id="casteInfo" value="ISLAM, SUNNI" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-slate-600 mb-1">Date of Birth</label>
-                            <input type="text" id="dob" value="04-02-1999" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-slate-600 mb-1">Height</label>
-                            <input type="text" id="height" value="5 Feet 4 Inch" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
-                        </div>
-                        <div class="col-span-2">
-                            <label class="block text-xs text-slate-600 mb-1">Educational Qualification</label>
-                            <input type="text" id="qualification" value="B.Tech in Computer Science" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CONDITIONAL CAREER / OCCUPATION TAB (DYNAMIC FIELDS) -->
-                <div class="bg-amber-50/40 p-4 rounded-xl border border-amber-200/80 space-y-3">
-                    <h3 class="font-semibold text-amber-900 text-xs uppercase tracking-wider border-b border-amber-200 pb-1">4. Career & Employment Status (Dynamic Tabs)</h3>
-                    
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Select Current Activity Status:</label>
-                        <select id="careerType" onchange="handleCareerTypeChange()" class="w-full border border-amber-300 rounded-lg p-2 text-xs font-medium bg-white focus:ring-2 focus:ring-amber-500 outline-none">
-                            <option value="job" selected>Job / Employed</option>
-                            <option value="business">Business / Self-Employed</option>
-                            <option value="pursuing">Pursuing Education / Student</option>
-                            <option value="other">Not Working / Other</option>
-                        </select>
-                    </div>
-
-                    <!-- JOB FIELDS -->
-                    <div id="jobFields" class="space-y-2 pt-1">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Job Title / Role</label>
-                                <input type="text" id="jobRole" value="Software Engineer" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Company Name</label>
-                                <input type="text" id="jobCompany" value="Tech Solutions Ltd." oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Work Location</label>
-                                <input type="text" id="jobLocation" value="Bangalore" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Annual / Monthly Income</label>
-                                <input type="text" id="jobIncome" value="6 LPA" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- BUSINESS FIELDS -->
-                    <div id="businessFields" class="space-y-2 pt-1 hidden">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Business Name</label>
-                                <input type="text" id="busName" value="Raja Enterprises" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Business Type / Sector</label>
-                                <input type="text" id="busType" value="Textile Retail" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Business Location</label>
-                                <input type="text" id="busLocation" value="Patna" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Turnover / Income</label>
-                                <input type="text" id="busIncome" value="10 LPA" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PURSUING EDUCATION FIELDS -->
-                    <div id="pursuingFields" class="space-y-2 pt-1 hidden">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Degree / Course Name</label>
-                                <input type="text" id="purDegree" value="B.Tech (Computer Science)" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] text-slate-600">College / University</label>
-                                <input type="text" id="purCollege" value="State University" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Current Year / Semester</label>
-                                <input type="text" id="purYear" value="Final Year" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] text-slate-600">Expected Completion</label>
-                                <input type="text" id="purCompletion" value="2026" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- OTHER / NOT WORKING FIELDS -->
-                    <div id="otherFields" class="space-y-2 pt-1 hidden">
-                        <div>
-                            <label class="block text-[11px] text-slate-600">Current Status Note</label>
-                            <input type="text" id="otherNote" value="Preparing for Competitive Civil Services" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Parents Details -->
-                <div class="space-y-3">
-                    <h3 class="font-semibold text-slate-800 border-b pb-1 text-xs uppercase tracking-wider text-amber-800">5. Parents Details</h3>
-                    <div class="grid grid-cols-2 gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
-                        <span class="col-span-2 font-medium text-xs text-amber-900">Father's Details</span>
-                        <input type="text" id="fatherName" value="Md Shameem" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Father's Name">
-                        <input type="text" id="fatherEdu" value="12th Pass" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Education">
-                        <input type="text" id="fatherStatus" value="Working" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Status">
-                        <input type="text" id="fatherJob" value="Tailor / Business" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Occupation">
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
-                        <span class="col-span-2 font-medium text-xs text-amber-900">Mother's Details</span>
-                        <input type="text" id="motherName" value="Parveen Begum" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Mother's Name">
-                        <input type="text" id="motherEdu" value="Matric" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Education">
-                        <input type="text" id="motherStatus" value="Homemaker" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Status">
-                        <input type="text" id="motherJob" value="N/A" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Occupation">
-                    </div>
-                </div>
-
-                <!-- Siblings Details -->
-                <div class="space-y-3">
-                    <h3 class="font-semibold text-slate-800 border-b pb-1 text-xs uppercase tracking-wider text-amber-800">6. Siblings Details</h3>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="brother1" value="Brother #1: Xyz (B.tech)" oninput="updatePreview()" class="border rounded-lg p-2 text-xs col-span-2" placeholder="Brother #1 details">
-                        <input type="text" id="brother2" value="Brother #2: -" oninput="updatePreview()" class="border rounded-lg p-2 text-xs col-span-2" placeholder="Brother #2 details">
-                        <input type="text" id="sister1" value="Sister #1: -" oninput="updatePreview()" class="border rounded-lg p-2 text-xs col-span-2" placeholder="Sister #1 details">
-                        <input type="text" id="sister2" value="Sister #2: -" oninput="updatePreview()" class="border rounded-lg p-2 text-xs col-span-2" placeholder="Sister #2 details">
-                    </div>
-                </div>
-
-                 <!-- Contact & Address -->
-                <div class="space-y-3">
-                    <h3 class="font-semibold text-slate-800 border-b pb-1 text-xs uppercase tracking-wider text-amber-800">7. Permanent Address & Contact</h3>
-                    <div class="grid grid-cols-2 gap-3">
-                        <input type="text" id="address" value="Main Street, Sector 4" oninput="updatePreview()" class="border rounded-lg p-2 text-xs col-span-2" placeholder="Address Line">
-                        <input type="text" id="po" value="Central PO" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Post Office">
-                        <input type="text" id="districtState" value="Patna, Bihar" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="District, State">
-                        <input type="text" id="phone" value="+91 9876543210" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Phone Number">
-                        <input type="text" id="email" value="mdraja@example.com" oninput="updatePreview()" class="border rounded-lg p-2 text-xs col-span-2" placeholder="Email Address">
-                    </div>
-                </div>
-
-            </form>
-
-            <div class="p-4 bg-slate-100 border-t border-slate-200 flex flex-col sm:flex-row gap-3">
-                <button onclick="downloadPDF()" class="flex-1 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-semibold py-2.5 px-4 rounded-xl shadow transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-file-pdf"></i> Download Professional PDF
-                </button>
-                <button onclick="saveRecord()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 px-4 rounded-xl shadow transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-bookmark"></i> Save Record
-                </button>
+            <div class="space-y-1">
+              <input type="file" id="photoInput" accept="image/*" onchange="handlePhotoUpload(event)" class="text-xs text-gray-600 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-brand-700 file:text-white hover:file:bg-brand-800 cursor-pointer">
+              <p class="text-[11px] text-gray-500">Upload clean passport size photo. Default placeholder will show if empty.</p>
             </div>
-        </section>
-
-        <!-- Live Preview Section -->
-        <section class="lg:col-span-7 bg-slate-200/60 p-4 lg:p-6 rounded-2xl border border-slate-300 flex flex-col max-h-[88vh]">
-            <div class="flex items-center justify-between mb-3 px-2">
-                <h2 class="font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fa-solid fa-eye text-amber-700"></i>
-                    Live PDF Preview
-                </h2>
-                <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Auto Updating
-                </span>
-            </div>
-
-            <!-- Scrollable Container for Preview Page -->
-            <div class="preview-container flex-1 overflow-y-auto overflow-x-auto flex justify-center items-start p-2 rounded-xl bg-slate-300/50 border border-slate-300">
-                
-                <!-- A4 Document Output Container -->
-                <div id="biodataPreviewPage" class="a4-page font-biodata text-slate-800 border-double-custom p-6 relative flex flex-col justify-between">
-                    
-                    <div>
-                        <!-- Religious Header -->
-                        <div class="text-center mb-4 border-b border-amber-900/20 pb-3 relative">
-                            <div class="flex justify-center items-center mb-1 h-12">
-                                <img id="previewHeaderImg" src="islam.png" onerror="handleHeaderImgError(this)" class="h-10 object-contain max-w-[200px]" alt="Symbol">
-                            </div>
-                            <p id="previewHeaderTagline" class="text-xs italic text-amber-950 font-serif tracking-wide">In the name of Allah, the Most Gracious</p>
-                        </div>
-
-                        <!-- Candidate Profile Image & Title -->
-                        <div class="flex flex-col items-center justify-center text-center my-3">
-                            <div class="w-32 h-36 border-2 border-amber-800 p-1 bg-white shadow-sm rounded-sm mb-2">
-                                <img id="previewPhoto" src="profile.png" onerror="this.src='profile.png'" class="w-full h-full object-cover rounded-sm" alt="Profile">
-                            </div>
-                            <h2 id="previewName" class="text-2xl font-bold tracking-wider text-amber-900 uppercase font-serif-header">MD RAJA</h2>
-                            <p id="previewCaste" class="text-xs text-slate-600 font-bold uppercase tracking-widest mt-0.5">ISLAM, SUNNI</p>
-                        </div>
-
-                        <!-- 1. PERSONAL DETAILS SECTION (WIDE GAP ALIGNMENT) -->
-                        <div class="mt-5">
-                            <div class="text-center mb-2">
-                                <h3 class="text-xs font-bold text-amber-900 uppercase tracking-widest bg-amber-50 py-1 px-4 inline-block border-y border-amber-200">Personal Details</h3>
-                            </div>
-                            <div class="w-full space-y-1.5 text-xs text-slate-800 px-4">
-                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5">
-                                    <span class="font-semibold text-slate-600">Full Name :</span>
-                                    <span id="prevNameVal" class="font-bold text-slate-900">MD RAJA</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5">
-                                    <span class="font-semibold text-slate-600">Date of Birth :</span>
-                                    <span id="previewDob" class="font-bold text-slate-900">04-02-1999</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5">
-                                    <span class="font-semibold text-slate-600">Height :</span>
-                                    <span id="previewHeight" class="font-bold text-slate-900">5 Feet 4 Inch</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5">
-                                    <span class="font-semibold text-slate-600">Qualification :</span>
-                                    <span id="previewQual" class="font-bold text-slate-900">B.Tech in Computer Science</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 2. CAREER / OCCUPATION DETAILS (DYNAMIC PREVIEW WITH WIDE GAP) -->
-                        <div class="mt-5">
-                            <div class="text-center mb-2">
-                                <h3 class="text-xs font-bold text-amber-900 uppercase tracking-widest bg-amber-50 py-1 px-4 inline-block border-y border-amber-200">Career & Status Details</h3>
-                            </div>
-                            <div id="previewCareerContainer" class="w-full space-y-1.5 text-xs text-slate-800 px-4">
-                                <!-- Dynamic Career Key-Values loaded here -->
-                            </div>
-                        </div>
-
-                        <!-- 3. PARENTS DETAILS SECTION -->
-                        <div class="mt-5">
-                            <div class="text-center mb-2">
-                                <h3 class="text-xs font-bold text-amber-900 uppercase tracking-widest bg-amber-50 py-1 px-4 inline-block border-y border-amber-200">Parents Details</h3>
-                            </div>
-                            
-                            <div class="w-full space-y-2.5 px-2">
-                                <!-- Father Card -->
-                                <div class="bg-amber-50/40 p-2 rounded border border-amber-100/80">
-                                    <p class="text-[11px] font-bold text-amber-900 uppercase mb-1 border-b border-amber-200/50 pb-0.5 text-center">FATHER'S DETAILS</p>
-                                    <div class="space-y-1 text-xs">
-                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Name :</span><span id="previewFatherName" class="font-bold text-slate-900">Md Shameem</span></div>
-                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Education :</span><span id="previewFatherEdu" class="text-slate-800">12th Pass</span></div>
-                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Status :</span><span id="previewFatherStatus" class="text-slate-800">Working</span></div>
-                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Occupation :</span><span id="previewFatherJob" class="text-slate-800">Tailor / Business</span></div>
-                                    </div>
-                                </div>
-
-                                <!-- Mother Card -->
-                                <div class="bg-amber-50/40 p-2 rounded border border-amber-100/80">
-                                    <p class="text-[11px] font-bold text-amber-900 uppercase mb-1 border-b border-amber-200/50 pb-0.5 text-center">MOTHER'S DETAILS</p>
-                                    <div class="space-y-1 text-xs">
-                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Name :</span><span id="previewMotherName" class="font-bold text-slate-900">Parveen Begum</span></div>
-                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Education :</span><span id="previewMotherEdu" class="text-slate-800">Matric</span></div>
-                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Status :</span><span id="previewMotherStatus" class="text-slate-800">Homemaker</span></div>
-                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Occupation :</span><span id="previewMotherJob" class="text-slate-800">N/A</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 4. SIBLINGS DETAILS SECTION -->
-                        <div class="mt-5">
-                            <div class="text-center mb-2">
-                                <h3 class="text-xs font-bold text-amber-900 uppercase tracking-widest bg-amber-50 py-1 px-4 inline-block border-y border-amber-200">Siblings Details</h3>
-                            </div>
-                            <div class="w-full grid grid-cols-1 gap-1 text-xs bg-amber-50/30 p-2.5 rounded border border-amber-100 text-center">
-                                <div id="previewBro1" class="font-medium text-slate-800">Brother #1: Xyz (B.tech)</div>
-                                <div id="previewBro2" class="font-medium text-slate-800">Brother #2: -</div>
-                                <div id="previewSis1" class="font-medium text-slate-800">Sister #1: -</div>
-                                <div id="previewSis2" class="font-medium text-slate-800">Sister #2: -</div>
-                            </div>
-                        </div>
-
-                        <!-- 5. PERMANENT ADDRESS & CONTACT SECTION -->
-                        <div class="mt-5">
-                            <div class="text-center mb-2">
-                                <h3 class="text-xs font-bold text-amber-900 uppercase tracking-widest bg-amber-50 py-1 px-4 inline-block border-y border-amber-200">Permanent Address & Contact</h3>
-                            </div>
-                            <div class="w-full text-xs space-y-1 px-4 text-center">
-                                <p><span class="font-semibold text-slate-600">Permanent Address :</span> <span id="previewAddr" class="font-bold text-slate-800">Main Street, Sector 4, PO: Central PO, District/State: Patna, Bihar</span></p>
-                                <p><span class="font-semibold text-slate-600">Phone Number :</span> <span id="previewPhone" class="font-bold text-amber-900">+91 9876543210</span></p>
-                                <p><span class="font-semibold text-slate-600">Email Address :</span> <span id="previewEmail" class="font-bold text-slate-800">mdraja@example.com</span></p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Subtle Footer Decorative Line -->
-                    <div class="mt-6 pt-2 border-t border-amber-800/20 text-center text-[10px] text-slate-400">
-                        Biodata generated with Privacy & Quality Assurance
-                    </div>
-
-                </div>
-            </div>
-        </section>
-    </main>
-
-     <!-- Admin Portal Modal -->
-    <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="bg-amber-900 text-white px-6 py-4 flex justify-between items-center">
-                <h3 class="font-bold text-lg flex items-center gap-2">
-                    <i class="fa-solid fa-database text-amber-400"></i> Admin Storage Portal
-                </h3>
-                <button onclick="toggleAdminModal()" class="text-white/80 hover:text-white text-xl">&times;</button>
-            </div>
-
-            <!-- Login View -->
-            <div id="adminLoginSec" class="p-6 text-center space-y-4">
-                <p class="text-sm text-slate-600">Enter admin password to access saved records.</p>
-                <div class="max-w-xs mx-auto space-y-3">
-                    <input type="password" id="adminPass" placeholder="Password (default: admin123)" class="w-full border p-2.5 rounded-lg text-sm outline-none focus:ring-2 focus:ring-amber-600">
-                    <button onclick="verifyAdmin()" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-semibold py-2 rounded-lg text-sm transition">
-                        Login to Portal
-                    </button>
-                    <p id="adminErr" class="text-xs text-rose-600 hidden">Invalid Password! Try: admin123</p>
-                </div>
-            </div>
-
-            <!-- Content View -->
-            <div id="adminContentSec" class="p-6 overflow-y-auto hidden flex-1 space-y-4">
-                <div class="flex justify-between items-center">
-                    <span class="text-xs font-semibold text-slate-500 uppercase">Saved Records (<span id="recordCount">0</span>)</span>
-                    <button onclick="clearAllRecords()" class="text-xs bg-rose-100 text-rose-700 hover:bg-rose-200 px-3 py-1 rounded font-semibold">
-                        Clear All
-                    </button>
-                </div>
-
-                <div id="recordsList" class="space-y-3"></div>
-            </div>
+          </div>
         </div>
+
+        <!-- 3. PERSONAL DETAILS -->
+        <div class="bg-gray-50/80 p-3.5 rounded-lg border border-gray-100 space-y-3">
+          <span class="text-xs font-bold text-brand-800 uppercase tracking-wide block">3. Personal Details</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="compact-label">Full Name</label>
+              <input type="text" id="fullName" value="MD RAJA" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Caste / Sect / Religion</label>
+              <input type="text" id="casteReligion" value="ISLAM, SUNNI" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Date of Birth</label>
+              <input type="text" id="dob" value="04-02-1999" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Height</label>
+              <input type="text" id="height" value="5 Feet 4 Inch" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="compact-label">Educational Qualification</label>
+              <input type="text" id="qualification" value="B.Tech in Computer Science" oninput="updatePreview()" class="compact-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. CAREER & EMPLOYMENT STATUS -->
+        <div class="bg-amber-50/30 p-3.5 rounded-lg border border-amber-200/60 space-y-3">
+          <span class="text-xs font-bold text-brand-800 uppercase tracking-wide block">4. Career & Employment Status</span>
+          <div>
+            <label class="compact-label">Select Current Activity Status</label>
+            <select id="employmentStatus" onchange="handleStatusTabChange()" class="compact-input bg-white">
+              <option value="student" selected>Pursuing Education / Student</option>
+              <option value="job">Employed / Job</option>
+              <option value="business">Business / Self-Employed</option>
+              <option value="other">Other / Looking for Opportunities</option>
+            </select>
+          </div>
+
+          <!-- Dynamic Tab Content -->
+          <div id="dynamicCareerFields" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <!-- Dynamic fields auto injected by JS -->
+          </div>
+        </div>
+
+        <!-- 5. PARENTS DETAILS -->
+        <div class="bg-gray-50/80 p-3.5 rounded-lg border border-gray-100 space-y-3">
+          <span class="text-xs font-bold text-brand-800 uppercase tracking-wide block">5. Parents Details</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="compact-label">Father's Name</label>
+              <input type="text" id="fatherName" value="Md Shameem" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Father's Qualification</label>
+              <input type="text" id="fatherEdu" value="12th Pass" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Father's Occupation / Status</label>
+              <input type="text" id="fatherOcc" value="Self-Employed" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Mother's Name</label>
+              <input type="text" id="motherName" value="Parveen Begum" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Mother's Qualification</label>
+              <input type="text" id="motherEdu" value="Matric" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Mother's Occupation / Status</label>
+              <input type="text" id="motherOcc" value="Homemaker" oninput="updatePreview()" class="compact-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. SIBLINGS DETAILS (SEPARATE BROTHERS AND SISTERS) -->
+        <div class="bg-gray-50/80 p-3.5 rounded-lg border border-gray-100 space-y-4">
+          <div class="flex items-center justify-between border-b pb-2 border-gray-200">
+            <span class="text-xs font-bold text-brand-800 uppercase tracking-wide">6. Siblings Details</span>
+            <span class="text-[11px] text-gray-500">Separate sections for Brothers & Sisters</span>
+          </div>
+
+          <!-- Brothers Section -->
+          <div class="space-y-2 bg-white p-3 rounded-md border border-gray-200">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-blue-900 flex items-center gap-1.5">
+                <i class="fa-solid fa-mars text-blue-600"></i> Brothers
+              </h4>
+              <button type="button" onclick="addBrotherField()" class="text-xs bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 font-medium px-2.5 py-1 rounded transition flex items-center gap-1">
+                <i class="fa-solid fa-plus text-[10px]"></i> Add Brother
+              </button>
+            </div>
+            <div id="brothersListContainer" class="space-y-2 pt-1">
+              <!-- Dynamic Brother Items Injected Here -->
+            </div>
+          </div>
+
+          <!-- Sisters Section -->
+          <div class="space-y-2 bg-white p-3 rounded-md border border-gray-200">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold text-pink-900 flex items-center gap-1.5">
+                <i class="fa-solid fa-venus text-pink-600"></i> Sisters
+              </h4>
+              <button type="button" onclick="addSisterField()" class="text-xs bg-pink-50 text-pink-700 hover:bg-pink-100 border border-pink-200 font-medium px-2.5 py-1 rounded transition flex items-center gap-1">
+                <i class="fa-solid fa-plus text-[10px]"></i> Add Sister
+              </button>
+            </div>
+            <div id="sistersListContainer" class="space-y-2 pt-1">
+              <!-- Dynamic Sister Items Injected Here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. PERMANENT ADDRESS & CONTACT -->
+        <div class="bg-gray-50/80 p-3.5 rounded-lg border border-gray-100 space-y-3">
+          <span class="text-xs font-bold text-brand-800 uppercase tracking-wide block">7. Permanent Address & Contact</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="sm:col-span-2">
+              <label class="compact-label">Address Line 1</label>
+              <input type="text" id="addressLine1" value="Main Street, Sector 4" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Post Office / Landmark</label>
+              <input type="text" id="addressLine2" value="Central PO" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">District & State</label>
+              <input type="text" id="districtState" value="Patna, Bihar" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Contact Number</label>
+              <input type="text" id="contactNumber" value="+91 9876543210" oninput="updatePreview()" class="compact-input">
+            </div>
+            <div>
+              <label class="compact-label">Email Address</label>
+              <input type="text" id="emailAddress" value="mdraja@example.com" oninput="updatePreview()" class="compact-input">
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="pt-2 flex flex-col sm:flex-row gap-3">
+          <button type="button" onclick="downloadPDF()" class="flex-1 bg-gradient-to-r from-brand-800 to-brand-700 hover:from-brand-900 hover:to-brand-800 text-white font-semibold py-2.5 px-4 rounded-lg shadow-sm flex items-center justify-center gap-2 transition active:scale-[0.99]">
+            <i class="fa-solid fa-file-pdf text-amber-300"></i> Download Professional PDF
+          </button>
+          <button type="button" onclick="saveRecordToAdmin()" class="bg-slate-800 hover:bg-slate-900 text-white font-medium py-2.5 px-5 rounded-lg shadow-sm flex items-center justify-center gap-2 transition">
+            <i class="fa-solid fa-bookmark text-amber-400"></i> Save Record
+          </button>
+        </div>
+
+      </form>
     </div>
 
-    <script>
-        let uploadedPhotoBase64 = null;
-        let savedRecords = [];
+    <!-- LIVE PDF PREVIEW SECTION -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="bg-slate-800 text-white px-5 py-3 flex items-center justify-between">
+        <h3 class="text-sm font-bold uppercase tracking-wide flex items-center gap-2">
+          <i class="fa-solid fa-eye text-amber-400"></i> Live PDF Preview
+        </h3>
+        <span class="text-[11px] bg-green-500/20 text-green-300 border border-green-500/30 px-2 py-0.5 rounded flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span> Auto Updating
+        </span>
+      </div>
 
-        const religionConfig = {
-            islam: { img: 'islam.png', tagline: 'In the name of Allah, the Most Gracious' },
-            hindu: { img: 'hindu.png', tagline: 'Shree Ganeshay Namah' },
-            sikh: { img: 'sikh.png', tagline: 'Ik Onkar Satnam' },
-            christian: { img: 'christian.png', tagline: 'God Bless This Union' },
-            universal: { img: 'universal.png', tagline: 'Marriage Biodata' }
-        };
+      <!-- Scrollable Preview Frame -->
+      <div class="p-3 sm:p-6 bg-slate-200/60 overflow-x-auto flex justify-center">
+        
+        <!-- ACTUAL PRINTABLE / PREVIEW CANVAS -->
+        <div id="pdf-preview-container" class="pdf-paper p-8 sm:p-10 border-4 border-double border-amber-800/80 relative text-gray-800 text-sm">
+          
+          <!-- Decorative Inner Frame Line -->
+          <div class="border border-amber-900/30 h-full p-6 sm:p-8 space-y-6">
 
-        function handleHeaderImgError(imgElem) {
-            const rel = document.getElementById('religion').value;
-            let symbolSvg = '🌸';
-            if (rel === 'islam') symbolSvg = '☪';
-            else if (rel === 'hindu') symbolSvg = '🕉';
-            else if (rel === 'sikh') symbolSvg = 'ੴ';
-            else if (rel === 'christian') symbolSvg = '✝';
+            <!-- Header Section -->
+            <div class="text-center space-y-2 border-b border-amber-800/20 pb-4">
+              <p id="previewHeaderText" class="font-playfair italic text-lg sm:text-xl font-bold text-amber-900">In the name of Allah, the Most Gracious</p>
+              <h2 class="font-cinzel text-2xl sm:text-3xl font-extrabold tracking-widest text-amber-950 uppercase pt-1">BIODATA</h2>
+            </div>
 
-            const parent = imgElem.parentElement;
-            parent.innerHTML = `<span class="text-3xl text-amber-800 font-bold">${symbolSvg}</span>`;
-        }
+            <!-- Profile Photo & Quick Intro -->
+            <div class="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6 pb-2">
+              <div class="space-y-1.5 flex-1 text-center sm:text-left">
+                <h3 id="prevFullName" class="text-xl font-bold font-cinzel text-amber-950">MD RAJA</h3>
+                <p id="prevQualificationSummary" class="text-xs font-semibold text-amber-900/80">B.Tech in Computer Science</p>
+              </div>
+              <div class="w-28 h-32 border-2 border-amber-900/40 p-1 bg-white shadow-sm flex-shrink-0">
+                <img id="prevPhoto" src="https://placehold.co/150x150/8b4513/ffffff?text=Photo" alt="Profile" class="w-full h-full object-cover">
+              </div>
+            </div>
 
-        window.addEventListener('DOMContentLoaded', () => {
-            loadSavedRecordsFromStorage();
-            updateReligionHeader();
-            handleCareerTypeChange();
-            updatePreview();
-        });
-
-        // Switch visible input fields when career type changes
-        function handleCareerTypeChange() {
-            const type = document.getElementById('careerType').value;
-            document.getElementById('jobFields').classList.add('hidden');
-            document.getElementById('businessFields').classList.add('hidden');
-            document.getElementById('pursuingFields').classList.add('hidden');
-            document.getElementById('otherFields').classList.add('hidden');
-
-            if (type === 'job') document.getElementById('jobFields').classList.remove('hidden');
-            else if (type === 'business') document.getElementById('businessFields').classList.remove('hidden');
-            else if (type === 'pursuing') document.getElementById('pursuingFields').classList.remove('hidden');
-            else if (type === 'other') document.getElementById('otherFields').classList.remove('hidden');
-
-            updatePreview();
-        }
-
-        function updateReligionHeader() {
-            const religionKey = document.getElementById('religion').value;
-            const config = religionConfig[religionKey] || religionConfig.islam;
-            
-            const headerContainer = document.getElementById('previewHeaderImg').parentElement;
-            headerContainer.innerHTML = `<img id="previewHeaderImg" src="${config.img}" onerror="handleHeaderImgError(this)" class="h-10 object-contain max-w-[200px]" alt="Symbol">`;
-            
-            document.getElementById('headerTagline').value = config.tagline;
-            document.getElementById('previewHeaderTagline').textContent = config.tagline;
-        }
-
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    uploadedPhotoBase64 = e.target.result;
-                    document.getElementById('photoPreviewThumb').src = uploadedPhotoBase64;
-                    document.getElementById('previewPhoto').src = uploadedPhotoBase64;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function clearPhoto() {
-            uploadedPhotoBase64 = null;
-            document.getElementById('photoInput').value = '';
-            document.getElementById('photoPreviewThumb').src = 'profile.png';
-            document.getElementById('previewPhoto').src = 'profile.png';
-        }
-
-        function updatePreview() {
-            // General Info
-            const nameVal = document.getElementById('fullName').value || 'MD RAJA';
-            document.getElementById('previewName').textContent = nameVal;
-            document.getElementById('prevNameVal').textContent = nameVal;
-            document.getElementById('previewCaste').textContent = document.getElementById('casteInfo').value || 'ISLAM, SUNNI';
-            document.getElementById('previewHeaderTagline').textContent = document.getElementById('headerTagline').value || '';
-
-            // Personal Info
-            document.getElementById('previewDob').textContent = document.getElementById('dob').value || '-';
-            document.getElementById('previewHeight').textContent = document.getElementById('height').value || '-';
-            document.getElementById('previewQual').textContent = document.getElementById('qualification').value || '-';
-
-            // Dynamic Career Info Preview (Wide Gap Alignment)
-            const cType = document.getElementById('careerType').value;
-            const careerContainer = document.getElementById('previewCareerContainer');
-            careerContainer.innerHTML = '';
-
-            if (cType === 'job') {
-                careerContainer.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Activity Status :</span><span class="font-bold text-slate-900">Employed / Job</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Job Role :</span><span class="font-bold text-slate-900">${document.getElementById('jobRole').value || '-'}</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Company Name :</span><span class="font-bold text-slate-900">${document.getElementById('jobCompany').value || '-'}</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Work Location :</span><span class="font-bold text-slate-900">${document.getElementById('jobLocation').value || '-'}</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Income / Package :</span><span class="font-bold text-amber-900">${document.getElementById('jobIncome').value || '-'}</span></div>
-                `;
-            } else if (cType === 'business') {
-                careerContainer.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Activity Status :</span><span class="font-bold text-slate-900">Business / Self-Employed</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Business Name :</span><span class="font-bold text-slate-900">${document.getElementById('busName').value || '-'}</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Business Sector :</span><span class="font-bold text-slate-900">${document.getElementById('busType').value || '-'}</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Location :</span><span class="font-bold text-slate-900">${document.getElementById('busLocation').value || '-'}</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Turnover / Income :</span><span class="font-bold text-amber-900">${document.getElementById('busIncome').value || '-'}</span></div>
-                `;
-            } else if (cType === 'pursuing') {
-                careerContainer.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Activity Status :</span><span class="font-bold text-slate-900">Pursuing Education / Student</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Course / Degree :</span><span class="font-bold text-slate-900">${document.getElementById('purDegree').value || '-'}</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">College / Univ :</span><span class="font-bold text-slate-900">${document.getElementById('purCollege').value || '-'}</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Current Year :</span><span class="font-bold text-slate-900">${document.getElementById('purYear').value || '-'}</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Passing Year :</span><span class="font-bold text-slate-900">${document.getElementById('purCompletion').value || '-'}</span></div>
-                `;
-            } else {
-                careerContainer.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Activity Status :</span><span class="font-bold text-slate-900">Other / Not Working</span></div>
-                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Status Note :</span><span class="font-bold text-slate-900">${document.getElementById('otherNote').value || '-'}</span></div>
-                `;
-            }
-
-            // Father
-            document.getElementById('previewFatherName').textContent = document.getElementById('fatherName').value || '-';
-            document.getElementById('previewFatherEdu').textContent = document.getElementById('fatherEdu').value || '-';
-            document.getElementById('previewFatherStatus').textContent = document.getElementById('fatherStatus').value || '-';
-            document.getElementById('previewFatherJob').textContent = document.getElementById('fatherJob').value || '-';
-
-            // Mother
-            document.getElementById('previewMotherName').textContent = document.getElementById('motherName').value || '-';
-            document.getElementById('previewMotherEdu').textContent = document.getElementById('motherEdu').value || '-';
-            document.getElementById('previewMotherStatus').textContent = document.getElementById('motherStatus').value || '-';
-            document.getElementById('previewMotherJob').textContent = document.getElementById('motherJob').value || '-';
-
-            // Siblings
-            document.getElementById('previewBro1').textContent = document.getElementById('brother1').value || '-';
-            document.getElementById('previewBro2').textContent = document.getElementById('brother2').value || '-';
-            document.getElementById('previewSis1').textContent = document.getElementById('sister1').value || '-';
-            document.getElementById('previewSis2').textContent = document.getElementById('sister2').value || '-';
-
-            // Address & Contact
-            const addr = document.getElementById('address').value;
-            const po = document.getElementById('po').value;
-            const dist = document.getElementById('districtState').value;
-            
-            let fullAddress = addr;
-            if (po) fullAddress += `, PO: ${po}`;
-            if (dist) fullAddress += `, District/State: ${dist}`;
-            
-            document.getElementById('previewAddr').textContent = fullAddress || '-';
-            document.getElementById('previewPhone').textContent = document.getElementById('phone').value || '-';
-            document.getElementById('previewEmail').textContent = document.getElementById('email').value || '-';
-
-            // Fallback for photo
-            const previewImg = document.getElementById('previewPhoto');
-            if (!uploadedPhotoBase64) {
-                previewImg.src = 'profile.png';
-            }
-        }
-
-        function resetForm() {
-            document.getElementById('biodataForm').reset();
-            clearPhoto();
-            updateReligionHeader();
-            handleCareerTypeChange();
-            updatePreview();
-        }
-
-        function downloadPDF() {
-            const element = document.getElementById('biodataPreviewPage');
-            const name = document.getElementById('fullName').value.trim() || 'Biodata';
-            
-            const opt = {
-                margin:       0,
-                filename:     `${name.replace(/\s+/g, '_')}_Biodata.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opt).from(element).save();
-        }
-
-        function saveRecord() {
-            const record = {
-                id: Date.now(),
-                name: document.getElementById('fullName').value || 'Unnamed',
-                caste: document.getElementById('casteInfo').value || '',
-                phone: document.getElementById('phone').value || '',
-                date: new Date().toLocaleDateString(),
-                photo: uploadedPhotoBase64
-            };
-
-            savedRecords.push(record);
-            try {
-                localStorage.setItem('biodata_records', JSON.stringify(savedRecords));
-            } catch(e) {
-                console.log('Storage limit exceeded');
-            }
-            alert('Record saved successfully in Portal!');
-            renderRecords();
-        }
-
-        function loadSavedRecordsFromStorage() {
-            const data = localStorage.getItem('biodata_records');
-            if (data) {
-                try {
-                    savedRecords = JSON.parse(data);
-                } catch(e) {
-                    savedRecords = [];
-                }
-            }
-        }
-
-        function toggleAdminModal() {
-            const modal = document.getElementById('adminModal');
-            modal.classList.toggle('hidden');
-        }
-
-        function verifyAdmin() {
-            const pass = document.getElementById('adminPass').value;
-            if (pass === 'admin123') {
-                document.getElementById('adminLoginSec').classList.add('hidden');
-                document.getElementById('adminContentSec').classList.remove('hidden');
-                document.getElementById('adminErr').classList.add('hidden');
-                renderRecords();
-            } else {
-                document.getElementById('adminErr').classList.remove('hidden');
-            }
-        }
-
-        function renderRecords() {
-            const list = document.getElementById('recordsList');
-            document.getElementById('recordCount').textContent = savedRecords.length;
-
-            if (savedRecords.length === 0) {
-                list.innerHTML = `<div class="text-center py-8 text-slate-400 text-xs">No records saved yet.</div>`;
-                return;
-            }
-
-            list.innerHTML = savedRecords.map(rec => `
-                <div class="flex items-center justify-between p-3 bg-slate-50 border rounded-xl hover:bg-slate-100 transition">
-                    <div class="flex items-center space-x-3">
-                        <img src="${rec.photo || 'profile.png'}" onerror="this.src='profile.png'" class="w-10 h-10 object-cover rounded-full border">
-                        <div>
-                            <p class="font-bold text-xs text-slate-800">${rec.name}</p>
-                            <p class="text-[11px] text-slate-500">${rec.caste} | ${rec.phone}</p>
-                            <span class="text-[10px] text-slate-400">${rec.date}</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <button onclick="deleteRecord(${rec.id})" class="text-rose-600 hover:text-rose-800 text-xs px-2 py-1">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
+            <!-- Preview Sections Grid / Clean Compact Key-Values -->
+            <div class="space-y-5">
+              
+              <!-- 1. Personal Info -->
+              <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100/60 border-l-4 border-amber-800 px-2 py-1 mb-2 font-cinzel">Personal Details</h4>
+                <div class="grid grid-cols-1 gap-1.5 text-xs pl-1">
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Full Name</span><span class="px-2">:</span><span id="pName" class="font-medium text-gray-900">MD RAJA</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Caste / Religion</span><span class="px-2">:</span><span id="pCaste" class="font-medium text-gray-900">ISLAM, SUNNI</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Date of Birth</span><span class="px-2">:</span><span id="pDob" class="font-medium text-gray-900">04-02-1999</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Height</span><span class="px-2">:</span><span id="pHeight" class="font-medium text-gray-900">5 Feet 4 Inch</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Education</span><span class="px-2">:</span><span id="pQualification" class="font-medium text-gray-900">B.Tech in Computer Science</span></div>
                 </div>
-            `).join('');
-        }
+              </div>
 
-        function deleteRecord(id) {
-            savedRecords = savedRecords.filter(r => r.id !== id);
-            localStorage.setItem('biodata_records', JSON.stringify(savedRecords));
-            renderRecords();
-        }
+              <!-- 2. Career & Employment -->
+              <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100/60 border-l-4 border-amber-800 px-2 py-1 mb-2 font-cinzel">Career & Status</h4>
+                <div id="pCareerDetails" class="grid grid-cols-1 gap-1.5 text-xs pl-1">
+                  <!-- Dynamic Career Info -->
+                </div>
+              </div>
 
-        function clearAllRecords() {
-            if(confirm('Are you sure you want to delete all saved records?')) {
-                savedRecords = [];
-                localStorage.removeItem('biodata_records');
-                renderRecords();
-            }
+              <!-- 3. Parents Details -->
+              <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100/60 border-l-4 border-amber-800 px-2 py-1 mb-2 font-cinzel">Parents Details</h4>
+                <div class="grid grid-cols-1 gap-1.5 text-xs pl-1">
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Father's Name</span><span class="px-2">:</span><span id="pFatherName" class="font-medium text-gray-900">Md Shameem</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Father's Qualification</span><span class="px-2">:</span><span id="pFatherEdu" class="font-medium text-gray-900">12th Pass</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Father's Occupation</span><span class="px-2">:</span><span id="pFatherOcc" class="font-medium text-gray-900">Self-Employed</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Mother's Name</span><span class="px-2">:</span><span id="pMotherName" class="font-medium text-gray-900">Parveen Begum</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Mother's Qualification</span><span class="px-2">:</span><span id="pMotherEdu" class="font-medium text-gray-900">Matric</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Mother's Occupation</span><span class="px-2">:</span><span id="pMotherOcc" class="font-medium text-gray-900">Homemaker</span></div>
+                </div>
+              </div>
+
+              <!-- 4. Siblings Details (Split Preview) -->
+              <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100/60 border-l-4 border-amber-800 px-2 py-1 mb-2 font-cinzel">Siblings Details</h4>
+                <div class="space-y-2 text-xs pl-1">
+                  <!-- Brothers Preview List -->
+                  <div>
+                    <span class="font-bold text-amber-950 block mb-0.5 border-b border-gray-100 text-[11px] uppercase">Brothers:</span>
+                    <ul id="pBrothersList" class="list-disc list-inside space-y-0.5 text-gray-800 pl-1">
+                      <li>Brother #1: Xyz (B.tech)</li>
+                    </ul>
+                  </div>
+                  <!-- Sisters Preview List -->
+                  <div>
+                    <span class="font-bold text-amber-950 block mb-0.5 border-b border-gray-100 text-[11px] uppercase">Sisters:</span>
+                    <ul id="pSistersList" class="list-disc list-inside space-y-0.5 text-gray-800 pl-1">
+                      <li>Sister #1: None</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5. Contact & Address -->
+              <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100/60 border-l-4 border-amber-800 px-2 py-1 mb-2 font-cinzel">Address & Contact Details</h4>
+                <div class="grid grid-cols-1 gap-1.5 text-xs pl-1">
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Address</span><span class="px-2">:</span><span id="pAddress" class="font-medium text-gray-900">Main Street, Sector 4</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Landmark / PO</span><span class="px-2">:</span><span id="pLandmark" class="font-medium text-gray-900">Central PO</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">District & State</span><span class="px-2">:</span><span id="pDistrict" class="font-medium text-gray-900">Patna, Bihar</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Contact No.</span><span class="px-2">:</span><span id="pContact" class="font-medium text-gray-900">+91 9876543210</span></div>
+                  <div class="flex"><span class="w-36 font-semibold text-gray-700">Email</span><span class="px-2">:</span><span id="pEmail" class="font-medium text-gray-900">mdraja@example.com</span></div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Bottom Border Footer -->
+            <div class="pt-6 text-center text-[10px] text-gray-400 italic border-t border-amber-800/20">
+              Confidential Marriage Bio-Data
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ADMIN PORTAL MODAL -->
+  <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden border border-gray-200">
+      <div class="bg-slate-900 text-white px-5 py-3 flex items-center justify-between">
+        <h3 class="font-bold text-sm uppercase tracking-wide flex items-center gap-2">
+          <i class="fa-solid fa-database text-amber-400"></i> Admin Saved Records Portal
+        </h3>
+        <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-white text-lg font-bold">&times;</button>
+      </div>
+      <div class="p-5 space-y-4 max-h-[70vh] overflow-y-auto">
+        <p class="text-xs text-gray-500">Stored biodata entries saved locally on this browser session:</p>
+        <div id="savedRecordsList" class="space-y-2">
+          <!-- Dynamic Saved Items -->
+        </div>
+      </div>
+      <div class="bg-gray-50 px-5 py-3 border-t border-gray-100 flex justify-end gap-2">
+        <button onclick="clearAllAdminRecords()" class="text-xs bg-red-100 hover:bg-red-200 text-red-700 font-medium px-3 py-1.5 rounded transition">Clear All Records</button>
+        <button onclick="toggleAdminModal()" class="text-xs bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-4 py-1.5 rounded transition">Close</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Initial State Data
+    let brothers = ["Xyz (B.tech)"];
+    let sisters = ["-"];
+    let currentPhotoData = "https://placehold.co/150x150/8b4513/ffffff?text=Photo";
+
+    // Initialize application on page load
+    window.onload = function() {
+      renderBrothersInput();
+      renderSistersInput();
+      handleStatusTabChange();
+      updatePreview();
+    };
+
+    // Header preset handler
+    function handleHeaderChange() {
+      const preset = document.getElementById('headerPreset').value;
+      const customInput = document.getElementById('customHeaderText');
+      
+      const presetsMap = {
+        'islam': 'In the name of Allah, the Most Gracious',
+        'hindu': '|| Shree Ganeshay Namah ||',
+        'sikh': 'Ik Onkar - Ek Onkar',
+        'christian': 'In God We Trust',
+        'custom': customInput.value
+      };
+
+      if (preset !== 'custom') {
+        customInput.value = presetsMap[preset];
+      }
+      updatePreview();
+    }
+
+    // Photo Upload Handler
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          currentPhotoData = e.target.result;
+          document.getElementById('photoPreview').src = currentPhotoData;
+          document.getElementById('prevPhoto').src = currentPhotoData;
         }
-    </script>
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Career dynamic tab renderer
+    function handleStatusTabChange() {
+      const status = document.getElementById('employmentStatus').value;
+      const container = document.getElementById('dynamicCareerFields');
+      
+      let html = '';
+      if (status === 'student') {
+        html = `
+          <div>
+            <label class="compact-label">Degree / Course Name</label>
+            <input type="text" id="carDegree" value="B.Tech (Computer Science)" oninput="updatePreview()" class="compact-input">
+          </div>
+          <div>
+            <label class="compact-label">College / University</label>
+            <input type="text" id="carOrg" value="State University" oninput="updatePreview()" class="compact-input">
+          </div>
+          <div>
+            <label class="compact-label">Current Year / Semester</label>
+            <input type="text" id="carYear" value="Final Year" oninput="updatePreview()" class="compact-input">
+          </div>
+          <div>
+            <label class="compact-label">Expected Completion</label>
+            <input type="text" id="carExtra" value="2026" oninput="updatePreview()" class="compact-input">
+          </div>
+        `;
+      } else if (status === 'job') {
+        html = `
+          <div>
+            <label class="compact-label">Designation / Role</label>
+            <input type="text" id="carDegree" value="Software Engineer" oninput="updatePreview()" class="compact-input">
+          </div>
+          <div>
+            <label class="compact-label">Company / Organization</label>
+            <input type="text" id="carOrg" value="Tech Solutions Ltd" oninput="updatePreview()" class="compact-input">
+          </div>
+          <div>
+            <label class="compact-label">Annual Package / Salary</label>
+            <input type="text" id="carYear" value="6.5 LPA" oninput="updatePreview()" class="compact-input">
+          </div>
+          <div>
+            <label class="compact-label">Job Location</label>
+            <input type="text" id="carExtra" value="Bengaluru" oninput="updatePreview()" class="compact-input">
+          </div>
+        `;
+      } else if (status === 'business') {
+        html = `
+          <div>
+            <label class="compact-label">Business Name / Firm</label>
+            <input type="text" id="carDegree" value="Raja Enterprises" oninput="updatePreview()" class="compact-input">
+          </div>
+          <div>
+            <label class="compact-label">Nature of Business</label>
+            <input type="text" id="carOrg" value="Wholesale & Retail Trading" oninput="updatePreview()" class="compact-input">
+          </div>
+          <div>
+            <label class="compact-label">Annual Turnover / Income</label>
+            <input type="text" id="carYear" value="Good Standing" oninput="updatePreview()" class="compact-input">
+          </div>
+          <div>
+            <label class="compact-label">Business Location</label>
+            <input type="text" id="carExtra" value="Patna City" oninput="updatePreview()" class="compact-input">
+          </div>
+        `;
+      } else {
+        html = `
+          <div class="sm:col-span-2">
+            <label class="compact-label">Career Description / Details</label>
+            <input type="text" id="carDegree" value="Preparing for Competitive Examinations / Looking for suitable opportunities" oninput="updatePreview()" class="compact-input">
+          </div>
+        `;
+      }
+      container.innerHTML = html;
+      updatePreview();
+    }
+
+      // SECTION 6: Dynamic Brothers Management
+    function renderBrothersInput() {
+      const container = document.getElementById('brothersListContainer');
+      container.innerHTML = '';
+      
+      brothers.forEach((bText, index) => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center gap-2';
+        item.innerHTML = `
+          <span class="text-xs font-semibold text-gray-500 w-16">Brother #${index + 1}:</span>
+          <input type="text" value="${bText}" oninput="updateBrotherValue(${index}, this.value)" placeholder="e.g. Elder - Software Engineer" class="compact-input flex-1">
+          <button type="button" onclick="removeBrotherField(${index})" class="text-red-500 hover:text-red-700 p-1 text-xs" title="Remove Brother">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function addBrotherField() {
+      brothers.push('');
+      renderBrothersInput();
+      updatePreview();
+    }
+
+    function removeBrotherField(index) {
+      if (brothers.length > 1) {
+        brothers.splice(index, 1);
+      } else {
+        brothers[0] = '-';
+      }
+      renderBrothersInput();
+      updatePreview();
+    }
+
+    function updateBrotherValue(index, val) {
+      brothers[index] = val;
+      updatePreview();
+    }
+
+    // SECTION 6: Dynamic Sisters Management
+    function renderSistersInput() {
+      const container = document.getElementById('sistersListContainer');
+      container.innerHTML = '';
+
+      sisters.forEach((sText, index) => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center gap-2';
+        item.innerHTML = `
+          <span class="text-xs font-semibold text-gray-500 w-16">Sister #${index + 1}:</span>
+          <input type="text" value="${sText}" oninput="updateSisterValue(${index}, this.value)" placeholder="e.g. Younger - Married" class="compact-input flex-1">
+          <button type="button" onclick="removeSisterField(${index})" class="text-red-500 hover:text-red-700 p-1 text-xs" title="Remove Sister">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function addSisterField() {
+      sisters.push('');
+      renderSistersInput();
+      updatePreview();
+    }
+
+    function removeSisterField(index) {
+      if (sisters.length > 1) {
+        sisters.splice(index, 1);
+      } else {
+        sisters[0] = '-';
+      }
+      renderSistersInput();
+      updatePreview();
+    }
+
+    function updateSisterValue(index, val) {
+      sisters[index] = val;
+      updatePreview();
+    }
+
+    // LIVE PREVIEW SYNCHRONIZATION
+    function updatePreview() {
+      // Header & Title
+      document.getElementById('previewHeaderText').innerText = document.getElementById('customHeaderText').value || 'In the name of Allah, the Most Gracious';
+      
+      // Personal Info
+      const fullName = document.getElementById('fullName').value || 'MD RAJA';
+      document.getElementById('prevFullName').innerText = fullName;
+      document.getElementById('pName').innerText = fullName;
+      
+      const qual = document.getElementById('qualification').value || '-';
+      document.getElementById('prevQualificationSummary').innerText = qual;
+      document.getElementById('pQualification').innerText = qual;
+
+      document.getElementById('pCaste').innerText = document.getElementById('casteReligion').value || '-';
+      document.getElementById('pDob').innerText = document.getElementById('dob').value || '-';
+      document.getElementById('pHeight').innerText = document.getElementById('height').value || '-';
+
+      // Career Details Dynamic Sync
+      const status = document.getElementById('employmentStatus').value;
+      const careerPrevContainer = document.getElementById('pCareerDetails');
+      
+      const carDegree = document.getElementById('carDegree') ? document.getElementById('carDegree').value : '';
+      const carOrg = document.getElementById('carOrg') ? document.getElementById('carOrg').value : '';
+      const carYear = document.getElementById('carYear') ? document.getElementById('carYear').value : '';
+      const carExtra = document.getElementById('carExtra') ? document.getElementById('carExtra').value : '';
+
+      if (status === 'student') {
+        careerPrevContainer.innerHTML = `
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Status</span><span class="px-2">:</span><span class="font-medium text-gray-900">Pursuing Student</span></div>
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Degree/Course</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carDegree || '-'}</span></div>
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">College/University</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carOrg || '-'}</span></div>
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Current Year</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carYear} (${carExtra ? 'Passing ' + carExtra : ''})</span></div>
+        `;
+      } else if (status === 'job') {
+        careerPrevContainer.innerHTML = `
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Designation</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carDegree || '-'}</span></div>
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Company</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carOrg || '-'}</span></div>
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Package/Income</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carYear || '-'}</span></div>
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Job Location</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carExtra || '-'}</span></div>
+        `;
+      } else if (status === 'business') {
+        careerPrevContainer.innerHTML = `
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Business Firm</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carDegree || '-'}</span></div>
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Business Nature</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carOrg || '-'}</span></div>
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Income/Turnover</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carYear || '-'}</span></div>
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Location</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carExtra || '-'}</span></div>
+        `;
+      } else {
+        careerPrevContainer.innerHTML = `
+          <div class="flex"><span class="w-36 font-semibold text-gray-700">Career Overview</span><span class="px-2">:</span><span class="font-medium text-gray-900">${carDegree || '-'}</span></div>
+        `;
+      }
+
+      // Parents Info Sync
+      document.getElementById('pFatherName').innerText = document.getElementById('fatherName').value || '-';
+      document.getElementById('pFatherEdu').innerText = document.getElementById('fatherEdu').value || '-';
+      document.getElementById('pFatherOcc').innerText = document.getElementById('fatherOcc').value || '-';
+      document.getElementById('pMotherName').innerText = document.getElementById('motherName').value || '-';
+      document.getElementById('pMotherEdu').innerText = document.getElementById('motherEdu').value || '-';
+      document.getElementById('pMotherOcc').innerText = document.getElementById('motherOcc').value || '-';
+
+      // Siblings Sync (Brothers)
+      const pBrothersList = document.getElementById('pBrothersList');
+      pBrothersList.innerHTML = '';
+      brothers.forEach((bVal, i) => {
+        const li = document.createElement('li');
+        li.textContent = `Brother #${i + 1}: ${bVal || '-'}`;
+        pBrothersList.appendChild(li);
+      });
+
+      // Siblings Sync (Sisters)
+      const pSistersList = document.getElementById('pSistersList');
+      pSistersList.innerHTML = '';
+      sisters.forEach((sVal, i) => {
+        const li = document.createElement('li');
+        li.textContent = `Sister #${i + 1}: ${sVal || '-'}`;
+        pSistersList.appendChild(li);
+      });
+
+      // Address & Contact Sync
+      document.getElementById('pAddress').innerText = document.getElementById('addressLine1').value || '-';
+      document.getElementById('pLandmark').innerText = document.getElementById('addressLine2').value || '-';
+      document.getElementById('pDistrict').innerText = document.getElementById('districtState').value || '-';
+      document.getElementById('pContact').innerText = document.getElementById('contactNumber').value || '-';
+      document.getElementById('pEmail').innerText = document.getElementById('emailAddress').value || '-';
+    }
+
+    // Download PDF Function
+    function downloadPDF() {
+      const element = document.getElementById('pdf-preview-container');
+      const opt = {
+        margin:       [5, 5, 5, 5],
+        filename:     `Biodata_${document.getElementById('fullName').value.replace(/\s+/g, '_')}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(element).save();
+    }
+
+    // Admin Storage Functions
+    function saveRecordToAdmin() {
+      const record = {
+        id: Date.now(),
+        name: document.getElementById('fullName').value || 'Unnamed',
+        dob: document.getElementById('dob').value || '',
+        contact: document.getElementById('contactNumber').value || '',
+        timestamp: new Date().toLocaleString()
+      };
+
+      let existing = JSON.parse(localStorage.getItem('biodata_records') || '[]');
+      existing.push(record);
+      localStorage.setItem('biodata_records', JSON.stringify(existing));
+      
+      alert('Record saved successfully into Admin Storage!');
+      renderAdminRecords();
+    }
+
+    function toggleAdminModal() {
+      const modal = document.getElementById('adminModal');
+      modal.classList.toggle('hidden');
+      if (!modal.classList.contains('hidden')) {
+        renderAdminRecords();
+      }
+    }
+
+    function renderAdminRecords() {
+      const container = document.getElementById('savedRecordsList');
+      let records = JSON.parse(localStorage.getItem('biodata_records') || '[]');
+      
+      if (records.length === 0) {
+        container.innerHTML = `<div class="p-4 text-center text-xs text-gray-500 italic border border-dashed rounded">No saved records found in local database.</div>`;
+        return;
+      }
+
+      container.innerHTML = records.map(r => `
+        <div class="flex items-center justify-between p-3 bg-gray-50 border rounded-lg text-xs">
+          <div>
+            <p class="font-bold text-gray-800">${r.name}</p>
+            <p class="text-gray-500">DOB: ${r.dob} | Contact: ${r.contact}</p>
+            <p class="text-[10px] text-gray-400">Saved on: ${r.timestamp}</p>
+          </div>
+          <button onclick="deleteRecord(${r.id})" class="text-red-600 hover:text-red-800 p-1.5">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function deleteRecord(id) {
+      let records = JSON.parse(localStorage.getItem('biodata_records') || '[]');
+      records = records.filter(r => r.id !== id);
+      localStorage.setItem('biodata_records', JSON.stringify(records));
+      renderAdminRecords();
+    }
+
+    function clearAllAdminRecords() {
+      if (confirm('Are you sure you want to delete all saved records?')) {
+        localStorage.removeItem('biodata_records');
+        renderAdminRecords();
+      }
+    }
+  </script>
 </body>
 </html>
