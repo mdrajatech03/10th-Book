@@ -37,7 +37,7 @@
         .a4-page {
             width: 210mm;
             min-height: 297mm;
-            padding: 8mm 10mm;
+            padding: 10mm;
             margin: 0 auto;
             background: #ffffff;
             box-sizing: border-box;
@@ -256,7 +256,7 @@
                     </div>
                 </div>
 
-                <!-- 6. SIBLINGS DETAILS (WITH TOGGLE ENABLE/DISABLE FOR BROTHERS & SISTERS) -->
+                <!-- 6. SIBLINGS DETAILS -->
                 <div class="space-y-2">
                     <h3 class="font-bold text-slate-800 border-b pb-0.5 text-[11px] uppercase tracking-wider text-amber-900">6. Siblings Details (Brothers & Sisters)</h3>
                     
@@ -273,12 +273,10 @@
                                 + Add Brother
                             </button>
                         </div>
-                        <div id="brothersInputContainer" class="space-y-1.5">
-                            <!-- Dynamic Brothers Rows will go here -->
-                        </div>
+                        <div id="brothersInputContainer" class="space-y-1.5"></div>
                     </div>
 
-                    <!-- Sisters Sub-Section -->
+                     <!-- Sisters Sub-Section -->
                     <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1.5">
                         <div class="flex justify-between items-center border-b border-slate-200 pb-1">
                             <label class="flex items-center space-x-2 cursor-pointer">
@@ -291,9 +289,7 @@
                                 + Add Sister
                             </button>
                         </div>
-                        <div id="sistersInputContainer" class="space-y-1.5">
-                            <!-- Dynamic Sisters Rows will go here -->
-                        </div>
+                        <div id="sistersInputContainer" class="space-y-1.5"></div>
                     </div>
                 </div>
 
@@ -378,9 +374,7 @@
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Career & Occupation</h3>
                             </div>
                             <div class="px-2">
-                                <div id="previewCareerContainer" class="bg-amber-50/30 p-2 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
-                                    <!-- Dynamic Career Fields loaded here -->
-                                </div>
+                                <div id="previewCareerContainer" class="bg-amber-50/30 p-2 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800"></div>
                             </div>
                         </div>
 
@@ -413,27 +407,21 @@
                             </div>
                         </div>
 
-                        <!-- 4. SECTION 6: SIBLINGS PREVIEW (DYNAMIC TOGGLEABLE BROTHERS & SISTERS) -->
+                        <!-- 4. SECTION 6: SIBLINGS PREVIEW -->
                         <div id="previewSiblingsSection" class="my-2">
                             <div class="text-center mb-1">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Siblings Details</h3>
                             </div>
                             
                             <div id="previewSiblingsGrid" class="w-full grid grid-cols-2 gap-2 px-2 text-xs">
-                                <!-- Brothers Output Card -->
                                 <div id="previewBrothersCard" class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
                                     <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">BROTHERS</p>
-                                    <div id="previewBrothersList" class="space-y-1 text-[10px]">
-                                        <!-- Dynamic Brothers Output -->
-                                    </div>
+                                    <div id="previewBrothersList" class="space-y-1 text-[10px]"></div>
                                 </div>
 
-                                <!-- Sisters Output Card -->
                                 <div id="previewSistersCard" class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
                                     <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">SISTERS</p>
-                                    <div id="previewSistersList" class="space-y-1 text-[10px]">
-                                        <!-- Dynamic Sisters Output -->
-                                    </div>
+                                    <div id="previewSistersList" class="space-y-1 text-[10px]"></div>
                                 </div>
                             </div>
                         </div>
@@ -513,7 +501,6 @@
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Initial default Brothers and Sisters
             brothersList = [
                 { id: 1, name: 'Md Brother 1', relation: 'Elder', edu: 'B.Tech', job: 'Working' }
             ];
@@ -541,7 +528,6 @@
             parent.innerHTML = `<span class="text-xl text-amber-800 font-bold">${symbolSvg}</span>`;
         }
 
-        // --- TOGGLE BROTHERS & SISTERS SECTION ---
         function toggleBrothersSection() {
             const isEnabled = document.getElementById('enableBrothers').checked;
             const container = document.getElementById('brothersInputContainer');
@@ -572,15 +558,8 @@
             updatePreview();
         }
 
-        // --- DYNAMIC BROTHERS & SISTERS LOGIC ---
         function addBrotherInput() {
-            brothersList.push({
-                id: Date.now(),
-                name: '',
-                relation: 'Elder',
-                edu: '',
-                job: ''
-            });
+            brothersList.push({ id: Date.now(), name: '', relation: 'Elder', edu: '', job: '' });
             renderBrothersInputs();
             updatePreview();
         }
@@ -628,13 +607,7 @@
         }
 
         function addSisterInput() {
-            sistersList.push({
-                id: Date.now(),
-                name: '',
-                relation: 'Elder',
-                edu: '',
-                job: ''
-            });
+            sistersList.push({ id: Date.now(), name: '', relation: 'Elder', edu: '', job: '' });
             renderSistersInputs();
             updatePreview();
         }
@@ -681,7 +654,6 @@
             `).join('');
         }
 
-        // --- CAREER DYNAMIC TABS ---
         function handleCareerTypeChange() {
             const type = document.getElementById('careerType').value;
             document.getElementById('jobFields').classList.add('hidden');
@@ -697,7 +669,6 @@
             updatePreview();
         }
 
-        // --- HEADER RELIGION UPDATE ---
         function updateReligionHeader() {
             const religionKey = document.getElementById('religion').value;
             const config = religionConfig[religionKey] || religionConfig.islam;
@@ -709,7 +680,6 @@
             document.getElementById('previewHeaderTagline').textContent = config.tagline;
         }
 
-        // --- IMAGE HANDLING ---
         function handleImageUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -730,9 +700,7 @@
             document.getElementById('previewPhoto').src = 'profile.png';
         }
 
-        // --- MAIN PREVIEW UPDATE FUNCTION ---
         function updatePreview() {
-            // Personal
             const nameVal = document.getElementById('fullName').value || 'MD RAJA';
             document.getElementById('previewName').textContent = nameVal;
             document.getElementById('prevNameVal').textContent = nameVal;
@@ -743,7 +711,6 @@
             document.getElementById('previewHeight').textContent = document.getElementById('height').value || '-';
             document.getElementById('previewQual').textContent = document.getElementById('qualification').value || '-';
 
-            // Dynamic Career Preview
             const cType = document.getElementById('careerType').value;
             const careerContainer = document.getElementById('previewCareerContainer');
 
@@ -778,7 +745,6 @@
                 `;
             }
 
-         // Parents
             document.getElementById('previewFatherName').textContent = document.getElementById('fatherName').value || '-';
             document.getElementById('previewFatherEdu').textContent = document.getElementById('fatherEdu').value || '-';
             document.getElementById('previewFatherStatus').textContent = document.getElementById('fatherStatus').value || '-';
@@ -789,7 +755,6 @@
             document.getElementById('previewMotherStatus').textContent = document.getElementById('motherStatus').value || '-';
             document.getElementById('previewMotherJob').textContent = document.getElementById('motherJob').value || '-';
 
-            // Siblings Preview Logic with Enable/Disable States
             const isBrothersActive = document.getElementById('enableBrothers').checked;
             const isSistersActive = document.getElementById('enableSisters').checked;
 
@@ -798,13 +763,10 @@
             const broCard = document.getElementById('previewBrothersCard');
             const sisCard = document.getElementById('previewSistersCard');
 
-            // Hide Section completely if both are unselected
             if (!isBrothersActive && !isSistersActive) {
                 siblingsSection.classList.add('hidden');
             } else {
                 siblingsSection.classList.remove('hidden');
-                
-                // If only one is active, make it full width
                 if (isBrothersActive && !isSistersActive) {
                     siblingsGrid.className = "w-full grid grid-cols-1 px-2 text-xs";
                     broCard.classList.remove('hidden');
@@ -820,7 +782,6 @@
                 }
             }
 
-            // Render Brothers List (Same key-value format as Parents)
             const prevBroContainer = document.getElementById('previewBrothersList');
             if (brothersList.length === 0) {
                 prevBroContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
@@ -835,7 +796,6 @@
                 `).join('');
             }
 
-            // Render Sisters List (Same key-value format as Parents)
             const prevSisContainer = document.getElementById('previewSistersList');
             if (sistersList.length === 0) {
                 prevSisContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
@@ -850,7 +810,6 @@
                 `).join('');
             }
 
-            // Address & Contact
             const addr = document.getElementById('address').value;
             const po = document.getElementById('po').value;
             const dist = document.getElementById('districtState').value;
@@ -863,14 +822,12 @@
             document.getElementById('previewPhone').textContent = document.getElementById('phone').value || '-';
             document.getElementById('previewEmail').textContent = document.getElementById('email').value || '-';
 
-            // Profile photo fallback
             const previewImg = document.getElementById('previewPhoto');
             if (!uploadedPhotoBase64) {
                 previewImg.src = 'profile.png';
             }
         }
 
-        // --- FORM RESET & EXPORT ---
         function resetForm() {
             document.getElementById('biodataForm').reset();
             clearPhoto();
@@ -887,6 +844,7 @@
             updatePreview();
         }
 
+        // --- UPDATED PDF DOWNLOAD FUNCTION ---
         function downloadPDF() {
             const element = document.getElementById('biodataPreviewPage');
             const name = document.getElementById('fullName').value.trim() || 'Biodata';
@@ -895,14 +853,31 @@
                 margin:       0,
                 filename:     `${name.replace(/\s+/g, '_')}_Biodata.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                html2canvas:  { 
+
+          // --- UPDATED PDF DOWNLOAD FUNCTION ---
+        function downloadPDF() {
+            const element = document.getElementById('biodataPreviewPage');
+            const name = document.getElementById('fullName').value.trim() || 'Biodata';
+            
+            const opt = {
+                margin:       0,
+                filename:     `${name.replace(/\s+/g, '_')}_Biodata.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    logging: false,
+                    scrollY: 0,
+                    windowWidth: document.documentElement.offsetWidth
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
             };
 
             html2pdf().set(opt).from(element).save();
         }
 
-        // --- ADMIN STORAGE METHODS ---
         function saveRecord() {
             const record = {
                 id: Date.now(),
@@ -943,7 +918,7 @@
             if (pass === 'admin123') {
                 document.getElementById('adminLoginSec').classList.add('hidden');
                 document.getElementById('adminContentSec').classList.remove('hidden');
-                document.getElementById('adminErr').classList.remove('hidden');
+                document.getElementById('adminErr').classList.add('hidden');
                 renderRecords();
             } else {
                 document.getElementById('adminErr').classList.remove('hidden');
