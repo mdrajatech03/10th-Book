@@ -359,10 +359,10 @@
 
                         <!-- 1. PERSONAL DETAILS SECTION -->
                         <div class="my-2">
-                            <div class="text-center mb-1">
+                            <div class="text-center mb-1.5">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Personal Details</h3>
                             </div>
-                            <div class="w-full space-y-0.5 text-[11px] text-slate-800 px-3">
+                            <div class="w-full space-y-1 text-[11px] text-slate-800 px-6 sm:px-12 max-w-lg mx-auto">
                                 <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Full Name :</span><span id="prevNameVal" class="font-bold text-slate-900">MD RAJA</span></div>
                                 <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Date of Birth :</span><span id="previewDob" class="font-bold text-slate-900">04-02-1999</span></div>
                                 <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Height :</span><span id="previewHeight" class="font-bold text-slate-900">5 Feet 4 Inch</span></div>
@@ -372,10 +372,10 @@
 
                         <!-- 2. CAREER & OCCUPATION DETAILS -->
                         <div class="my-2">
-                            <div class="text-center mb-1">
+                            <div class="text-center mb-1.5">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Career & Occupation</h3>
                             </div>
-                            <div id="previewCareerContainer" class="w-full space-y-0.5 text-[11px] text-slate-800 px-3">
+                            <div id="previewCareerContainer" class="w-full space-y-1 text-[11px] text-slate-800 px-6 sm:px-12 max-w-lg mx-auto">
                                 <!-- Dynamic Career Fields loaded here -->
                             </div>
                         </div>
@@ -419,7 +419,7 @@
                                 <!-- Brothers Output Card -->
                                 <div id="previewBrothersCard" class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
                                     <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">BROTHERS</p>
-                                    <div id="previewBrothersList" class="space-y-0.5 text-[10px]">
+                                    <div id="previewBrothersList" class="space-y-1 text-[10px]">
                                         <!-- Dynamic Brothers Output -->
                                     </div>
                                 </div>
@@ -427,7 +427,7 @@
                                 <!-- Sisters Output Card -->
                                 <div id="previewSistersCard" class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
                                     <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">SISTERS</p>
-                                    <div id="previewSistersList" class="space-y-0.5 text-[10px]">
+                                    <div id="previewSistersList" class="space-y-1 text-[10px]">
                                         <!-- Dynamic Sisters Output -->
                                     </div>
                                 </div>
@@ -456,8 +456,7 @@
             </div>
         </section>
     </main>
-
- <!-- ADMIN STORAGE MODAL -->
+<!-- ADMIN STORAGE MODAL -->
     <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl max-w-xl w-full overflow-hidden flex flex-col max-h-[85vh]">
             <div class="bg-slate-900 text-white px-5 py-3 flex justify-between items-center">
@@ -677,7 +676,7 @@
             `).join('');
         }
 
-        // --- CAREER DYNAMIC TABS ---
+           // --- CAREER DYNAMIC TABS ---
         function handleCareerTypeChange() {
             const type = document.getElementById('careerType').value;
             document.getElementById('jobFields').classList.add('hidden');
@@ -692,7 +691,8 @@
 
             updatePreview();
         }
-// --- HEADER RELIGION UPDATE ---
+
+        // --- HEADER RELIGION UPDATE ---
         function updateReligionHeader() {
             const religionKey = document.getElementById('religion').value;
             const config = religionConfig[religionKey] || religionConfig.islam;
@@ -815,30 +815,32 @@
                 }
             }
 
-            // Render Brothers List
+            // Render Brothers List (Same key-value format as Parents)
             const prevBroContainer = document.getElementById('previewBrothersList');
             if (brothersList.length === 0) {
                 prevBroContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
             } else {
                 prevBroContainer.innerHTML = brothersList.map(b => `
-                    <div class="border-b border-amber-200/40 pb-0.5">
-                        <span class="font-bold text-slate-900">${b.name || 'Brother'}</span> 
-                        <span class="text-slate-500">(${b.relation || ''})</span> - 
-                        <span>${b.edu || ''} ${b.job ? '| ' + b.job : ''}</span>
+                    <div class="space-y-0.5 border-b border-amber-200/40 pb-1 mb-1 last:border-b-0 last:mb-0 last:pb-0">
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Name:</span><span class="font-bold text-slate-900">${b.name || '-'}</span></div>
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Relation:</span><span class="text-slate-800">${b.relation || '-'}</span></div>
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Edu:</span><span class="text-slate-800">${b.edu || '-'}</span></div>
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Job:</span><span class="text-slate-800">${b.job || '-'}</span></div>
                     </div>
                 `).join('');
             }
 
-            // Render Sisters List
+            // Render Sisters List (Same key-value format as Parents)
             const prevSisContainer = document.getElementById('previewSistersList');
             if (sistersList.length === 0) {
                 prevSisContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
             } else {
                 prevSisContainer.innerHTML = sistersList.map(s => `
-                    <div class="border-b border-amber-200/40 pb-0.5">
-                        <span class="font-bold text-slate-900">${s.name || 'Sister'}</span> 
-                        <span class="text-slate-500">(${s.relation || ''})</span> - 
-                        <span>${s.edu || ''} ${s.job ? '| ' + s.job : ''}</span>
+                    <div class="space-y-0.5 border-b border-amber-200/40 pb-1 mb-1 last:border-b-0 last:mb-0 last:pb-0">
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Name:</span><span class="font-bold text-slate-900">${s.name || '-'}</span></div>
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Relation:</span><span class="text-slate-800">${s.relation || '-'}</span></div>
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Edu:</span><span class="text-slate-800">${s.edu || '-'}</span></div>
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Details:</span><span class="text-slate-800">${s.job || '-'}</span></div>
                     </div>
                 `).join('');
             }
@@ -894,8 +896,7 @@
 
             html2pdf().set(opt).from(element).save();
         }
-
-        // --- ADMIN STORAGE METHODS ---
+  // --- ADMIN STORAGE METHODS ---
         function saveRecord() {
             const record = {
                 id: Date.now(),
@@ -985,3 +986,5 @@
     </script>
 </body>
 </html>
+        
+    
