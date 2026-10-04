@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pro Multi-Religion Marriage Biodata Builder</title>
+  <title>Professional Marriage Biodata Builder</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
@@ -16,7 +16,6 @@
       margin: 0 auto;
       font-family: 'Georgia', serif;
     }
-    /* Hexagonal Profile Frame Styling */
     .profile-hex-container {
       width: 110px;
       height: 110px;
@@ -28,7 +27,7 @@
       width: 100%;
       height: 100%;
       clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-      background: white;
+      background: #f1f5f9;
     }
     [contenteditable="true"]:focus {
       outline: 2px dashed #d97706;
@@ -61,7 +60,7 @@
       <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
         <h3 class="font-bold text-slate-700 text-xs uppercase border-b pb-1">Religious Header Settings</h3>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Custom Religious Banner Image (16:9 Aspect Ratio)</label>
+          <label class="block text-xs font-medium text-slate-600 mb-1">Upload Custom Religious Icon / Banner (Optional)</label>
           <input type="file" id="religionImageInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-amber-100 file:text-amber-800">
         </div>
         <div class="grid grid-cols-2 gap-3">
@@ -80,7 +79,7 @@
       <div class="space-y-3">
         <h3 class="font-bold text-slate-700 text-xs uppercase border-b pb-1">Candidate Profile</h3>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Upload Profile Photo</label>
+          <label class="block text-xs font-medium text-slate-600 mb-1">Upload Candidate Photo</label>
           <input type="file" id="profileImageInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-slate-200 file:text-slate-700">
         </div>
         <div class="grid grid-cols-2 gap-3">
@@ -116,7 +115,7 @@
         </div>
       </div>
 
-      <!-- BROTHERS SECTION DYNAMIC -->
+      <!-- BROTHERS SECTION -->
       <div class="space-y-3 bg-amber-50/50 p-4 rounded-xl border border-amber-200">
         <div class="flex justify-between items-center border-b border-amber-200 pb-1">
           <h3 class="font-bold text-slate-700 text-xs uppercase">Brothers Details</h3>
@@ -125,7 +124,7 @@
         <div id="brothersList" class="space-y-2"></div>
       </div>
 
-      <!-- SISTERS SECTION DYNAMIC -->
+      <!-- SISTERS SECTION -->
       <div class="space-y-3 bg-amber-50/50 p-4 rounded-xl border border-amber-200">
         <div class="flex justify-between items-center border-b border-amber-200 pb-1">
           <h3 class="font-bold text-slate-700 text-xs uppercase">Sisters Details</h3>
@@ -176,35 +175,36 @@
         <div class="grid grid-cols-3 items-center border-b-2 border-amber-800/80 pb-4 mb-5">
           <div id="previewLeftText" contenteditable="true" class="text-[11px] font-bold text-amber-900 whitespace-pre-line text-left"></div>
           
-          <!-- 16:9 STYLISH CONTAINER -->
+          <!-- 16:9 STYLISH ICON CONTAINER -->
           <div class="flex justify-center">
-            <div class="w-28 h-16 rounded-lg overflow-hidden border border-amber-700/40 shadow-inner bg-amber-50/50 flex items-center justify-center p-1">
-              <img id="previewReligionImg" src="" alt="Religion Icon" class="w-full h-full object-contain">
+            <div class="w-28 h-16 rounded-lg border border-amber-700/40 shadow-inner bg-amber-50/50 flex items-center justify-center p-1.5 overflow-hidden">
+              <div id="previewReligionSvgContainer" class="w-full h-full flex items-center justify-center"></div>
+              <img id="previewReligionImg" src="" alt="" class="hidden w-full h-full object-contain">
             </div>
           </div>
           
           <div id="previewRightText" contenteditable="true" class="text-[11px] font-bold text-amber-900 whitespace-pre-line text-right"></div>
         </div>
 
-        <!-- PROFILE PHOTO IN CENTER WITH HEXAGONAL STYLISH SHAPE -->
+        <!-- PROFILE PHOTO IN CENTER WITH HEXAGONAL FRAME -->
         <div class="flex flex-col items-center text-center mb-6">
           <div class="profile-hex-container shadow-md mb-2">
-            <div class="profile-hex-inner">
-              <img id="previewProfileImg" src="https://via.placeholder.com/150?text=Photo" alt="Profile Photo" class="w-full h-full object-cover">
+            <div class="profile-hex-inner flex items-center justify-center overflow-hidden">
+              <img id="previewProfileImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%2394a3b8'><circle cx='50' cy='35' r='25'/><path d='M10 90 C10 60, 90 60, 90 90 Z'/></svg>" alt="Profile Photo" class="w-full h-full object-cover">
             </div>
           </div>
-          <h1 id="previewName" contenteditable="true" class="text-2xl font-bold text-amber-900">Rahul Gandhi</h1>
-          <p id="previewReligionCaste" contenteditable="true" class="text-xs font-semibold text-slate-600">Islam, Sunni</p>
+          <h1 id="previewName" contenteditable="true" class="text-2xl font-bold text-amber-900">Full Name</h1>
+          <p id="previewReligionCaste" contenteditable="true" class="text-xs font-semibold text-slate-600">Religion, Sect/Caste</p>
         </div>
 
         <!-- PERSONAL DETAILS -->
         <div class="mb-4">
           <h2 class="text-xs font-bold text-amber-900 border-b border-amber-300 pb-0.5 mb-2 uppercase tracking-wide">Personal Details</h2>
           <table class="w-full text-xs">
-            <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600">Date of Birth:</td><td id="previewDob" contenteditable="true">10/09/1990</td></tr>
-            <tr class="py-0.5"><td class="font-semibold text-slate-600">Height:</td><td id="previewHeight" contenteditable="true">5' 9"</td></tr>
-            <tr class="py-0.5"><td class="font-semibold text-slate-600">Qualification:</td><td id="previewMyEdu" contenteditable="true">B.Tech</td></tr>
-            <tr class="py-0.5"><td class="font-semibold text-slate-600">Occupation:</td><td id="previewMyOcc" contenteditable="true">Software Engineer</td></tr>
+            <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600">Date of Birth:</td><td id="previewDob" contenteditable="true">-</td></tr>
+            <tr class="py-0.5"><td class="font-semibold text-slate-600">Height:</td><td id="previewHeight" contenteditable="true">-</td></tr>
+            <tr class="py-0.5"><td class="font-semibold text-slate-600">Qualification:</td><td id="previewMyEdu" contenteditable="true">-</td></tr>
+            <tr class="py-0.5"><td class="font-semibold text-slate-600">Occupation:</td><td id="previewMyOcc" contenteditable="true">-</td></tr>
           </table>
         </div>
 
@@ -212,10 +212,10 @@
         <div class="mb-4">
           <h2 class="text-xs font-bold text-amber-900 border-b border-amber-300 pb-0.5 mb-2 uppercase tracking-wide">Parents Details</h2>
           <table class="w-full text-xs">
-            <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600">Father's Name:</td><td id="previewFatherName" contenteditable="true">Aman Gandhi</td></tr>
-            <tr class="py-0.5"><td class="font-semibold text-slate-600">Father's Info:</td><td id="previewFatherInfo" contenteditable="true">12th | Business</td></tr>
-            <tr class="py-0.5"><td class="font-semibold text-slate-600">Mother's Name:</td><td id="previewMotherName" contenteditable="true">Salma Begum</td></tr>
-            <tr class="py-0.5"><td class="font-semibold text-slate-600">Mother's Info:</td><td id="previewMotherInfo" contenteditable="true">Graduate | Homemaker</td></tr>
+            <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600">Father's Name:</td><td id="previewFatherName" contenteditable="true">-</td></tr>
+            <tr class="py-0.5"><td class="font-semibold text-slate-600">Father's Info:</td><td id="previewFatherInfo" contenteditable="true">-</td></tr>
+            <tr class="py-0.5"><td class="font-semibold text-slate-600">Mother's Name:</td><td id="previewMotherName" contenteditable="true">-</td></tr>
+            <tr class="py-0.5"><td class="font-semibold text-slate-600">Mother's Info:</td><td id="previewMotherInfo" contenteditable="true">-</td></tr>
           </table>
         </div>
 
@@ -231,15 +231,15 @@
         <!-- ADDRESS -->
         <div class="mb-4">
           <h2 class="text-xs font-bold text-amber-900 border-b border-amber-300 pb-0.5 mb-2 uppercase tracking-wide">Address</h2>
-          <p id="previewAddress" contenteditable="true" class="text-xs leading-relaxed">Village/Street, Post, District, State - Pincode</p>
+          <p id="previewAddress" contenteditable="true" class="text-xs leading-relaxed">-</p>
         </div>
 
         <!-- CONTACT DETAILS -->
         <div>
           <h2 class="text-xs font-bold text-amber-900 border-b border-amber-300 pb-0.5 mb-2 uppercase tracking-wide">Contact Details</h2>
           <table class="w-full text-xs">
-            <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600">Phone Number:</td><td id="previewContact" contenteditable="true">+91 9876543210</td></tr>
-            <tr class="py-0.5"><td class="font-semibold text-slate-600">Email Address:</td><td id="previewEmail" contenteditable="true">example@gmail.com</td></tr>
+            <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600">Phone Number:</td><td id="previewContact" contenteditable="true">-</td></tr>
+            <tr class="py-0.5"><td class="font-semibold text-slate-600">Email Address:</td><td id="previewEmail" contenteditable="true">-</td></tr>
           </table>
         </div>
 
@@ -249,34 +249,34 @@
   </div>
 
   <script>
-    // 16:9 Default Religion Vectors
+    // Embedded Vectors for Reliable 16:9 Display
     const religionPresets = {
       islam: {
-        symbol: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90' fill='%23b45309'><path d='M80 15 a30 30 0 1 0 25 48 a24 24 0 1 1 -25 -48 z'/><polygon points='102,30 106,42 118,42 108,50 112,62 102,54 92,62 96,50 86,42 98,42'/></svg>",
+        svg: `<svg viewBox="0 0 160 90" class="w-full h-full fill-amber-700"><path d="M80 15 a30 30 0 1 0 25 48 a24 24 0 1 1 -25 -48 z"/><polygon points="102,30 106,42 118,42 108,50 112,62 102,54 92,62 96,50 86,42 98,42"/></svg>`,
         leftText: 'Bismillah-ir-Rahman-ir-Raheem',
         rightText: 'In the name of Allah,\nthe Most Gracious',
         castePlaceholder: 'Islam, Sunni'
       },
       hindu: {
-        symbol: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90' fill='%23b45309'><text x='50%' y='60%' font-size='50' font-family='serif' text-anchor='middle' dominant-baseline='middle'>🕉</text></svg>",
+        svg: `<svg viewBox="0 0 160 90" class="w-full h-full fill-amber-700"><text x="50%" y="55%" font-size="45" font-family="serif" text-anchor="middle" dominant-baseline="middle">🕉</text></svg>`,
         leftText: '|| Shri Ganeshaya Namah ||\nSubh Vivah',
         rightText: 'Vakratunda Mahakaya\nSurya Koti Samaprabha',
         castePlaceholder: 'Hindu, Brahmin'
       },
       christian: {
-        symbol: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90' fill='%23b45309'><rect x='73' y='15' width='14' height='60' rx='2'/><rect x='50' y='30' width='60' height='14' rx='2'/></svg>",
+        svg: `<svg viewBox="0 0 160 90" class="w-full h-full fill-amber-700"><rect x="73" y="15" width="14" height="60" rx="2"/><rect x="50" y="30" width="60" height="14" rx="2"/></svg>`,
         leftText: 'God is Love\n1 John 4:8',
         rightText: 'Walk in Love & Faith',
         castePlaceholder: 'Christian, Catholic'
       },
       sikh: {
-        symbol: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90' fill='%23b45309'><text x='50%' y='60%' font-size='48' font-family='serif' text-anchor='middle' dominant-baseline='middle'>ੴ</text></svg>",
+        svg: `<svg viewBox="0 0 160 90" class="w-full h-full fill-amber-700"><text x="50%" y="55%" font-size="45" font-family="serif" text-anchor="middle" dominant-baseline="middle">ੴ</text></svg>`,
         leftText: 'Ik Onkar (ੴ)',
         rightText: 'Waheguru Ji Ka Khalsa\nWaheguru Ji Ki Fateh',
         castePlaceholder: 'Sikh, Jatt'
       },
       modern: {
-        symbol: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90' fill='%23b45309'><path d='M80 68 C 50 45, 40 30, 55 20 C 68 12, 78 22, 80 25 C 82 22, 92 12, 105 20 C 120 30, 110 45, 80 68 Z'/></svg>",
+        svg: `<svg viewBox="0 0 160 90" class="w-full h-full fill-amber-700"><path d="M80 68 C 50 45, 40 30, 55 20 C 68 12, 78 22, 80 25 C 82 22, 92 12, 105 20 C 120 30, 110 45, 80 68 Z"/></svg>`,
         leftText: 'Two Hearts, One Journey',
         rightText: 'Together is a Wonderful\nPlace to Be',
         castePlaceholder: 'Universal'
@@ -286,71 +286,109 @@
     function applyReligionPreset(key) {
       const preset = religionPresets[key];
       if (!preset) return;
+      
       document.getElementById('religionLeftText').value = preset.leftText;
       document.getElementById('religionRightText').value = preset.rightText;
       document.getElementById('previewLeftText').innerText = preset.leftText;
       document.getElementById('previewRightText').innerText = preset.rightText;
-      document.getElementById('previewReligionImg').src = preset.symbol;
+
+      const svgContainer = document.getElementById('previewReligionSvgContainer');
+      const imgElem = document.getElementById('previewReligionImg');
+      
+      svgContainer.innerHTML = preset.svg;
+      svgContainer.classList.remove('hidden');
+      imgElem.classList.add('hidden');
       
       const casteInput = document.getElementById('religionCaste');
-      if (!casteInput.value) {
-        casteInput.value = preset.castePlaceholder;
-        document.getElementById('previewReligionCaste').innerText = preset.castePlaceholder;
-      }
+      casteInput.value = preset.castePlaceholder;
+      document.getElementById('previewReligionCaste').innerText = preset.castePlaceholder;
     }
 
     document.getElementById('religionSelect').addEventListener('change', (e) => applyReligionPreset(e.target.value));
-    applyReligionPreset('islam');
 
-    // Dynamic Sibling Array Management
+// Dynamic Sibling Management
     let brothers = [];
     let sisters = [];
 
     function renderSiblings() {
-      // Render Brothers Inputs
       const broContainer = document.getElementById('brothersList');
       broContainer.innerHTML = '';
       brothers.forEach((b, index) => {
-        broContainer.innerHTML += `
-          <div class="p-2 border rounded bg-white space-y-1">
-            <div class="flex justify-between text-xs font-semibold text-slate-600">
-              <span>Brother ${index + 1}</span>
-              <button onclick="removeBrother(${index})" class="text-red-500 hover:underline">Delete</button>
-            </div>
-            <div class="grid grid-cols-2 gap-1.5">
-              <input type="text" value="${b.name}" oninput="updateBrother(${index}, 'name', this.value)" placeholder="Name" class="p-1 border rounded text-xs">
-              <input type="text" value="${b.status}" oninput="updateBrother(${index}, 'status', this.value)" placeholder="Married/Unmarried" class="p-1 border rounded text-xs">
-              <input type="text" value="${b.edu}" oninput="updateBrother(${index}, 'edu', this.value)" placeholder="Education" class="p-1 border rounded text-xs">
-              <input type="text" value="${b.occ}" oninput="updateBrother(${index}, 'occ', this.value)" placeholder="Occupation" class="p-1 border rounded text-xs">
-            </div>
+        const div = document.createElement('div');
+        div.className = 'p-2 border rounded bg-white space-y-1';
+        div.innerHTML = `
+          <div class="flex justify-between text-xs font-semibold text-slate-600">
+            <span>Brother ${index + 1}</span>
+            <button type="button" class="text-red-500 hover:underline del-bro" data-index="${index}">Delete</button>
+          </div>
+          <div class="grid grid-cols-2 gap-1.5">
+            <input type="text" value="${b.name}" data-index="${index}" data-field="name" placeholder="Name" class="bro-input p-1 border rounded text-xs">
+            <input type="text" value="${b.status}" data-index="${index}" data-field="status" placeholder="Married/Unmarried" class="bro-input p-1 border rounded text-xs">
+            <input type="text" value="${b.edu}" data-index="${index}" data-field="edu" placeholder="Education" class="bro-input p-1 border rounded text-xs">
+            <input type="text" value="${b.occ}" data-index="${index}" data-field="occ" placeholder="Occupation" class="bro-input p-1 border rounded text-xs">
           </div>`;
+        broContainer.appendChild(div);
       });
 
-      // Render Sisters Inputs
       const sisContainer = document.getElementById('sistersList');
       sisContainer.innerHTML = '';
       sisters.forEach((s, index) => {
-        sisContainer.innerHTML += `
-          <div class="p-2 border rounded bg-white space-y-1">
-            <div class="flex justify-between text-xs font-semibold text-slate-600">
-              <span>Sister ${index + 1}</span>
-              <button onclick="removeSister(${index})" class="text-red-500 hover:underline">Delete</button>
-            </div>
-            <div class="grid grid-cols-2 gap-1.5">
-              <input type="text" value="${s.name}" oninput="updateSister(${index}, 'name', this.value)" placeholder="Name" class="p-1 border rounded text-xs">
-              <input type="text" value="${s.status}" oninput="updateSister(${index}, 'status', this.value)" placeholder="Married/Unmarried" class="p-1 border rounded text-xs">
-              <input type="text" value="${s.edu}" oninput="updateSister(${index}, 'edu', this.value)" placeholder="Education" class="p-1 border rounded text-xs">
-              <input type="text" value="${s.occ}" oninput="updateSister(${index}, 'occ', this.value)" placeholder="Occupation" class="p-1 border rounded text-xs">
-            </div>
+        const div = document.createElement('div');
+        div.className = 'p-2 border rounded bg-white space-y-1';
+        div.innerHTML = `
+          <div class="flex justify-between text-xs font-semibold text-slate-600">
+            <span>Sister ${index + 1}</span>
+            <button type="button" class="text-red-500 hover:underline del-sis" data-index="${index}">Delete</button>
+          </div>
+          <div class="grid grid-cols-2 gap-1.5">
+            <input type="text" value="${s.name}" data-index="${index}" data-field="name" placeholder="Name" class="sis-input p-1 border rounded text-xs">
+            <input type="text" value="${s.status}" data-index="${index}" data-field="status" placeholder="Married/Unmarried" class="sis-input p-1 border rounded text-xs">
+            <input type="text" value="${s.edu}" data-index="${index}" data-field="edu" placeholder="Education" class="sis-input p-1 border rounded text-xs">
+            <input type="text" value="${s.occ}" data-index="${index}" data-field="occ" placeholder="Occupation" class="sis-input p-1 border rounded text-xs">
+          </div>`;
+        sisContainer.appendChild(div);
       });
 
-      // Update Preview Table
+      // Update Preview Text
       const broText = brothers.map(b => `${b.name || 'Brother'} (${b.status || 'Single'}) - ${b.edu || ''} ${b.occ ? '| ' + b.occ : ''}`).join('\n');
       document.getElementById('previewBrothers').innerText = broText || 'None';
 
       const sisText = sisters.map(s => `${s.name || 'Sister'} (${s.status || 'Single'}) - ${s.edu || ''} ${s.occ ? '| ' + s.occ : ''}`).join('\n');
       document.getElementById('previewSisters').innerText = sisText || 'None';
     }
+
+    // Event Delegation for Dynamic Inputs & Deletes
+    document.getElementById('brothersList').addEventListener('input', (e) => {
+      if (e.target.classList.contains('bro-input')) {
+        const idx = e.target.dataset.index;
+        const field = e.target.dataset.field;
+        brothers[idx][field] = e.target.value;
+        renderSiblings();
+      }
+    });
+
+    document.getElementById('brothersList').addEventListener('click', (e) => {
+      if (e.target.classList.contains('del-bro')) {
+        brothers.splice(e.target.dataset.index, 1);
+        renderSiblings();
+      }
+    });
+
+    document.getElementById('sistersList').addEventListener('input', (e) => {
+      if (e.target.classList.contains('sis-input')) {
+        const idx = e.target.dataset.index;
+        const field = e.target.dataset.field;
+        sisters[idx][field] = e.target.value;
+        renderSiblings();
+      }
+    });
+
+    document.getElementById('sistersList').addEventListener('click', (e) => {
+      if (e.target.classList.contains('del-sis')) {
+        sisters.splice(e.target.dataset.index, 1);
+        renderSiblings();
+      }
+    });
 
     document.getElementById('addBrotherBtn').addEventListener('click', () => {
       brothers.push({ name: '', status: 'Unmarried', edu: '', occ: '' });
@@ -362,12 +400,7 @@
       renderSiblings();
     });
 
-    window.removeBrother = (i) => { brothers.splice(i, 1); renderSiblings(); };
-    window.removeSister = (i) => { sisters.splice(i, 1); renderSiblings(); };
-    window.updateBrother = (i, field, val) => { brothers[i][field] = val; renderSiblings(); };
-    window.updateSister = (i, field, val) => { sisters[i][field] = val; renderSiblings(); };
-
-    // Update Address & Parent Helpers
+    // Helper Functions
     function updateAddress() {
       const v = document.getElementById('addrVillage').value;
       const p = document.getElementById('addrPost').value;
@@ -382,7 +415,7 @@
       if (s) addrStr.push(s);
       if (pin) addrStr.push(`Pin: ${pin}`);
       
-      document.getElementById('previewAddress').innerText = addrStr.join(', ') || 'Village/Street, Post, District, State - Pincode';
+      document.getElementById('previewAddress').innerText = addrStr.join(', ') || '-';
     }
 
     function updateParents() {
@@ -407,11 +440,10 @@
       document.getElementById(id).addEventListener('input', updateAddress);
     });
 
-    // Two-way Binds
     function bindInput(inputId, previewId) {
       const input = document.getElementById(inputId);
       const preview = document.getElementById(previewId);
-      input.addEventListener('input', () => preview.innerText = input.value);
+      input.addEventListener('input', () => preview.innerText = input.value || '-');
       preview.addEventListener('input', () => input.value = preview.innerText);
     }
 
@@ -426,12 +458,19 @@
     bindInput('contactNo', 'previewContact');
     bindInput('emailId', 'previewEmail');
 
-    // Image Upload Handlers
+    // File Upload Handlers (Fixed Readers)
     document.getElementById('religionImageInput').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = (event) => document.getElementById('previewReligionImg').src = event.target.result;
+        reader.onload = function(evt) {
+          const svgContainer = document.getElementById('previewReligionSvgContainer');
+          const imgElem = document.getElementById('previewReligionImg');
+          
+          svgContainer.classList.add('hidden');
+          imgElem.src = evt.target.result;
+          imgElem.classList.remove('hidden');
+        };
         reader.readAsDataURL(file);
       }
     });
@@ -440,12 +479,17 @@
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = (event) => document.getElementById('previewProfileImg').src = event.target.result;
+        reader.onload = function(evt) {
+          document.getElementById('previewProfileImg').src = evt.target.result;
+        };
         reader.readAsDataURL(file);
       }
     });
 
-    // PDF Download Execution
+    // Default Load Setup
+    applyReligionPreset('islam');
+
+    // Download PDF
     document.getElementById('downloadBtn').addEventListener('click', function() {
       const element = document.getElementById('biodataPreview');
       const name = document.getElementById('previewName').innerText.trim() || 'Biodata';
