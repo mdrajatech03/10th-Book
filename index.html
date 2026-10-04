@@ -36,15 +36,16 @@
         }
         .a4-page {
             width: 210mm;
-            min-height: 297mm;
-            padding: 8mm 10mm;
+            height: 295mm;
+            max-height: 295mm;
+            padding: 6mm 10mm;
             margin: 0 auto;
             background: #ffffff;
             box-sizing: border-box;
             position: relative;
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             border: 2px double #8B5A2B;
-            overflow: visible !important;
+            overflow: hidden !important;
         }
         .section-header-title {
             background: #fdf8f6;
@@ -53,8 +54,19 @@
             color: #7c2d12;
         }
 
-        /* PRINT STYLES - Fixes PDF Cutoff Issue */
+        /* STRICT 1-PAGE PRINT STYLES */
         @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+            html, body {
+                height: 100%;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: #ffffff !important;
+                overflow: hidden !important;
+            }
             body * {
                 visibility: hidden !important;
             }
@@ -65,11 +77,17 @@
                 position: absolute !important;
                 left: 0 !important;
                 top: 0 !important;
-                width: 100% !important;
+                width: 210mm !important;
+                height: 295mm !important;
+                max-height: 295mm !important;
                 margin: 0 !important;
+                padding: 6mm 10mm !important;
                 box-shadow: none !important;
+                border: 2px double #8B5A2B !important;
                 page-break-after: avoid !important;
+                page-break-before: avoid !important;
                 page-break-inside: avoid !important;
+                overflow: hidden !important;
             }
         }
     </style>
@@ -114,7 +132,7 @@
                         <div>
                             <label class="block text-[10px] font-medium text-slate-600 mb-0.5">Religion Symbol Image</label>
                             <select id="religion" onchange="updateReligionHeader()" class="w-full rounded border-slate-300 border p-1 bg-white outline-none focus:ring-1 focus:ring-amber-500 text-xs">
-                                <option value="islam">Islam (islam.png)</option>
+                                <option value="islam" selected>Islam (islam.png)</option>
                                 <option value="hindu">Hindu (hindu.png)</option>
                                 <option value="sikh">Sikh (sikh.png)</option>
                                 <option value="christian">Christian (christian.png)</option>
@@ -357,34 +375,34 @@
             <!-- Scrollable Container -->
             <div class="custom-scroll flex-1 overflow-y-auto overflow-x-auto flex justify-center items-start p-2 rounded-lg bg-slate-200/60 border border-slate-300">
                 
-                <!-- A4 PAGE DOCUMENT OUTPUT -->
+                <!-- A4 PAGE DOCUMENT OUTPUT (FIXED FOR STRICT SINGLE PAGE PRINT) -->
                 <div id="biodataPreviewPage" class="a4-page font-biodata text-slate-800 relative flex flex-col justify-between">
                     
-                    <div>
-                        <!-- Religious Symbol Header (Default image active) -->
-                        <div class="text-center mb-2 pb-1 border-b border-amber-900/20 relative">
-                            <div class="flex justify-center items-center mb-0.5 h-8">
-                                <img id="previewHeaderImg" src="islam.png" onerror="handleHeaderImgFallback(this)" class="h-8 object-contain max-w-[180px]" alt="Symbol">
+                    <div class="space-y-1.5">
+                        <!-- Religious Symbol Header -->
+                        <div class="text-center pb-1 border-b border-amber-900/20 relative">
+                            <div id="religionHeaderBox" class="flex justify-center items-center h-10 mb-0.5">
+                                <img id="previewHeaderImg" src="islam.png" onerror="handleHeaderImgFallback(this)" class="h-9 object-contain max-w-[180px]" alt="Symbol">
                             </div>
                             <p id="previewHeaderTagline" class="text-[11px] italic text-amber-950 font-serif tracking-wide">-</p>
                         </div>
 
-                        <!-- Candidate Profile Image & Header (Default profile.png active) -->
-                        <div class="flex flex-col items-center justify-center text-center mb-2">
-                            <div class="w-24 h-28 border-2 border-amber-800/80 p-0.5 bg-white shadow-sm rounded-sm mb-1">
+                        <!-- Candidate Profile Image & Header -->
+                        <div class="flex flex-col items-center justify-center text-center">
+                            <div class="w-20 h-24 border-2 border-amber-800/80 p-0.5 bg-white shadow-sm rounded-sm mb-1">
                                 <img id="previewPhoto" src="profile.png" onerror="this.src='profile.png'" class="w-full h-full object-cover rounded-sm" alt="Profile">
                             </div>
-                            <h2 id="previewName" class="text-lg font-bold tracking-wider text-amber-900 uppercase font-serif-header">-</h2>
+                            <h2 id="previewName" class="text-base font-bold tracking-wider text-amber-900 uppercase font-serif-header">-</h2>
                             <p id="previewCaste" class="text-[10px] text-slate-600 font-bold uppercase tracking-widest mt-0.5">-</p>
                         </div>
 
                         <!-- 1. PERSONAL DETAILS SECTION -->
-                        <div class="my-2">
-                            <div class="text-center mb-1">
+                        <div>
+                            <div class="text-center mb-0.5">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Personal Details</h3>
                             </div>
                             <div class="px-2">
-                                <div class="bg-amber-50/30 p-2 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
+                                <div class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Full Name :</span><span id="prevNameVal" class="font-bold text-slate-900">-</span></div>
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Date of Birth :</span><span id="previewDob" class="font-bold text-slate-900">-</span></div>
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Height :</span><span id="previewHeight" class="font-bold text-slate-900">-</span></div>
@@ -394,20 +412,20 @@
                         </div>
 
                         <!-- 2. CAREER & OCCUPATION DETAILS -->
-                        <div class="my-2">
-                            <div class="text-center mb-1">
+                        <div>
+                            <div class="text-center mb-0.5">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Career & Occupation</h3>
                             </div>
                             <div class="px-2">
-                                <div id="previewCareerContainer" class="bg-amber-50/30 p-2 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
+                                <div id="previewCareerContainer" class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
                                     <!-- Dynamic Career Fields -->
                                 </div>
                             </div>
                         </div>
 
                         <!-- 3. PARENTS DETAILS SECTION -->
-                        <div class="my-2">
-                            <div class="text-center mb-1">
+                        <div>
+                            <div class="text-center mb-0.5">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Parents Details</h3>
                             </div>
                             
@@ -435,8 +453,8 @@
                         </div>
 
                         <!-- 4. SIBLINGS PREVIEW -->
-                        <div id="previewSiblingsSection" class="my-2">
-                            <div class="text-center mb-1">
+                        <div id="previewSiblingsSection">
+                            <div class="text-center mb-0.5">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Siblings Details</h3>
                             </div>
                             
@@ -454,12 +472,12 @@
                         </div>
 
                         <!-- 5. PERMANENT ADDRESS & CONTACT -->
-                        <div class="my-2">
-                            <div class="text-center mb-1">
+                        <div>
+                            <div class="text-center mb-0.5">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Permanent Address & Contact</h3>
                             </div>
                             <div class="px-2">
-                                <div class="bg-amber-50/30 p-2 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
+                                <div class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Address :</span><span id="previewAddr" class="font-bold text-slate-900">-</span></div>
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Post Office :</span><span id="previewPo" class="font-bold text-slate-900">-</span></div>
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">District / State :</span><span id="previewDistrict" class="font-bold text-slate-900">-</span></div>
@@ -472,7 +490,7 @@
                     </div>
 
                     <!-- Footer Line -->
-                    <div class="mt-2 pt-1 border-t border-amber-800/20 text-center text-[9px] text-slate-400">
+                    <div class="pt-0.5 border-t border-amber-800/20 text-center text-[9px] text-slate-400">
                         Biodata generated with Biodata Maker Pro
                     </div>
 
@@ -525,11 +543,11 @@
         let sistersList = [];
 
         const religionConfig = {
-            islam: { img: 'islam.png', tagline: 'In the name of Allah, the Most Gracious' },
-            hindu: { img: 'hindu.png', tagline: 'Shree Ganeshay Namah' },
-            sikh: { img: 'sikh.png', tagline: 'Ik Onkar Satnam' },
-            christian: { img: 'christian.png', tagline: 'God Bless This Union' },
-            universal: { img: 'universal.png', tagline: 'Marriage Biodata' }
+            islam: { img: 'islam.png', tagline: 'In the name of Allah, the Most Gracious', symbolSvg: '☪' },
+            hindu: { img: 'hindu.png', tagline: 'Shree Ganeshay Namah', symbolSvg: '🕉' },
+            sikh: { img: 'sikh.png', tagline: 'Ik Onkar Satnam', symbolSvg: 'ੴ' },
+            christian: { img: 'christian.png', tagline: 'God Bless This Union', symbolSvg: '✝' },
+            universal: { img: 'universal.png', tagline: 'Marriage Biodata', symbolSvg: '🌸' }
         };
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -541,16 +559,13 @@
             updatePreview();
         });
 
+        // HIGH-RESOLUTION SYMBOL FALLBACK FIX
         function handleHeaderImgFallback(imgElem) {
-            const rel = document.getElementById('religion').value;
-            let symbolSvg = '🌸';
-            if (rel === 'islam') symbolSvg = '☪';
-            else if (rel === 'hindu') symbolSvg = '🕉';
-            else if (rel === 'sikh') symbolSvg = 'ੴ';
-            else if (rel === 'christian') symbolSvg = '✝';
+            const relKey = document.getElementById('religion').value || 'islam';
+            const config = religionConfig[relKey] || religionConfig.islam;
 
-            const parent = imgElem.parentElement;
-            parent.innerHTML = `<span class="text-xl text-amber-800 font-bold">${symbolSvg}</span>`;
+            const parent = imgElem.parentElement || document.getElementById('religionHeaderBox');
+            parent.innerHTML = `<span class="text-2xl text-amber-900 font-bold leading-none select-none">${config.symbolSvg}</span>`;
         }
 
         // --- TOGGLE BROTHERS & SISTERS SECTION ---
@@ -693,13 +708,13 @@
             updatePreview();
         }
 
-        // --- HEADER RELIGION UPDATE (ALWAYS SHOWS DEFAULT UNTIL CHANGED) ---
+        // --- RELIGION HEADER SYMBOL RENDER ---
         function updateReligionHeader() {
             const religionKey = document.getElementById('religion').value || 'islam';
             const config = religionConfig[religionKey] || religionConfig.islam;
             
-            const headerContainer = document.getElementById('previewHeaderImg').parentElement;
-            headerContainer.innerHTML = `<img id="previewHeaderImg" src="${config.img}" onerror="handleHeaderImgFallback(this)" class="h-8 object-contain max-w-[180px]" alt="Symbol">`;
+            const headerBox = document.getElementById('religionHeaderBox');
+            headerBox.innerHTML = `<img id="previewHeaderImg" src="${config.img}" onerror="handleHeaderImgFallback(this)" class="h-9 object-contain max-w-[180px]" alt="Symbol">`;
             
             if(!document.getElementById('headerTagline').value) {
                 document.getElementById('previewHeaderTagline').textContent = config.tagline;
@@ -828,7 +843,7 @@
                 prevBroContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
             } else {
                 prevBroContainer.innerHTML = brothersList.map(b => `
-                    <div class="space-y-0.5 border-b border-amber-200/40 pb-1 mb-1 last:border-b-0 last:mb-0 last:pb-0">
+                    <div class="space-y-0.5 border-b border-amber-200/40 pb-0.5 mb-0.5 last:border-b-0 last:mb-0 last:pb-0">
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Name:</span><span class="font-bold text-slate-900">${b.name || '-'}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Relation:</span><span class="text-slate-800">${b.relation || '-'}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Edu:</span><span class="text-slate-800">${b.edu || '-'}</span></div>
@@ -843,7 +858,7 @@
                 prevSisContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
             } else {
                 prevSisContainer.innerHTML = sistersList.map(s => `
-                    <div class="space-y-0.5 border-b border-amber-200/40 pb-1 mb-1 last:border-b-0 last:mb-0 last:pb-0">
+                    <div class="space-y-0.5 border-b border-amber-200/40 pb-0.5 mb-0.5 last:border-b-0 last:mb-0 last:pb-0">
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Name:</span><span class="font-bold text-slate-900">${s.name || '-'}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Relation:</span><span class="text-slate-800">${s.relation || '-'}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Edu:</span><span class="text-slate-800">${s.edu || '-'}</span></div>
@@ -859,19 +874,17 @@
             document.getElementById('previewPhone').textContent = document.getElementById('phone').value.trim() || '-';
             document.getElementById('previewEmail').textContent = document.getElementById('email').value.trim() || '-';
 
-            // Keep Default Images if No Uploaded Image Exists
+            // Keep Default Image if No Upload
             const previewImg = document.getElementById('previewPhoto');
             if (!uploadedPhotoBase64) {
                 previewImg.src = 'profile.png';
             }
         }
 
-        // --- FULL RESET FORM FUNCTION (RESTORES DEFAULT IMAGES ONLY) ---
+        // --- FULL RESET FORM FUNCTION ---
         function resetForm() {
-            // Restore Default Candidate Profile Image
             clearPhoto();
             
-            // Restore Default Religion Symbol Header Image
             document.getElementById('religion').value = 'islam';
             updateReligionHeader();
 
