@@ -7,38 +7,39 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
-    /* Fixed Standard Colors for HTML2Canvas Compatibility */
+    /* Styling for PDF output and live preview */
     .biodata-page {
       width: 210mm;
       min-height: 297mm;
       padding: 15mm 18mm;
       background-color: #ffffff !important;
       color: #1e293b !important;
-      border: 2px solid #78350f !important;
+      border: 3px double #78350f !important;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
       margin: 0 auto;
       font-family: 'Georgia', serif;
       box-sizing: border-box;
     }
-    .profile-9-16-container {
-      width: 108px;
-      height: 192px;
-      border-radius: 12px;
-      background: #78350f !important;
-      padding: 3px;
+    
+    .profile-img-frame {
+      max-width: 140px;
+      max-height: 180px;
+      width: auto;
+      height: auto;
+      border-radius: 8px;
+      border: 2px solid #78350f;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      object-fit: contain;
     }
-    .profile-9-16-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: 9px;
-      background-color: #f8fafc !important;
-    }
+
     .pdf-header-border {
       border-bottom: 2px solid #78350f !important;
     }
+    
     .pdf-sec-border {
-      border-bottom: 1px solid #fcd34d !important;
+      border-bottom: 1.5px solid #d97706 !important;
     }
+
     [contenteditable="true"]:focus {
       outline: 2px dashed #d97706;
       background-color: #fef3c7;
@@ -69,21 +70,13 @@
       <!-- RELIGIOUS HEADER SETTINGS -->
       <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
         <h3 class="font-bold text-slate-700 text-xs uppercase border-b pb-1">Religious Header Settings</h3>
-        <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Upload Custom Banner (16:9 Aspect Ratio)</label>
-          <p class="text-[10px] text-amber-700 font-medium mb-1">* Upload size 16:9 recommended. Default religion icon will be restored if deleted.</p>
-          <div class="flex items-center gap-2">
-            <input type="file" id="religionImageInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-amber-100 file:text-amber-800">
-            <button type="button" id="removeReligionImgBtn" class="hidden text-xs bg-red-100 text-red-700 px-2.5 py-1.5 rounded font-medium hover:bg-red-200">Delete Banner</button>
-          </div>
-        </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-medium text-slate-600 mb-1">Left Quote / Verses</label>
+            <label class="block text-xs font-medium text-slate-600 mb-1">Left Header Verse / Text</label>
             <textarea id="religionLeftText" rows="2" class="w-full text-xs p-2 border rounded-md"></textarea>
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-600 mb-1">Right Quote / Verses</label>
+            <label class="block text-xs font-medium text-slate-600 mb-1">Right Header Verse / Text</label>
             <textarea id="religionRightText" rows="2" class="w-full text-xs p-2 border rounded-md"></textarea>
           </div>
         </div>
@@ -93,8 +86,7 @@
       <div class="space-y-3">
         <h3 class="font-bold text-slate-700 text-xs uppercase border-b pb-1">Candidate Profile</h3>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Upload Candidate Photo (9:16 Aspect Ratio)</label>
-          <p class="text-[10px] text-amber-700 font-medium mb-1">* Upload image size 9:16 (Portrait format), otherwise it auto-adjusts.</p>
+          <label class="block text-xs font-medium text-slate-600 mb-1">Upload Candidate Photo (Auto-Adjusts Natural Ratio)</label>
           <div class="flex items-center gap-2">
             <input type="file" id="profileImageInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-slate-200 file:text-slate-700">
             <button type="button" id="removeProfileImgBtn" class="hidden text-xs bg-red-100 text-red-700 px-2.5 py-1.5 rounded font-medium hover:bg-red-200">Delete Photo</button>
@@ -103,15 +95,16 @@
         <div class="grid grid-cols-2 gap-3">
           <input type="text" id="fullName" class="p-2 border rounded-md text-xs" placeholder="Full Name">
           <input type="text" id="dob" class="p-2 border rounded-md text-xs" placeholder="Date of Birth">
-          <input type="text" id="height" class="p-2 border rounded-md text-xs" placeholder="Height">
+          <input type="text" id="height" class="p-2 border rounded-md text-xs" placeholder="Height (e.g. 5 Ft 10 In)">
           <input type="text" id="religionCaste" class="p-2 border rounded-md text-xs" placeholder="Religion / Sect / Caste">
-          <input type="text" id="myEducation" class="p-2 border rounded-md text-xs" placeholder="Education / Qualification">
+          <input type="text" id="myEducation" class="p-2 border rounded-md text-xs col-span-2" placeholder="Education / Qualification">
           <select id="myOccStatus" class="p-2 border rounded-md text-xs bg-white">
             <option value="working">Working / Job / Business</option>
             <option value="pursuing">Pursuing Education</option>
-            <option value="none">None / Not Working</option>
+            <option value="none">None / Unemployed</option>
           </select>
-          <input type="text" id="myJobDetails" class="p-2 border rounded-md text-xs col-span-2" placeholder="Job Title / Company / Course Details">
+          <input type="text" id="myJobTitle" class="p-2 border rounded-md text-xs" placeholder="Job Title / Designation / Business Name">
+          <textarea id="myJobDesc" rows="2" class="p-2 border rounded-md text-xs col-span-2" placeholder="Job / Business Explanation / Work Description (Optional)"></textarea>
         </div>
       </div>
 
@@ -187,7 +180,7 @@
         </div>
       </div>
 
-      <button id="downloadBtn" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl shadow-md transition">
+      <button id="downloadBtn" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold py-3 rounded-xl shadow-md transition">
         Download Professional PDF
       </button>
     </div>
@@ -204,28 +197,25 @@
       <!-- PREVIEW CARD FOR PDF -->
       <div id="biodataPreview" class="biodata-page rounded-sm relative">
         
-        <!-- HEADER WITH 16:9 RELIGION BANNER -->
-        <div class="grid grid-cols-3 items-center pdf-header-border pb-4 mb-5">
+        <!-- HEADER WITH RELIGION ICON -->
+        <div class="grid grid-cols-3 items-center pdf-header-border pb-3 mb-5">
           <div id="previewLeftText" contenteditable="true" class="text-[11px] font-bold text-amber-900 whitespace-pre-line text-left"></div>
           
           <div class="flex justify-center">
-            <div class="w-28 h-16 rounded-lg border border-amber-700/40 bg-amber-50 flex items-center justify-center p-1 overflow-hidden">
-              <div id="previewReligionSvgContainer" class="w-full h-full flex items-center justify-center"></div>
-              <img id="previewReligionImg" src="" alt="" class="hidden w-full h-full object-cover rounded">
+            <div id="religionIconBox" class="w-16 h-16 rounded-xl border border-amber-700/30 bg-amber-50/80 flex items-center justify-center p-2 shadow-inner">
+              <!-- Inline Pure Vector SVG Rendered Safely for HTML2Canvas -->
             </div>
           </div>
           
           <div id="previewRightText" contenteditable="true" class="text-[11px] font-bold text-amber-900 whitespace-pre-line text-right"></div>
         </div>
 
-        <!-- PROFILE PHOTO 9:16 -->
-        <div class="flex flex-col items-center text-center mb-6">
-          <div class="profile-9-16-container shadow-md mb-2">
-            <div class="profile-9-16-inner flex items-center justify-center overflow-hidden">
-              <img id="previewProfileImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150' fill='%2394a3b8'><circle cx='50' cy='45' r='30'/><path d='M10 140 C10 95, 90 95, 90 140 Z'/></svg>" alt="Profile Photo" class="w-full h-full object-cover">
-            </div>
+        <!-- PROFILE PHOTO AUTO-ADJUSTABLE -->
+        <div class="flex flex-col items-center text-center mb-5">
+          <div class="mb-2">
+            <img id="previewProfileImg" src="" alt="Profile Photo" class="profile-img-frame">
           </div>
-          <h1 id="previewName" contenteditable="true" class="text-2xl font-bold text-amber-900">Full Name</h1>
+          <h1 id="previewName" contenteditable="true" class="text-2xl font-bold text-amber-900 tracking-wide">Full Name</h1>
           <p id="previewReligionCaste" contenteditable="true" class="text-xs font-semibold text-slate-600">Religion, Sect/Caste</p>
         </div>
 
@@ -237,6 +227,7 @@
             <tr class="py-0.5"><td class="font-semibold text-slate-600">Height:</td><td id="previewHeight" contenteditable="true">-</td></tr>
             <tr class="py-0.5"><td class="font-semibold text-slate-600">Qualification:</td><td id="previewMyEdu" contenteditable="true">-</td></tr>
             <tr class="py-0.5"><td class="font-semibold text-slate-600">Occupation / Status:</td><td id="previewMyOcc" contenteditable="true">-</td></tr>
+            <tr id="previewJobDescRow" class="py-0.5"><td class="font-semibold text-slate-600 align-top">Work / Business Info:</td><td id="previewMyJobDesc" contenteditable="true" class="whitespace-pre-line text-slate-700">-</td></tr>
           </table>
         </div>
 
@@ -251,12 +242,13 @@
           </table>
         </div>
 
-        <!-- SIBLINGS BACKGROUND -->
+        <!-- STRUCTURED SIBLINGS DETAILS (BROTHER 1, BROTHER 2...) -->
         <div class="mb-4">
           <h2 class="text-xs font-bold text-amber-900 pdf-sec-border pb-0.5 mb-2 uppercase tracking-wide">Siblings Details</h2>
-          <table class="w-full text-xs">
-            <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600 align-top">Brothers:</td><td id="previewBrothers" contenteditable="true" class="whitespace-pre-line align-top">None</td></tr>
-            <tr class="py-0.5"><td class="font-semibold text-slate-600 align-top">Sisters:</td><td id="previewSisters" contenteditable="true" class="whitespace-pre-line align-top">None</td></tr>
+          <table class="w-full text-xs border-collapse">
+            <tbody id="previewSiblingsTable">
+              <tr><td class="w-1/3 font-semibold text-slate-600">Siblings:</td><td>None</td></tr>
+            </tbody>
           </table>
         </div>
 
@@ -281,40 +273,46 @@
   </div>
 
   <script>
-    const defaultPlaceholderPhoto = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150' fill='%2394a3b8'><circle cx='50' cy='45' r='30'/><path d='M10 140 C10 95, 90 95, 90 140 Z'/></svg>";
-
+    // Pure inline SVG elements guarantee crisp PDF export without disappearing
     const religionPresets = {
       islam: {
-        svg: `<svg viewBox="0 0 160 90" class="w-full h-full" style="fill:#b45309;"><path d="M80 15 a30 30 0 1 0 25 48 a24 24 0 1 1 -25 -48 z"/><polygon points="102,30 106,42 118,42 108,50 112,62 102,54 92,62 96,50 86,42 98,42"/></svg>`,
+        svg: `<svg viewBox="0 0 100 100" class="w-12 h-12" style="fill:#78350f;"><path d="M50 10 a35 35 0 1 0 28 56 a28 28 0 1 1 -28 -56 z"/><polygon points="75,25 79,37 91,37 81,45 85,57 75,49 65,57 69,45 59,37 71,37"/></svg>`,
         leftText: 'Bismillah-ir-Rahman-ir-Raheem',
         rightText: 'In the name of Allah,\nthe Most Gracious',
-        castePlaceholder: 'Islam, Sunni'
+        castePlaceholder: 'Islam, Sunni',
+        defaultPhoto: 'https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=400&auto=format&fit=crop&q=80'
       },
       hindu: {
-        svg: `<svg viewBox="0 0 160 90" class="w-full h-full" style="fill:#b45309;"><text x="50%" y="55%" font-size="45" font-family="serif" text-anchor="middle" dominant-baseline="middle">🕉</text></svg>`,
+        svg: `<svg viewBox="0 0 100 100" class="w-12 h-12" style="fill:#78350f;"><text x="50%" y="60%" font-size="50" font-family="serif" text-anchor="middle" dominant-baseline="middle">🕉</text></svg>`,
         leftText: '|| Shri Ganeshaya Namah ||\nSubh Vivah',
         rightText: 'Vakratunda Mahakaya\nSurya Koti Samaprabha',
-        castePlaceholder: 'Hindu, Brahmin'
+        castePlaceholder: 'Hindu, Brahmin',
+        defaultPhoto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80'
       },
       christian: {
-        svg: `<svg viewBox="0 0 160 90" class="w-full h-full" style="fill:#b45309;"><rect x="73" y="15" width="14" height="60" rx="2"/><rect x="50" y="30" width="60" height="14" rx="2"/></svg>`,
+        svg: `<svg viewBox="0 0 100 100" class="w-12 h-12" style="fill:#78350f;"><rect x="44" y="15" width="12" height="70" rx="2"/><rect x="25" y="32" width="50" height="12" rx="2"/></svg>`,
         leftText: 'God is Love\n1 John 4:8',
         rightText: 'Walk in Love & Faith',
-        castePlaceholder: 'Christian, Catholic'
+        castePlaceholder: 'Christian, Catholic',
+        defaultPhoto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80'
       },
       sikh: {
-        svg: `<svg viewBox="0 0 160 90" class="w-full h-full" style="fill:#b45309;"><text x="50%" y="55%" font-size="45" font-family="serif" text-anchor="middle" dominant-baseline="middle">ੴ</text></svg>`,
+        svg: `<svg viewBox="0 0 100 100" class="w-12 h-12" style="fill:#78350f;"><text x="50%" y="60%" font-size="50" font-family="serif" text-anchor="middle" dominant-baseline="middle">ੴ</text></svg>`,
         leftText: 'Ik Onkar (ੴ)',
         rightText: 'Waheguru Ji Ka Khalsa\nWaheguru Ji Ki Fateh',
-        castePlaceholder: 'Sikh, Jatt'
+        castePlaceholder: 'Sikh, Jatt',
+        defaultPhoto: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&auto=format&fit=crop&q=80'
       },
       modern: {
-        svg: `<svg viewBox="0 0 160 90" class="w-full h-full" style="fill:#b45309;"><path d="M80 68 C 50 45, 40 30, 55 20 C 68 12, 78 22, 80 25 C 82 22, 92 12, 105 20 C 120 30, 110 45, 80 68 Z"/></svg>`,
+        svg: `<svg viewBox="0 0 100 100" class="w-12 h-12" style="fill:#78350f;"><path d="M50 80 C 20 50, 10 32, 28 18 C 42 8, 48 20, 50 24 C 52 20, 58 8, 72 18 C 90 32, 80 50, 50 80 Z"/></svg>`,
         leftText: 'Two Hearts, One Journey',
         rightText: 'Together is a Wonderful\nPlace to Be',
-        castePlaceholder: 'Universal'
+        castePlaceholder: 'Universal',
+        defaultPhoto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80'
       }
     };
+
+    let userHasUploadedPhoto = false;
 
     function applyReligionPreset(key) {
       const preset = religionPresets[key];
@@ -324,20 +322,20 @@
       document.getElementById('religionRightText').value = preset.rightText;
       document.getElementById('previewLeftText').innerText = preset.leftText;
       document.getElementById('previewRightText').innerText = preset.rightText;
-
-      const customImg = document.getElementById('previewReligionImg');
-      if (customImg.classList.contains('hidden')) {
-        document.getElementById('previewReligionSvgContainer').innerHTML = preset.svg;
-      }
+      document.getElementById('religionIconBox').innerHTML = preset.svg;
 
       const casteInput = document.getElementById('religionCaste');
       casteInput.value = preset.castePlaceholder;
       document.getElementById('previewReligionCaste').innerText = preset.castePlaceholder;
+
+      if (!userHasUploadedPhoto) {
+        document.getElementById('previewProfileImg').src = preset.defaultPhoto;
+      }
     }
 
     document.getElementById('religionSelect').addEventListener('change', (e) => applyReligionPreset(e.target.value));
 
-    // Dynamic Siblings Management
+    // DYNAMIC SIBLINGS MANAGEMENT (BROTHER 1, BROTHER 2, SISTER 1...)
     let brotherCount = 0;
     let sisterCount = 0;
 
@@ -362,16 +360,22 @@
             <option value="pursuing">Pursuing Education</option>
             <option value="none">None / Not Working</option>
           </select>
-          <input type="text" id="${type}-job-${id}" placeholder="Job Profile / Course" class="p-1 border rounded text-xs col-span-2">
+          <input type="text" id="${type}-job-${id}" placeholder="Job Profile / Course Details" class="p-1 border rounded text-xs col-span-2">
         </div>`;
       return div;
     }
 
-    function updateSiblingsPreview() {
-      let broTexts = [];
-      document.querySelectorAll('#brothersList > div').forEach(card => {
+    function updateSiblingsTable() {
+      const tbody = document.getElementById('previewSiblingsTable');
+      tbody.innerHTML = '';
+
+      let rows = [];
+
+      // Process Brothers
+      const broCards = document.querySelectorAll('#brothersList > div');
+      broCards.forEach((card, index) => {
         const id = card.id.split('-')[2];
-        const name = document.getElementById(`brother-name-${id}`).value || 'Brother';
+        const name = document.getElementById(`brother-name-${id}`).value || '-';
         const marital = document.getElementById(`brother-marital-${id}`).value;
         const edu = document.getElementById(`brother-edu-${id}`).value;
         const occStatus = document.getElementById(`brother-occStatus-${id}`).value;
@@ -381,17 +385,18 @@
         if (occStatus === 'working') occStr = job ? `Working (${job})` : 'Working';
         else if (occStatus === 'pursuing') occStr = job ? `Pursuing (${job})` : 'Pursuing';
 
-        let str = `${name} (${marital})`;
-        if (edu) str += ` - ${edu}`;
-        if (occStr) str += ` | ${occStr}`;
-        broTexts.push(str);
-      });
-      document.getElementById('previewBrothers').innerText = broTexts.join('\n') || 'None';
+        let info = `${name} (${marital})`;
+        if (edu) info += ` | ${edu}`;
+        if (occStr) info += ` | ${occStr}`;
 
-      let sisTexts = [];
-      document.querySelectorAll('#sistersList > div').forEach(card => {
+        rows.push(`<tr><td class="w-1/3 font-semibold text-slate-600 py-0.5">Brother ${index + 1}:</td><td class="py-0.5">${info}</td></tr>`);
+      });
+
+      // Process Sisters
+      const sisCards = document.querySelectorAll('#sistersList > div');
+      sisCards.forEach((card, index) => {
         const id = card.id.split('-')[2];
-        const name = document.getElementById(`sister-name-${id}`).value || 'Sister';
+        const name = document.getElementById(`sister-name-${id}`).value || '-';
         const marital = document.getElementById(`sister-marital-${id}`).value;
         const edu = document.getElementById(`sister-edu-${id}`).value;
         const occStatus = document.getElementById(`sister-occStatus-${id}`).value;
@@ -401,48 +406,70 @@
         if (occStatus === 'working') occStr = job ? `Working (${job})` : 'Working';
         else if (occStatus === 'pursuing') occStr = job ? `Pursuing (${job})` : 'Pursuing';
 
-        let str = `${name} (${marital})`;
-        if (edu) str += ` - ${edu}`;
-        if (occStr) str += ` | ${occStr}`;
-        sisTexts.push(str);
+        let info = `${name} (${marital})`;
+        if (edu) info += ` | ${edu}`;
+        if (occStr) info += ` | ${occStr}`;
+
+        rows.push(`<tr><td class="w-1/3 font-semibold text-slate-600 py-0.5">Sister ${index + 1}:</td><td class="py-0.5">${info}</td></tr>`);
       });
-      document.getElementById('previewSisters').innerText = sisTexts.join('\n') || 'None';
+
+      if (rows.length === 0) {
+        tbody.innerHTML = '<tr><td class="w-1/3 font-semibold text-slate-600 py-0.5">Siblings:</td><td class="py-0.5">None</td></tr>';
+      } else {
+        tbody.innerHTML = rows.join('');
+      }
     }
 
     document.getElementById('addBrotherBtn').addEventListener('click', () => {
       brotherCount++;
       const elem = createSiblingElement('brother', brotherCount);
       document.getElementById('brothersList').appendChild(elem);
-      elem.querySelectorAll('input, select').forEach(i => i.addEventListener('input', updateSiblingsPreview));
-      updateSiblingsPreview();
+      elem.querySelectorAll('input, select').forEach(i => i.addEventListener('input', updateSiblingsTable));
+      updateSiblingsTable();
     });
 
     document.getElementById('addSisterBtn').addEventListener('click', () => {
       sisterCount++;
       const elem = createSiblingElement('sister', sisterCount);
       document.getElementById('sistersList').appendChild(elem);
-      elem.querySelectorAll('input, select').forEach(i => i.addEventListener('input', updateSiblingsPreview));
-      updateSiblingsPreview();
+      elem.querySelectorAll('input, select').forEach(i => i.addEventListener('input', updateSiblingsTable));
+      updateSiblingsTable();
     });
 
     window.removeSibling = function(type, id) {
       const card = document.getElementById(`${type}-card-${id}`);
       if (card) card.remove();
-      updateSiblingsPreview();
+      updateSiblingsTable();
     };
 
+    // Candidate Occupation & Detailed Explanation Live Update
     function updateCandidateOccupation() {
       const status = document.getElementById('myOccStatus').value;
-      const details = document.getElementById('myJobDetails').value;
-      let text = '-';
-      if (status === 'working') text = details ? `Working as ${details}` : 'Working';
-      else if (status === 'pursuing') text = details ? `Pursuing ${details}` : 'Pursuing Education';
-      else text = 'None / Not Working';
-      document.getElementById('previewMyOcc').innerText = text;
-    }
-    document.getElementById('myOccStatus').addEventListener('change', updateCandidateOccupation);
-    document.getElementById('myJobDetails').addEventListener('input', updateCandidateOccupation);
+      const title = document.getElementById('myJobTitle').value;
+      const desc = document.getElementById('myJobDesc').value;
 
+      let occText = '-';
+      if (status === 'working') occText = title ? `Working (${title})` : 'Working';
+      else if (status === 'pursuing') occText = title ? `Pursuing (${title})` : 'Pursuing Education';
+      else occText = 'None / Unemployed';
+
+      document.getElementById('previewMyOcc').innerText = occText;
+
+      const descRow = document.getElementById('previewJobDescRow');
+      if (desc && desc.trim() !== '') {
+        descRow.classList.remove('hidden');
+        document.getElementById('previewMyJobDesc').innerText = desc;
+      } else {
+        descRow.classList.add('hidden');
+      }
+    }
+
+    ['myOccStatus', 'myJobTitle', 'myJobDesc'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateCandidateOccupation);
+      document.getElementById(id).addEventListener('change', updateCandidateOccupation);
+    });
+
+    // Parents Info Update
     function updateParents() {
       const fName = document.getElementById('fatherName').value;
       const fEdu = document.getElementById('fatherEdu').value;
@@ -468,6 +495,7 @@
       document.getElementById(id).addEventListener('change', updateParents);
     });
 
+    // Address Update
     function updateAddress() {
       const v = document.getElementById('addrVillage').value;
       const p = document.getElementById('addrPost').value;
@@ -489,6 +517,7 @@
       document.getElementById(id).addEventListener('input', updateAddress);
     });
 
+    // Helper functions
     function bindInput(inputId, previewId) {
       const input = document.getElementById(inputId);
       const preview = document.getElementById(previewId);
@@ -517,6 +546,7 @@
         const reader = new FileReader();
         reader.onload = function(evt) {
           previewProfileImg.src = evt.target.result;
+          userHasUploadedPhoto = true;
           removeProfileBtn.classList.remove('hidden');
         };
         reader.readAsDataURL(file);
@@ -525,41 +555,16 @@
 
     removeProfileBtn.addEventListener('click', function() {
       profileInput.value = '';
-      previewProfileImg.src = defaultPlaceholderPhoto;
+      userHasUploadedPhoto = false;
       removeProfileBtn.classList.add('hidden');
-    });
-
-    // Religion Banner Upload & Delete
-    const religionImgInput = document.getElementById('religionImageInput');
-    const removeReligionBtn = document.getElementById('removeReligionImgBtn');
-    const previewReligionImg = document.getElementById('previewReligionImg');
-    const previewReligionSvgContainer = document.getElementById('previewReligionSvgContainer');
-
-    religionImgInput.addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          previewReligionSvgContainer.classList.add('hidden');
-          previewReligionImg.src = evt.target.result;
-          previewReligionImg.classList.remove('hidden');
-          removeReligionBtn.classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    removeReligionBtn.addEventListener('click', function() {
-      religionImgInput.value = '';
-      previewReligionImg.classList.add('hidden');
-      previewReligionSvgContainer.classList.remove('hidden');
-      removeReligionBtn.classList.add('hidden');
       applyReligionPreset(document.getElementById('religionSelect').value);
     });
 
+    // Initial load setup
     applyReligionPreset('islam');
+    updateCandidateOccupation();
 
-    // FIXED PDF GENERATOR FUNCTION WITH HTML2CANVAS OPTIMIZATIONS
+    // OPTIMIZED HIGH-QUALITY PDF GENERATOR
     document.getElementById('downloadBtn').addEventListener('click', function() {
       const element = document.getElementById('biodataPreview');
       const name = document.getElementById('previewName').innerText.trim() || 'Biodata';
@@ -573,8 +578,7 @@
           useCORS: true, 
           allowTaint: true,
           scrollX: 0,
-          scrollY: 0,
-          windowWidth: document.documentElement.offsetWidth
+          scrollY: 0
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
