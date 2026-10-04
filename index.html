@@ -133,11 +133,11 @@
                         <div>
                             <label class="block text-[10px] font-medium text-slate-600 mb-0.5">Religion Symbol Image</label>
                             <select id="religion" onchange="updateReligionHeader()" class="w-full rounded border-slate-300 border p-1 bg-white outline-none focus:ring-1 focus:ring-amber-500 text-xs">
-                                <option value="islam" selected>Islam (islam.png)</option>
-                                <option value="hindu">Hindu (hindu.png)</option>
-                                <option value="sikh">Sikh (sikh.png)</option>
-                                <option value="christian">Christian (christian.png)</option>
-                                <option value="universal">Universal (universal.png)</option>
+                                <option value="Islam" selected>Islam</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Sikh">Sikh</option>
+                                <option value="Christian">Christian</option>
+                                <option value="Universal">Universal</option>
                             </select>
                         </div>
                         <div>
@@ -173,8 +173,8 @@
                             <input type="text" id="fullName" placeholder="Enter Full Name" oninput="updatePreview()" class="w-full border rounded p-1 focus:ring-1 focus:ring-amber-500 outline-none text-xs">
                         </div>
                         <div class="col-span-2 sm:col-span-1">
-                            <label class="block text-[10px] text-slate-600">Caste / Sect / Religion</label>
-                            <input type="text" id="casteInfo" placeholder="e.g. ISLAM, SUNNI" oninput="updatePreview()" class="w-full border rounded p-1 focus:ring-1 focus:ring-amber-500 outline-none text-xs">
+                            <label class="block text-[10px] text-slate-600">Caste / Sect / Details</label>
+                            <input type="text" id="casteInfo" placeholder="e.g. SUNNI" oninput="updatePreview()" class="w-full border rounded p-1 focus:ring-1 focus:ring-amber-500 outline-none text-xs">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-600">Date of Birth</label>
@@ -394,7 +394,8 @@
                                 <img id="previewPhoto" src="profile.png" onerror="this.src='profile.png'" class="w-full h-full object-cover rounded-sm" alt="Profile">
                             </div>
                             <h2 id="previewName" class="text-sm font-bold tracking-wider text-amber-900 uppercase font-serif-header">-</h2>
-                            <p id="previewCaste" class="text-[9px] text-slate-600 font-bold uppercase tracking-widest">-</p>
+                            <!-- RELIGION & CASTE DISPLAY UNDER PHOTO -->
+                            <p id="previewCaste" class="text-[9px] text-slate-600 font-bold uppercase tracking-widest mt-0.5">-</p>
                         </div>
 
                         <!-- 1. PERSONAL DETAILS SECTION -->
@@ -544,16 +545,15 @@
         let sistersList = [];
 
         const religionConfig = {
-            islam: { img: 'islam.png', tagline: 'In the name of Allah, the Most Gracious', symbolSvg: '☪' },
-            hindu: { img: 'hindu.png', tagline: 'Shree Ganeshay Namah', symbolSvg: '🕉' },
-            sikh: { img: 'sikh.png', tagline: 'Ik Onkar Satnam', symbolSvg: 'ੴ' },
-            christian: { img: 'christian.png', tagline: 'God Bless This Union', symbolSvg: '✝' },
-            universal: { img: 'universal.png', tagline: 'Marriage Biodata', symbolSvg: '🌸' }
+            Islam: { img: 'islam.png', tagline: 'In the name of Allah, the Most Gracious', symbolSvg: '☪' },
+            Hindu: { img: 'hindu.png', tagline: 'Shree Ganeshay Namah', symbolSvg: '🕉' },
+            Sikh: { img: 'sikh.png', tagline: 'Ik Onkar Satnam', symbolSvg: 'ੴ' },
+            Christian: { img: 'christian.png', tagline: 'God Bless This Union', symbolSvg: '✝' },
+            Universal: { img: 'universal.png', tagline: 'Marriage Biodata', symbolSvg: '🌸' }
         };
 
         window.addEventListener('DOMContentLoaded', () => {
             loadSavedRecordsFromStorage();
-            // Default 3 brothers and 3 sisters initialized as requested
             brothersList = [
                 { id: 1, name: '', relation: 'Elder', edu: '', job: '' },
                 { id: 2, name: '', relation: 'Elder', edu: '', job: '' },
@@ -571,16 +571,14 @@
             updatePreview();
         });
 
-        // HIGH-RESOLUTION SYMBOL FALLBACK FIX
         function handleHeaderImgFallback(imgElem) {
-            const relKey = document.getElementById('religion').value || 'islam';
-            const config = religionConfig[relKey] || religionConfig.islam;
+            const relKey = document.getElementById('religion').value || 'Islam';
+            const config = religionConfig[relKey] || religionConfig.Islam;
 
             const parent = imgElem.parentElement || document.getElementById('religionHeaderBox');
             parent.innerHTML = `<span class="text-xl text-amber-900 font-bold leading-none select-none">${config.symbolSvg}</span>`;
         }
 
-        // --- TOGGLE BROTHERS & SISTERS SECTION ---
         function toggleBrothersSection() {
             const isEnabled = document.getElementById('enableBrothers').checked;
             const container = document.getElementById('brothersInputContainer');
@@ -611,7 +609,6 @@
             updatePreview();
         }
 
-        // --- DYNAMIC BROTHERS & SISTERS LOGIC (MAX 3 LIMIT) ---
         function addBrotherInput() {
             if (brothersList.length >= 3) {
                 alert('Maximum 3 brothers can be added.');
@@ -728,7 +725,6 @@
             `).join('');
         }
 
-        // --- CAREER DYNAMIC TABS ---
         function handleCareerTypeChange() {
             const type = document.getElementById('careerType').value;
             document.getElementById('jobFields').classList.add('hidden');
@@ -744,10 +740,9 @@
             updatePreview();
         }
 
-        // --- RELIGION HEADER SYMBOL RENDER ---
         function updateReligionHeader() {
-            const religionKey = document.getElementById('religion').value || 'islam';
-            const config = religionConfig[religionKey] || religionConfig.islam;
+            const religionKey = document.getElementById('religion').value || 'Islam';
+            const config = religionConfig[religionKey] || religionConfig.Islam;
             
             const headerBox = document.getElementById('religionHeaderBox');
             headerBox.innerHTML = `<img id="previewHeaderImg" src="${config.img}" onerror="handleHeaderImgFallback(this)" class="h-6 object-contain max-w-[150px]" alt="Symbol">`;
@@ -757,9 +752,9 @@
             } else {
                 document.getElementById('previewHeaderTagline').textContent = document.getElementById('headerTagline').value;
             }
+            updatePreview();
         }
 
-        // --- IMAGE HANDLING ---
         function handleImageUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -780,22 +775,28 @@
             document.getElementById('previewPhoto').src = 'profile.png';
         }
 
-        // --- MAIN PREVIEW UPDATE FUNCTION ---
         function updatePreview() {
             const nameVal = document.getElementById('fullName').value.trim();
             document.getElementById('previewName').textContent = nameVal || '-';
             document.getElementById('prevNameVal').textContent = nameVal || '-';
-            document.getElementById('previewCaste').textContent = document.getElementById('casteInfo').value.trim() || '-';
+            
+            // Auto-display selected Religion & Caste/Sect under photo
+            const selectedReligion = document.getElementById('religion').value || 'Islam';
+            const casteVal = document.getElementById('casteInfo').value.trim();
+            if (casteVal) {
+                document.getElementById('previewCaste').textContent = `${selectedReligion} - ${casteVal}`.toUpperCase();
+            } else {
+                document.getElementById('previewCaste').textContent = selectedReligion.toUpperCase();
+            }
             
             const taglineVal = document.getElementById('headerTagline').value.trim();
-            const relKey = document.getElementById('religion').value || 'islam';
+            const relKey = document.getElementById('religion').value || 'Islam';
             document.getElementById('previewHeaderTagline').textContent = taglineVal || religionConfig[relKey].tagline;
 
             document.getElementById('previewDob').textContent = document.getElementById('dob').value.trim() || '-';
             document.getElementById('previewHeight').textContent = document.getElementById('height').value.trim() || '-';
             document.getElementById('previewQual').textContent = document.getElementById('qualification').value.trim() || '-';
 
-            // Dynamic Career Preview
             const cType = document.getElementById('careerType').value;
             const careerContainer = document.getElementById('previewCareerContainer');
 
@@ -834,7 +835,6 @@
                 `;
             }
 
-            // Parents
             document.getElementById('previewFatherName').textContent = document.getElementById('fatherName').value.trim() || '-';
             document.getElementById('previewFatherEdu').textContent = document.getElementById('fatherEdu').value.trim() || '-';
             document.getElementById('previewFatherStatus').textContent = document.getElementById('fatherStatus').value.trim() || '-';
@@ -845,7 +845,6 @@
             document.getElementById('previewMotherStatus').textContent = document.getElementById('motherStatus').value.trim() || '-';
             document.getElementById('previewMotherJob').textContent = document.getElementById('motherJob').value.trim() || '-';
 
-            // Siblings
             const isBrothersActive = document.getElementById('enableBrothers').checked;
             const isSistersActive = document.getElementById('enableSisters').checked;
 
@@ -873,7 +872,6 @@
                 }
             }
 
-            // Render Brothers List with Bordered Card
             const prevBroContainer = document.getElementById('previewBrothersList');
             if (brothersList.length === 0) {
                 prevBroContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
@@ -888,7 +886,6 @@
                 `).join('');
             }
 
-            // Render Sisters List with Bordered Card
             const prevSisContainer = document.getElementById('previewSistersList');
             if (sistersList.length === 0) {
                 prevSisContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
@@ -903,28 +900,24 @@
                 `).join('');
             }
 
-            // Address & Contact Key-Value Update
             document.getElementById('previewAddr').textContent = document.getElementById('address').value.trim() || '-';
             document.getElementById('previewPo').textContent = document.getElementById('po').value.trim() || '-';
             document.getElementById('previewDistrict').textContent = document.getElementById('districtState').value.trim() || '-';
             document.getElementById('previewPhone').textContent = document.getElementById('phone').value.trim() || '-';
             document.getElementById('previewEmail').textContent = document.getElementById('email').value.trim() || '-';
 
-            // Keep Default Image if No Upload
             const previewImg = document.getElementById('previewPhoto');
             if (!uploadedPhotoBase64) {
                 previewImg.src = 'profile.png';
             }
         }
 
-        // --- FULL RESET FORM FUNCTION ---
         function resetForm() {
             clearPhoto();
             
-            document.getElementById('religion').value = 'islam';
+            document.getElementById('religion').value = 'Islam';
             updateReligionHeader();
 
-            // Clear text input fields
             document.getElementById('headerTagline').value = '';
             document.getElementById('fullName').value = '';
             document.getElementById('casteInfo').value = '';
@@ -932,7 +925,6 @@
             document.getElementById('height').value = '';
             document.getElementById('qualification').value = '';
 
-            // Career reset
             document.getElementById('careerType').value = '';
             handleCareerTypeChange();
             document.getElementById('jobRole').value = '';
@@ -949,7 +941,6 @@
             document.getElementById('purCompletion').value = '';
             document.getElementById('otherNote').value = '';
 
-            // Parents details reset
             document.getElementById('fatherName').value = '';
             document.getElementById('fatherEdu').value = '';
             document.getElementById('fatherStatus').value = '';
@@ -959,7 +950,6 @@
             document.getElementById('motherStatus').value = '';
             document.getElementById('motherJob').value = '';
 
-            // Siblings list reset (default 3 each)
             brothersList = [
                 { id: 1, name: '', relation: 'Elder', edu: '', job: '' },
                 { id: 2, name: '', relation: 'Elder', edu: '', job: '' },
@@ -977,7 +967,6 @@
             renderBrothersInputs();
             renderSistersInputs();
 
-            // Address & Contact reset
             document.getElementById('address').value = '';
             document.getElementById('po').value = '';
             document.getElementById('districtState').value = '';
@@ -987,7 +976,6 @@
             updatePreview();
         }
 
-        // --- SINGLE PAGE PDF DOWNLOAD FUNCTION ---
         function downloadPDF() {
             const element = document.getElementById('biodataPreviewPage');
             const name = document.getElementById('fullName').value.trim() || 'Biodata';
@@ -1009,7 +997,6 @@
             html2pdf().set(opt).from(element).save();
         }
 
-        // --- ADMIN STORAGE METHODS ---
         function saveRecord() {
             const record = {
                 id: Date.now(),
