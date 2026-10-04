@@ -515,7 +515,7 @@
             <div id="adminLoginSec" class="p-5 text-center space-y-3">
                 <p class="text-xs text-slate-600">Enter Admin password to view saved candidate records.</p>
                 <div class="max-w-xs mx-auto space-y-2">
-                    <input type="password" id="adminPass" placeholder="Password (default: admin123)" class="w-full border p-2 rounded text-xs outline-none focus:ring-1 focus:ring-amber-600">
+                    <input type="password" id="adminPass" placeholder="Enter Password" class="w-full border p-2 rounded text-xs outline-none focus:ring-1 focus:ring-amber-600">
                     <button onclick="verifyAdmin()" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-semibold py-1.5 rounded text-xs transition">
                         Login
                     </button>
@@ -1041,7 +1041,7 @@
 
         function verifyAdmin() {
             const pass = document.getElementById('adminPass').value;
-            if (pass === 'admin123') {
+            if (pass === 'Mdraja@123') {
                 document.getElementById('adminLoginSec').classList.add('hidden');
                 document.getElementById('adminContentSec').classList.remove('hidden');
                 document.getElementById('adminErr').classList.add('hidden');
