@@ -297,7 +297,7 @@
                     </div>
                 </div>
 
-                <!-- 6. SIBLINGS DETAILS (MAX 3 LIMIT) -->
+                <!-- 6. SIBLINGS DETAILS (MAX 3 LIMIT WITH MARRIAGE STATUS) -->
                 <div class="space-y-2">
                     <h3 class="font-bold text-slate-800 border-b pb-0.5 text-[11px] uppercase tracking-wider text-amber-900">6. Siblings Details (Brothers & Sisters - Max 3 Each)</h3>
                     
@@ -376,7 +376,7 @@
             <!-- Scrollable Container -->
             <div class="custom-scroll flex-1 overflow-y-auto overflow-x-auto flex justify-center items-start p-2 rounded-lg bg-slate-200/60 border border-slate-300">
                 
-                <!-- A4 PAGE DOCUMENT OUTPUT (STRICT SINGLE PAGE FIT) -->
+                <!-- A4 PAGE DOCUMENT OUTPUT -->
                 <div id="biodataPreviewPage" class="a4-page font-biodata text-slate-800 relative flex flex-col justify-between">
                     
                     <div>
@@ -454,7 +454,7 @@
                             </div>
                         </div>
 
-                        <!-- 4. SIBLINGS PREVIEW (MAX 3 WITH BORDER) -->
+                        <!-- 4. SIBLINGS PREVIEW (WITH MARRIAGE STATUS & COUNT) -->
                         <div id="previewSiblingsSection" class="biodata-section">
                             <div class="text-center mb-0.5">
                                 <h3 class="text-[9px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Siblings Details (Max 3)</h3>
@@ -555,14 +555,14 @@
         window.addEventListener('DOMContentLoaded', () => {
             loadSavedRecordsFromStorage();
             brothersList = [
-                { id: 1, name: '', relation: 'Elder', edu: '', job: '' },
-                { id: 2, name: '', relation: 'Elder', edu: '', job: '' },
-                { id: 3, name: '', relation: 'Younger', edu: '', job: '' }
+                { id: 1, name: '', relation: 'Elder', edu: '', job: '', mStatus: 'Unmarried' },
+                { id: 2, name: '', relation: 'Elder', edu: '', job: '', mStatus: 'Unmarried' },
+                { id: 3, name: '', relation: 'Younger', edu: '', job: '', mStatus: 'Unmarried' }
             ];
             sistersList = [
-                { id: 101, name: '', relation: 'Elder', edu: '', job: '' },
-                { id: 102, name: '', relation: 'Younger', edu: '', job: '' },
-                { id: 103, name: '', relation: 'Younger', edu: '', job: '' }
+                { id: 101, name: '', relation: 'Elder', edu: '', job: '', mStatus: 'Unmarried' },
+                { id: 102, name: '', relation: 'Younger', edu: '', job: '', mStatus: 'Unmarried' },
+                { id: 103, name: '', relation: 'Younger', edu: '', job: '', mStatus: 'Unmarried' }
             ];
             renderBrothersInputs();
             renderSistersInputs();
@@ -614,7 +614,7 @@
                 alert('Maximum 3 brothers can be added.');
                 return;
             }
-            brothersList.push({ id: Date.now(), name: '', relation: 'Elder', edu: '', job: '' });
+            brothersList.push({ id: Date.now(), name: '', relation: 'Elder', edu: '', job: '', mStatus: 'Unmarried' });
             renderBrothersInputs();
             updatePreview();
         }
@@ -661,7 +661,11 @@
                             <option value="Younger" ${bro.relation === 'Younger' ? 'selected' : ''}>Younger Brother</option>
                         </select>
                         <input type="text" value="${bro.edu}" oninput="updateBrotherData(${bro.id}, 'edu', this.value)" placeholder="Education" class="border rounded p-1 text-[10px]">
-                        <input type="text" value="${bro.job}" oninput="updateBrotherData(${bro.id}, 'job', this.value)" placeholder="Occupation/Status" class="border rounded p-1 text-[10px]">
+                        <input type="text" value="${bro.job}" oninput="updateBrotherData(${bro.id}, 'job', this.value)" placeholder="Occupation" class="border rounded p-1 text-[10px]">
+                        <select onchange="updateBrotherData(${bro.id}, 'mStatus', this.value)" class="border rounded p-1 text-[10px] bg-white col-span-2">
+                            <option value="Unmarried" ${bro.mStatus === 'Unmarried' ? 'selected' : ''}>Unmarried</option>
+                            <option value="Married" ${bro.mStatus === 'Married' ? 'selected' : ''}>Married</option>
+                        </select>
                     </div>
                 </div>
             `).join('');
@@ -672,7 +676,7 @@
                 alert('Maximum 3 sisters can be added.');
                 return;
             }
-            sistersList.push({ id: Date.now(), name: '', relation: 'Elder', edu: '', job: '' });
+            sistersList.push({ id: Date.now(), name: '', relation: 'Elder', edu: '', job: '', mStatus: 'Unmarried' });
             renderSistersInputs();
             updatePreview();
         }
@@ -719,7 +723,11 @@
                             <option value="Younger" ${sis.relation === 'Younger' ? 'selected' : ''}>Younger Sister</option>
                         </select>
                         <input type="text" value="${sis.edu}" oninput="updateSisterData(${sis.id}, 'edu', this.value)" placeholder="Education" class="border rounded p-1 text-[10px]">
-                        <input type="text" value="${sis.job}" oninput="updateSisterData(${sis.id}, 'job', this.value)" placeholder="Marital Status/Details" class="border rounded p-1 text-[10px]">
+                        <input type="text" value="${sis.job}" oninput="updateSisterData(${sis.id}, 'job', this.value)" placeholder="Occupation" class="border rounded p-1 text-[10px]">
+                        <select onchange="updateSisterData(${sis.id}, 'mStatus', this.value)" class="border rounded p-1 text-[10px] bg-white col-span-2">
+                            <option value="Unmarried" ${sis.mStatus === 'Unmarried' ? 'selected' : ''}>Unmarried</option>
+                            <option value="Married" ${sis.mStatus === 'Married' ? 'selected' : ''}>Married</option>
+                        </select>
                     </div>
                 </div>
             `).join('');
@@ -780,7 +788,6 @@
             document.getElementById('previewName').textContent = nameVal || '-';
             document.getElementById('prevNameVal').textContent = nameVal || '-';
             
-            // Auto-display selected Religion & Caste/Sect under photo
             const selectedReligion = document.getElementById('religion').value || 'Islam';
             const casteVal = document.getElementById('casteInfo').value.trim();
             if (casteVal) {
@@ -876,12 +883,14 @@
             if (brothersList.length === 0) {
                 prevBroContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
             } else {
-                prevBroContainer.innerHTML = brothersList.map(b => `
+                prevBroContainer.innerHTML = brothersList.map((b, i) => `
                     <div class="space-y-0.5 border-b border-amber-200/40 pb-0.5 mb-0.5 last:border-b-0 last:mb-0 last:pb-0">
+                        <div class="flex justify-between font-bold text-amber-900 text-[9px] border-b border-slate-100 pb-0.5"><span>Brother #${i + 1}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Name:</span><span class="font-bold text-slate-900">${b.name || '-'}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Relation:</span><span class="text-slate-800">${b.relation || '-'}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Edu:</span><span class="text-slate-800">${b.edu || '-'}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Job:</span><span class="text-slate-800">${b.job || '-'}</span></div>
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Status:</span><span class="font-bold text-amber-900">${b.mStatus || 'Unmarried'}</span></div>
                     </div>
                 `).join('');
             }
@@ -890,12 +899,14 @@
             if (sistersList.length === 0) {
                 prevSisContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
             } else {
-                prevSisContainer.innerHTML = sistersList.map(s => `
+                prevSisContainer.innerHTML = sistersList.map((s, i) => `
                     <div class="space-y-0.5 border-b border-amber-200/40 pb-0.5 mb-0.5 last:border-b-0 last:mb-0 last:pb-0">
+                        <div class="flex justify-between font-bold text-amber-900 text-[9px] border-b border-slate-100 pb-0.5"><span>Sister #${i + 1}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Name:</span><span class="font-bold text-slate-900">${s.name || '-'}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Relation:</span><span class="text-slate-800">${s.relation || '-'}</span></div>
                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Edu:</span><span class="text-slate-800">${s.edu || '-'}</span></div>
-                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Details:</span><span class="text-slate-800">${s.job || '-'}</span></div>
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Job:</span><span class="text-slate-800">${s.job || '-'}</span></div>
+                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Status:</span><span class="font-bold text-amber-900">${s.mStatus || 'Unmarried'}</span></div>
                     </div>
                 `).join('');
             }
@@ -951,14 +962,14 @@
             document.getElementById('motherJob').value = '';
 
             brothersList = [
-                { id: 1, name: '', relation: 'Elder', edu: '', job: '' },
-                { id: 2, name: '', relation: 'Elder', edu: '', job: '' },
-                { id: 3, name: '', relation: 'Younger', edu: '', job: '' }
+                { id: 1, name: '', relation: 'Elder', edu: '', job: '', mStatus: 'Unmarried' },
+                { id: 2, name: '', relation: 'Elder', edu: '', job: '', mStatus: 'Unmarried' },
+                { id: 3, name: '', relation: 'Younger', edu: '', job: '', mStatus: 'Unmarried' }
             ];
             sistersList = [
-                { id: 101, name: '', relation: 'Elder', edu: '', job: '' },
-                { id: 102, name: '', relation: 'Younger', edu: '', job: '' },
-                { id: 103, name: '', relation: 'Younger', edu: '', job: '' }
+                { id: 101, name: '', relation: 'Elder', edu: '', job: '', mStatus: 'Unmarried' },
+                { id: 102, name: '', relation: 'Younger', edu: '', job: '', mStatus: 'Unmarried' },
+                { id: 103, name: '', relation: 'Younger', edu: '', job: '', mStatus: 'Unmarried' }
             ];
             document.getElementById('enableBrothers').checked = true;
             document.getElementById('enableSisters').checked = true;
