@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marriage Biodata Builder</title>
+    <title>Marriage Biodata Builder Pro</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -49,13 +49,11 @@
         .border-double-custom {
             border: 4px double #8B5A2B;
         }
-        .border-inner-gold {
-            border: 1px solid #D4AF37;
-        }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen">
 
+    <!-- Header -->
     <header class="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-950 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
@@ -74,6 +72,7 @@
     <!-- Main Container -->
     <main class="max-w-[1600px] mx-auto p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
 
+        <!-- Form Input Section -->
         <section class="lg:col-span-5 bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden flex flex-col max-h-[88vh]">
             <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
                 <h2 class="font-bold text-slate-800 flex items-center gap-2">
@@ -81,7 +80,7 @@
                     Fill Candidate Details
                 </h2>
                 <button onclick="resetForm()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold flex items-center gap-1">
-                    <i class="fa-solid fa-rotate-left"></i> Reset
+                    <i class="fa-solid fa-rotate-left"></i> Reset Form
                 </button>
             </div>
 
@@ -89,10 +88,10 @@
                 
                 <!-- Religious Preference & Header -->
                 <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-200/60 space-y-3">
-                    <label class="block font-semibold text-amber-900">1. Header & Religious Settings</label>
-                    <div class="grid grid-cols-2 gap-3">
+                    <label class="block font-semibold text-amber-900">1. Religious Header Settings</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">Select Religion Header</label>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Select Religion</label>
                             <select id="religion" onchange="updateReligionHeader()" class="w-full rounded-lg border-slate-300 border p-2 focus:ring-2 focus:ring-amber-500 outline-none">
                                 <option value="islam">Islam (Bismillah)</option>
                                 <option value="hindu">Hindu (Om / Swastik)</option>
@@ -102,8 +101,8 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">Sub-heading Text</label>
-                            <input type="text" id="headerTagline" value="In the name of Allah, the Most Gracious" oninput="updatePreview()" class="w-full rounded-lg border-slate-300 border p-2 focus:ring-2 focus:ring-amber-500 outline-none" placeholder="e.g. In the name of Allah...">
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Sub-heading Tagline</label>
+                            <input type="text" id="headerTagline" value="In the name of Allah, the Most Gracious" oninput="updatePreview()" class="w-full rounded-lg border-slate-300 border p-2 focus:ring-2 focus:ring-amber-500 outline-none">
                         </div>
                     </div>
                 </div>
@@ -111,15 +110,15 @@
                 <!-- Profile Photo Upload -->
                 <div class="space-y-2">
                     <label class="block font-semibold text-slate-700">2. Profile Photo</label>
-                    <div class="flex items-center space-x-4">
-                        <div class="w-16 h-16 rounded-lg border border-slate-300 overflow-hidden bg-slate-100 flex items-center justify-center relative">
+                    <div class="flex items-center space-x-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <div class="w-16 h-16 rounded-lg border border-slate-300 overflow-hidden bg-white flex items-center justify-center shrink-0">
                             <img id="photoPreviewThumb" src="profile.png" onerror="this.src='profile.png'" class="w-full h-full object-cover" alt="Thumb">
                         </div>
                         <div class="flex-1">
-                            <input type="file" id="photoInput" accept="image/*" onchange="handleImageUpload(event)" class="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-amber-100 file:text-amber-800 hover:file:bg-amber-200 cursor-pointer"/>
-                            <p class="text-[11px] text-slate-400 mt-1">Default is <code class="bg-slate-100 px-1 rounded">profile.png</code> if not uploaded.</p>
+                            <input type="file" id="photoInput" accept="image/*" onchange="handleImageUpload(event)" class="block w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-amber-100 file:text-amber-800 hover:file:bg-amber-200 cursor-pointer"/>
+                            <p class="text-[11px] text-slate-400 mt-1">Default photo: <code class="bg-slate-200 px-1 rounded">profile.png</code></p>
                         </div>
-                        <button type="button" onclick="clearPhoto()" class="text-xs text-slate-500 hover:text-rose-600 p-2" title="Clear Photo">
+                        <button type="button" onclick="clearPhoto()" class="text-xs text-slate-500 hover:text-rose-600 p-2" title="Reset Photo">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -131,45 +130,122 @@
                     <div class="grid grid-cols-2 gap-3">
                         <div class="col-span-2 sm:col-span-1">
                             <label class="block text-xs text-slate-600 mb-1">Full Name</label>
-                            <input type="text" id="fullName" value="MD RAJA" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none" placeholder="Full Name">
+                            <input type="text" id="fullName" value="MD RAJA" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
                         </div>
                         <div class="col-span-2 sm:col-span-1">
                             <label class="block text-xs text-slate-600 mb-1">Caste / Sect / Religion</label>
-                            <input type="text" id="casteInfo" value="ISLAM, SUNNI" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none" placeholder="e.g. ISLAM, SUNNI">
+                            <input type="text" id="casteInfo" value="ISLAM, SUNNI" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
                         </div>
                         <div>
                             <label class="block text-xs text-slate-600 mb-1">Date of Birth</label>
-                            <input type="text" id="dob" value="04-02-1999" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none" placeholder="DD-MM-YYYY">
+                            <input type="text" id="dob" value="04-02-1999" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
                         </div>
                         <div>
                             <label class="block text-xs text-slate-600 mb-1">Height</label>
-                            <input type="text" id="height" value="5 Feet 4 Inch" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none" placeholder="Height">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-slate-600 mb-1">Qualification</label>
-                            <input type="text" id="qualification" value="B.Tech" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-slate-600 mb-1">Occupation / Status</label>
-                            <input type="text" id="occupation" value="Pursuing Education / Working" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
+                            <input type="text" id="height" value="5 Feet 4 Inch" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
                         </div>
                         <div class="col-span-2">
-                            <label class="block text-xs text-slate-600 mb-1">Job / Course Title</label>
-                            <input type="text" id="jobTitle" value="Software Engineer / CSE" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
+                            <label class="block text-xs text-slate-600 mb-1">Educational Qualification</label>
+                            <input type="text" id="qualification" value="B.Tech in Computer Science" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
                         </div>
-                        <div class="col-span-2">
-                            <label class="block text-xs text-slate-600 mb-1">Work / Business Info</label>
-                            <input type="text" id="workInfo" value="Computer Science & Engineering" oninput="updatePreview()" class="w-full border rounded-lg p-2 focus:ring-1 focus:ring-amber-500 outline-none">
+                    </div>
+                </div>
+
+                <!-- CONDITIONAL CAREER / OCCUPATION TAB (DYNAMIC FIELDS) -->
+                <div class="bg-amber-50/40 p-4 rounded-xl border border-amber-200/80 space-y-3">
+                    <h3 class="font-semibold text-amber-900 text-xs uppercase tracking-wider border-b border-amber-200 pb-1">4. Career & Employment Status (Dynamic Tabs)</h3>
+                    
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Select Current Activity Status:</label>
+                        <select id="careerType" onchange="handleCareerTypeChange()" class="w-full border border-amber-300 rounded-lg p-2 text-xs font-medium bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+                            <option value="job" selected>Job / Employed</option>
+                            <option value="business">Business / Self-Employed</option>
+                            <option value="pursuing">Pursuing Education / Student</option>
+                            <option value="other">Not Working / Other</option>
+                        </select>
+                    </div>
+
+                    <!-- JOB FIELDS -->
+                    <div id="jobFields" class="space-y-2 pt-1">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Job Title / Role</label>
+                                <input type="text" id="jobRole" value="Software Engineer" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Company Name</label>
+                                <input type="text" id="jobCompany" value="Tech Solutions Ltd." oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Work Location</label>
+                                <input type="text" id="jobLocation" value="Bangalore" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Annual / Monthly Income</label>
+                                <input type="text" id="jobIncome" value="6 LPA" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BUSINESS FIELDS -->
+                    <div id="businessFields" class="space-y-2 pt-1 hidden">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Business Name</label>
+                                <input type="text" id="busName" value="Raja Enterprises" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Business Type / Sector</label>
+                                <input type="text" id="busType" value="Textile Retail" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Business Location</label>
+                                <input type="text" id="busLocation" value="Patna" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Turnover / Income</label>
+                                <input type="text" id="busIncome" value="10 LPA" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PURSUING EDUCATION FIELDS -->
+                    <div id="pursuingFields" class="space-y-2 pt-1 hidden">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Degree / Course Name</label>
+                                <input type="text" id="purDegree" value="B.Tech (Computer Science)" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">College / University</label>
+                                <input type="text" id="purCollege" value="State University" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Current Year / Semester</label>
+                                <input type="text" id="purYear" value="Final Year" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-slate-600">Expected Completion</label>
+                                <input type="text" id="purCompletion" value="2026" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- OTHER / NOT WORKING FIELDS -->
+                    <div id="otherFields" class="space-y-2 pt-1 hidden">
+                        <div>
+                            <label class="block text-[11px] text-slate-600">Current Status Note</label>
+                            <input type="text" id="otherNote" value="Preparing for Competitive Civil Services" oninput="updatePreview()" class="w-full border rounded p-1.5 text-xs">
                         </div>
                     </div>
                 </div>
 
                 <!-- Parents Details -->
                 <div class="space-y-3">
-                    <h3 class="font-semibold text-slate-800 border-b pb-1 text-xs uppercase tracking-wider text-amber-800">4. Parents Details</h3>
+                    <h3 class="font-semibold text-slate-800 border-b pb-1 text-xs uppercase tracking-wider text-amber-800">5. Parents Details</h3>
                     <div class="grid grid-cols-2 gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
                         <span class="col-span-2 font-medium text-xs text-amber-900">Father's Details</span>
-                        <input type="text" id="fatherName" value="Md Shamseem" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Father's Name">
+                        <input type="text" id="fatherName" value="Md Shameem" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Father's Name">
                         <input type="text" id="fatherEdu" value="12th Pass" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Education">
                         <input type="text" id="fatherStatus" value="Working" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Status">
                         <input type="text" id="fatherJob" value="Tailor / Business" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Occupation">
@@ -186,7 +262,7 @@
 
                 <!-- Siblings Details -->
                 <div class="space-y-3">
-                    <h3 class="font-semibold text-slate-800 border-b pb-1 text-xs uppercase tracking-wider text-amber-800">5. Siblings Details</h3>
+                    <h3 class="font-semibold text-slate-800 border-b pb-1 text-xs uppercase tracking-wider text-amber-800">6. Siblings Details</h3>
                     <div class="grid grid-cols-2 gap-2">
                         <input type="text" id="brother1" value="Brother #1: Xyz (B.tech)" oninput="updatePreview()" class="border rounded-lg p-2 text-xs col-span-2" placeholder="Brother #1 details">
                         <input type="text" id="brother2" value="Brother #2: -" oninput="updatePreview()" class="border rounded-lg p-2 text-xs col-span-2" placeholder="Brother #2 details">
@@ -195,15 +271,15 @@
                     </div>
                 </div>
 
-                <!-- Contact & Address -->
+                 <!-- Contact & Address -->
                 <div class="space-y-3">
-                    <h3 class="font-semibold text-slate-800 border-b pb-1 text-xs uppercase tracking-wider text-amber-800">6. Permanent Address & Contact</h3>
+                    <h3 class="font-semibold text-slate-800 border-b pb-1 text-xs uppercase tracking-wider text-amber-800">7. Permanent Address & Contact</h3>
                     <div class="grid grid-cols-2 gap-3">
                         <input type="text" id="address" value="Main Street, Sector 4" oninput="updatePreview()" class="border rounded-lg p-2 text-xs col-span-2" placeholder="Address Line">
                         <input type="text" id="po" value="Central PO" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Post Office">
                         <input type="text" id="districtState" value="Patna, Bihar" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="District, State">
                         <input type="text" id="phone" value="+91 9876543210" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Phone Number">
-                        <input type="text" id="email" value="mdraja@example.com" oninput="updatePreview()" class="border rounded-lg p-2 text-xs" placeholder="Email Address">
+                        <input type="text" id="email" value="mdraja@example.com" oninput="updatePreview()" class="border rounded-lg p-2 text-xs col-span-2" placeholder="Email Address">
                     </div>
                 </div>
 
@@ -219,7 +295,7 @@
             </div>
         </section>
 
-
+        <!-- Live Preview Section -->
         <section class="lg:col-span-7 bg-slate-200/60 p-4 lg:p-6 rounded-2xl border border-slate-300 flex flex-col max-h-[88vh]">
             <div class="flex items-center justify-between mb-3 px-2">
                 <h2 class="font-bold text-slate-800 flex items-center gap-2">
@@ -238,124 +314,118 @@
                 <div id="biodataPreviewPage" class="a4-page font-biodata text-slate-800 border-double-custom p-6 relative flex flex-col justify-between">
                     
                     <div>
-                        <!-- Top Religious Header Section (Centered & Dynamic) -->
-                        <div class="text-center mb-6 border-b border-amber-900/20 pb-4 relative">
+                        <!-- Religious Header -->
+                        <div class="text-center mb-4 border-b border-amber-900/20 pb-3 relative">
                             <div class="flex justify-center items-center mb-1 h-12">
                                 <img id="previewHeaderImg" src="islam.png" onerror="handleHeaderImgError(this)" class="h-10 object-contain max-w-[200px]" alt="Symbol">
                             </div>
                             <p id="previewHeaderTagline" class="text-xs italic text-amber-950 font-serif tracking-wide">In the name of Allah, the Most Gracious</p>
                         </div>
 
-                        <!-- Candidate Profile Image & Title (CENTERED ALIGNED DETAILS) -->
-                        <div class="flex flex-col items-center justify-center text-center my-4">
-                            <!-- Image Frame with Fallback to profile.png -->
-                            <div class="w-32 h-36 border-2 border-amber-800 p-1 bg-white shadow-sm rounded-sm mb-3">
+                        <!-- Candidate Profile Image & Title -->
+                        <div class="flex flex-col items-center justify-center text-center my-3">
+                            <div class="w-32 h-36 border-2 border-amber-800 p-1 bg-white shadow-sm rounded-sm mb-2">
                                 <img id="previewPhoto" src="profile.png" onerror="this.src='profile.png'" class="w-full h-full object-cover rounded-sm" alt="Profile">
                             </div>
                             <h2 id="previewName" class="text-2xl font-bold tracking-wider text-amber-900 uppercase font-serif-header">MD RAJA</h2>
                             <p id="previewCaste" class="text-xs text-slate-600 font-bold uppercase tracking-widest mt-0.5">ISLAM, SUNNI</p>
                         </div>
 
-                        <!-- 1. PERSONAL DETAILS SECTION (BALANCED CENTER/GRID ALIGNMENT) -->
-                        <div class="mt-6">
-                            <div class="text-center mb-3">
+                        <!-- 1. PERSONAL DETAILS SECTION (WIDE GAP ALIGNMENT) -->
+                        <div class="mt-5">
+                            <div class="text-center mb-2">
                                 <h3 class="text-xs font-bold text-amber-900 uppercase tracking-widest bg-amber-50 py-1 px-4 inline-block border-y border-amber-200">Personal Details</h3>
                             </div>
-                            <div class="max-w-lg mx-auto grid grid-cols-12 gap-y-1.5 text-xs text-slate-800">
-                                <div class="col-span-5 font-semibold text-right pr-3 text-slate-600">Date of Birth:</div>
-                                <div id="previewDob" class="col-span-7 font-bold text-slate-900">04-02-1999</div>
-
-                                <div class="col-span-5 font-semibold text-right pr-3 text-slate-600">Height:</div>
-                                <div id="previewHeight" class="col-span-7 font-bold text-slate-900">5 Feet 4 Inch</div>
-
-                                <div class="col-span-5 font-semibold text-right pr-3 text-slate-600">Qualification:</div>
-                                <div id="previewQual" class="col-span-7 font-bold text-slate-900">B.Tech</div>
-
-                                <div class="col-span-5 font-semibold text-right pr-3 text-slate-600">Occupation / Status:</div>
-                                <div id="previewOcc" class="col-span-7 font-bold text-slate-900">Pursuing Education / Working</div>
-
-                                <div class="col-span-5 font-semibold text-right pr-3 text-slate-600">Job / Course Title:</div>
-                                <div id="previewJob" class="col-span-7 font-bold text-slate-900">Software Engineer / CSE</div>
-
-                                <div class="col-span-5 font-semibold text-right pr-3 text-slate-600">Work / Business Info:</div>
-                                <div id="previewWork" class="col-span-7 font-bold text-slate-900">Computer Science & Engineering</div>
+                            <div class="w-full space-y-1.5 text-xs text-slate-800 px-4">
+                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5">
+                                    <span class="font-semibold text-slate-600">Full Name :</span>
+                                    <span id="prevNameVal" class="font-bold text-slate-900">MD RAJA</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5">
+                                    <span class="font-semibold text-slate-600">Date of Birth :</span>
+                                    <span id="previewDob" class="font-bold text-slate-900">04-02-1999</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5">
+                                    <span class="font-semibold text-slate-600">Height :</span>
+                                    <span id="previewHeight" class="font-bold text-slate-900">5 Feet 4 Inch</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5">
+                                    <span class="font-semibold text-slate-600">Qualification :</span>
+                                    <span id="previewQual" class="font-bold text-slate-900">B.Tech in Computer Science</span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 2. PARENTS DETAILS SECTION -->
-                        <div class="mt-6">
-                            <div class="text-center mb-3">
+                        <!-- 2. CAREER / OCCUPATION DETAILS (DYNAMIC PREVIEW WITH WIDE GAP) -->
+                        <div class="mt-5">
+                            <div class="text-center mb-2">
+                                <h3 class="text-xs font-bold text-amber-900 uppercase tracking-widest bg-amber-50 py-1 px-4 inline-block border-y border-amber-200">Career & Status Details</h3>
+                            </div>
+                            <div id="previewCareerContainer" class="w-full space-y-1.5 text-xs text-slate-800 px-4">
+                                <!-- Dynamic Career Key-Values loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- 3. PARENTS DETAILS SECTION -->
+                        <div class="mt-5">
+                            <div class="text-center mb-2">
                                 <h3 class="text-xs font-bold text-amber-900 uppercase tracking-widest bg-amber-50 py-1 px-4 inline-block border-y border-amber-200">Parents Details</h3>
                             </div>
                             
-                            <div class="max-w-xl mx-auto space-y-3">
+                            <div class="w-full space-y-2.5 px-2">
                                 <!-- Father Card -->
-                                <div class="bg-amber-50/40 p-2.5 rounded border border-amber-100/80">
-                                    <p class="text-[11px] font-bold text-amber-900 uppercase mb-1.5 border-b border-amber-200/50 pb-0.5 text-center">FATHER'S DETAILS</p>
-                                    <div class="grid grid-cols-12 gap-y-1 text-xs">
-                                        <div class="col-span-4 font-semibold text-right pr-3 text-slate-600">Name:</div>
-                                        <div id="previewFatherName" class="col-span-8 font-bold text-slate-900">Md Shamseem</div>
-
-                                        <div class="col-span-4 font-semibold text-right pr-3 text-slate-600">Education:</div>
-                                        <div id="previewFatherEdu" class="col-span-8 text-slate-800">12th Pass</div>
-
-                                        <div class="col-span-4 font-semibold text-right pr-3 text-slate-600">Status:</div>
-                                        <div id="previewFatherStatus" class="col-span-8 text-slate-800">Working</div>
-
-                                        <div class="col-span-4 font-semibold text-right pr-3 text-slate-600">Job / Occupation:</div>
-                                        <div id="previewFatherJob" class="col-span-8 text-slate-800">Tailor / Business</div>
+                                <div class="bg-amber-50/40 p-2 rounded border border-amber-100/80">
+                                    <p class="text-[11px] font-bold text-amber-900 uppercase mb-1 border-b border-amber-200/50 pb-0.5 text-center">FATHER'S DETAILS</p>
+                                    <div class="space-y-1 text-xs">
+                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Name :</span><span id="previewFatherName" class="font-bold text-slate-900">Md Shameem</span></div>
+                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Education :</span><span id="previewFatherEdu" class="text-slate-800">12th Pass</span></div>
+                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Status :</span><span id="previewFatherStatus" class="text-slate-800">Working</span></div>
+                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Occupation :</span><span id="previewFatherJob" class="text-slate-800">Tailor / Business</span></div>
                                     </div>
                                 </div>
 
                                 <!-- Mother Card -->
-                                <div class="bg-amber-50/40 p-2.5 rounded border border-amber-100/80">
-                                    <p class="text-[11px] font-bold text-amber-900 uppercase mb-1.5 border-b border-amber-200/50 pb-0.5 text-center">MOTHER'S DETAILS</p>
-                                    <div class="grid grid-cols-12 gap-y-1 text-xs">
-                                        <div class="col-span-4 font-semibold text-right pr-3 text-slate-600">Name:</div>
-                                        <div id="previewMotherName" class="col-span-8 font-bold text-slate-900">Parveen Begum</div>
-
-                                        <div class="col-span-4 font-semibold text-right pr-3 text-slate-600">Education:</div>
-                                        <div id="previewMotherEdu" class="col-span-8 text-slate-800">Matric</div>
-
-                                        <div class="col-span-4 font-semibold text-right pr-3 text-slate-600">Status:</div>
-                                        <div id="previewMotherStatus" class="col-span-8 text-slate-800">Homemaker</div>
-
-                                        <div class="col-span-4 font-semibold text-right pr-3 text-slate-600">Job / Occupation:</div>
-                                        <div id="previewMotherJob" class="col-span-8 text-slate-800">N/A</div>
+                                <div class="bg-amber-50/40 p-2 rounded border border-amber-100/80">
+                                    <p class="text-[11px] font-bold text-amber-900 uppercase mb-1 border-b border-amber-200/50 pb-0.5 text-center">MOTHER'S DETAILS</p>
+                                    <div class="space-y-1 text-xs">
+                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Name :</span><span id="previewMotherName" class="font-bold text-slate-900">Parveen Begum</span></div>
+                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Education :</span><span id="previewMotherEdu" class="text-slate-800">Matric</span></div>
+                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Status :</span><span id="previewMotherStatus" class="text-slate-800">Homemaker</span></div>
+                                        <div class="flex justify-between"><span class="font-semibold text-slate-600">Occupation :</span><span id="previewMotherJob" class="text-slate-800">N/A</span></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 3. SIBLINGS DETAILS SECTION -->
-                        <div class="mt-6">
-                            <div class="text-center mb-3">
+                        <!-- 4. SIBLINGS DETAILS SECTION -->
+                        <div class="mt-5">
+                            <div class="text-center mb-2">
                                 <h3 class="text-xs font-bold text-amber-900 uppercase tracking-widest bg-amber-50 py-1 px-4 inline-block border-y border-amber-200">Siblings Details</h3>
                             </div>
-                            <div class="max-w-xl mx-auto grid grid-cols-1 gap-1.5 text-xs bg-amber-50/30 p-3 rounded border border-amber-100">
-                                <div id="previewBro1" class="text-center font-medium text-slate-800">Brother #1: Xyz (B.tech)</div>
-                                <div id="previewBro2" class="text-center font-medium text-slate-800">Brother #2: -</div>
-                                <div id="previewSis1" class="text-center font-medium text-slate-800">Sister #1: -</div>
-                                <div id="previewSis2" class="text-center font-medium text-slate-800">Sister #2: -</div>
+                            <div class="w-full grid grid-cols-1 gap-1 text-xs bg-amber-50/30 p-2.5 rounded border border-amber-100 text-center">
+                                <div id="previewBro1" class="font-medium text-slate-800">Brother #1: Xyz (B.tech)</div>
+                                <div id="previewBro2" class="font-medium text-slate-800">Brother #2: -</div>
+                                <div id="previewSis1" class="font-medium text-slate-800">Sister #1: -</div>
+                                <div id="previewSis2" class="font-medium text-slate-800">Sister #2: -</div>
                             </div>
                         </div>
 
-                        <!-- 4. PERMANENT ADDRESS & CONTACT SECTION -->
-                        <div class="mt-6">
-                            <div class="text-center mb-3">
+                        <!-- 5. PERMANENT ADDRESS & CONTACT SECTION -->
+                        <div class="mt-5">
+                            <div class="text-center mb-2">
                                 <h3 class="text-xs font-bold text-amber-900 uppercase tracking-widest bg-amber-50 py-1 px-4 inline-block border-y border-amber-200">Permanent Address & Contact</h3>
                             </div>
-                            <div class="max-w-lg mx-auto text-xs space-y-1.5 text-center">
-                                <p><span class="font-semibold text-slate-600">Permanent Address:</span> <span id="previewAddr" class="font-bold text-slate-800">Main Street, Sector 4, PO: Central PO, District: Patna, State: Bihar</span></p>
-                                <p><span class="font-semibold text-slate-600">Phone Number:</span> <span id="previewPhone" class="font-bold text-amber-900">+91 9876543210</span></p>
-                                <p><span class="font-semibold text-slate-600">Email Address:</span> <span id="previewEmail" class="font-bold text-slate-800">mdraja@example.com</span></p>
+                            <div class="w-full text-xs space-y-1 px-4 text-center">
+                                <p><span class="font-semibold text-slate-600">Permanent Address :</span> <span id="previewAddr" class="font-bold text-slate-800">Main Street, Sector 4, PO: Central PO, District/State: Patna, Bihar</span></p>
+                                <p><span class="font-semibold text-slate-600">Phone Number :</span> <span id="previewPhone" class="font-bold text-amber-900">+91 9876543210</span></p>
+                                <p><span class="font-semibold text-slate-600">Email Address :</span> <span id="previewEmail" class="font-bold text-slate-800">mdraja@example.com</span></p>
                             </div>
                         </div>
 
                     </div>
 
                     <!-- Subtle Footer Decorative Line -->
-                    <div class="mt-8 pt-2 border-t border-amber-800/20 text-center text-[10px] text-slate-400">
+                    <div class="mt-6 pt-2 border-t border-amber-800/20 text-center text-[10px] text-slate-400">
                         Biodata generated with Privacy & Quality Assurance
                     </div>
 
@@ -364,6 +434,7 @@
         </section>
     </main>
 
+     <!-- Admin Portal Modal -->
     <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden flex flex-col max-h-[90vh]">
             <div class="bg-amber-900 text-white px-6 py-4 flex justify-between items-center">
@@ -375,7 +446,7 @@
 
             <!-- Login View -->
             <div id="adminLoginSec" class="p-6 text-center space-y-4">
-                <p class="text-sm text-slate-600">Please enter admin password to view saved biodata records.</p>
+                <p class="text-sm text-slate-600">Enter admin password to access saved records.</p>
                 <div class="max-w-xs mx-auto space-y-3">
                     <input type="password" id="adminPass" placeholder="Password (default: admin123)" class="w-full border p-2.5 rounded-lg text-sm outline-none focus:ring-2 focus:ring-amber-600">
                     <button onclick="verifyAdmin()" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-semibold py-2 rounded-lg text-sm transition">
@@ -394,46 +465,25 @@
                     </button>
                 </div>
 
-                <div id="recordsList" class="space-y-3">
-                    <!-- Dynamic Records Loaded Here -->
-                </div>
+                <div id="recordsList" class="space-y-3"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // State management variables
         let uploadedPhotoBase64 = null;
         let savedRecords = [];
 
-        // Dynamic Header map based on religious preference
         const religionConfig = {
-            islam: {
-                img: 'islam.png',
-                tagline: 'In the name of Allah, the Most Gracious'
-            },
-            hindu: {
-                img: 'hindu.png',
-                tagline: 'Shree Ganeshay Namah'
-            },
-            sikh: {
-                img: 'sikh.png',
-                tagline: 'Ik Onkar Satnam'
-            },
-            christian: {
-                img: 'christian.png',
-                tagline: 'God Bless This Union'
-            },
-            universal: {
-                img: 'universal.png',
-                tagline: 'Marriage Biodata'
-            }
+            islam: { img: 'islam.png', tagline: 'In the name of Allah, the Most Gracious' },
+            hindu: { img: 'hindu.png', tagline: 'Shree Ganeshay Namah' },
+            sikh: { img: 'sikh.png', tagline: 'Ik Onkar Satnam' },
+            christian: { img: 'christian.png', tagline: 'God Bless This Union' },
+            universal: { img: 'universal.png', tagline: 'Marriage Biodata' }
         };
 
-        // Fallback SVG icon string if religious icon PNG is missing
         function handleHeaderImgError(imgElem) {
             const rel = document.getElementById('religion').value;
-            // Provide styled SVG backup icon if png file is not found
             let symbolSvg = '🌸';
             if (rel === 'islam') symbolSvg = '☪';
             else if (rel === 'hindu') symbolSvg = '🕉';
@@ -444,14 +494,29 @@
             parent.innerHTML = `<span class="text-3xl text-amber-800 font-bold">${symbolSvg}</span>`;
         }
 
-        // Initialize App on DOM Ready
         window.addEventListener('DOMContentLoaded', () => {
             loadSavedRecordsFromStorage();
             updateReligionHeader();
+            handleCareerTypeChange();
             updatePreview();
         });
 
-        // Update header details based on religious selection
+        // Switch visible input fields when career type changes
+        function handleCareerTypeChange() {
+            const type = document.getElementById('careerType').value;
+            document.getElementById('jobFields').classList.add('hidden');
+            document.getElementById('businessFields').classList.add('hidden');
+            document.getElementById('pursuingFields').classList.add('hidden');
+            document.getElementById('otherFields').classList.add('hidden');
+
+            if (type === 'job') document.getElementById('jobFields').classList.remove('hidden');
+            else if (type === 'business') document.getElementById('businessFields').classList.remove('hidden');
+            else if (type === 'pursuing') document.getElementById('pursuingFields').classList.remove('hidden');
+            else if (type === 'other') document.getElementById('otherFields').classList.remove('hidden');
+
+            updatePreview();
+        }
+
         function updateReligionHeader() {
             const religionKey = document.getElementById('religion').value;
             const config = religionConfig[religionKey] || religionConfig.islam;
@@ -463,7 +528,6 @@
             document.getElementById('previewHeaderTagline').textContent = config.tagline;
         }
 
-        // Handle Image Upload & Convert to Base64
         function handleImageUpload(event) {
             const file = event.target.files[0];
             if (file) {
@@ -477,7 +541,6 @@
             }
         }
 
-        // Clear uploaded image and revert to profile.png default
         function clearPhoto() {
             uploadedPhotoBase64 = null;
             document.getElementById('photoInput').value = '';
@@ -485,10 +548,11 @@
             document.getElementById('previewPhoto').src = 'profile.png';
         }
 
-        // Live Preview Updater
         function updatePreview() {
             // General Info
-            document.getElementById('previewName').textContent = document.getElementById('fullName').value || 'MD RAJA';
+            const nameVal = document.getElementById('fullName').value || 'MD RAJA';
+            document.getElementById('previewName').textContent = nameVal;
+            document.getElementById('prevNameVal').textContent = nameVal;
             document.getElementById('previewCaste').textContent = document.getElementById('casteInfo').value || 'ISLAM, SUNNI';
             document.getElementById('previewHeaderTagline').textContent = document.getElementById('headerTagline').value || '';
 
@@ -496,9 +560,42 @@
             document.getElementById('previewDob').textContent = document.getElementById('dob').value || '-';
             document.getElementById('previewHeight').textContent = document.getElementById('height').value || '-';
             document.getElementById('previewQual').textContent = document.getElementById('qualification').value || '-';
-            document.getElementById('previewOcc').textContent = document.getElementById('occupation').value || '-';
-            document.getElementById('previewJob').textContent = document.getElementById('jobTitle').value || '-';
-            document.getElementById('previewWork').textContent = document.getElementById('workInfo').value || '-';
+
+            // Dynamic Career Info Preview (Wide Gap Alignment)
+            const cType = document.getElementById('careerType').value;
+            const careerContainer = document.getElementById('previewCareerContainer');
+            careerContainer.innerHTML = '';
+
+            if (cType === 'job') {
+                careerContainer.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Activity Status :</span><span class="font-bold text-slate-900">Employed / Job</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Job Role :</span><span class="font-bold text-slate-900">${document.getElementById('jobRole').value || '-'}</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Company Name :</span><span class="font-bold text-slate-900">${document.getElementById('jobCompany').value || '-'}</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Work Location :</span><span class="font-bold text-slate-900">${document.getElementById('jobLocation').value || '-'}</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Income / Package :</span><span class="font-bold text-amber-900">${document.getElementById('jobIncome').value || '-'}</span></div>
+                `;
+            } else if (cType === 'business') {
+                careerContainer.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Activity Status :</span><span class="font-bold text-slate-900">Business / Self-Employed</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Business Name :</span><span class="font-bold text-slate-900">${document.getElementById('busName').value || '-'}</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Business Sector :</span><span class="font-bold text-slate-900">${document.getElementById('busType').value || '-'}</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Location :</span><span class="font-bold text-slate-900">${document.getElementById('busLocation').value || '-'}</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Turnover / Income :</span><span class="font-bold text-amber-900">${document.getElementById('busIncome').value || '-'}</span></div>
+                `;
+            } else if (cType === 'pursuing') {
+                careerContainer.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Activity Status :</span><span class="font-bold text-slate-900">Pursuing Education / Student</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Course / Degree :</span><span class="font-bold text-slate-900">${document.getElementById('purDegree').value || '-'}</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">College / Univ :</span><span class="font-bold text-slate-900">${document.getElementById('purCollege').value || '-'}</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Current Year :</span><span class="font-bold text-slate-900">${document.getElementById('purYear').value || '-'}</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Passing Year :</span><span class="font-bold text-slate-900">${document.getElementById('purCompletion').value || '-'}</span></div>
+                `;
+            } else {
+                careerContainer.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Activity Status :</span><span class="font-bold text-slate-900">Other / Not Working</span></div>
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Status Note :</span><span class="font-bold text-slate-900">${document.getElementById('otherNote').value || '-'}</span></div>
+                `;
+            }
 
             // Father
             document.getElementById('previewFatherName').textContent = document.getElementById('fatherName').value || '-';
@@ -531,22 +628,21 @@
             document.getElementById('previewPhone').textContent = document.getElementById('phone').value || '-';
             document.getElementById('previewEmail').textContent = document.getElementById('email').value || '-';
 
-            // Check photo source backup fallback
+            // Fallback for photo
             const previewImg = document.getElementById('previewPhoto');
             if (!uploadedPhotoBase64) {
                 previewImg.src = 'profile.png';
             }
         }
 
-        // Reset Form Fields
         function resetForm() {
             document.getElementById('biodataForm').reset();
             clearPhoto();
             updateReligionHeader();
+            handleCareerTypeChange();
             updatePreview();
         }
 
-        // PDF Generation function using html2pdf
         function downloadPDF() {
             const element = document.getElementById('biodataPreviewPage');
             const name = document.getElementById('fullName').value.trim() || 'Biodata';
@@ -562,7 +658,6 @@
             html2pdf().set(opt).from(element).save();
         }
 
-        // Local Storage / Record Management
         function saveRecord() {
             const record = {
                 id: Date.now(),
@@ -577,7 +672,7 @@
             try {
                 localStorage.setItem('biodata_records', JSON.stringify(savedRecords));
             } catch(e) {
-                console.log('Storage limit exceeded for image saving');
+                console.log('Storage limit exceeded');
             }
             alert('Record saved successfully in Portal!');
             renderRecords();
@@ -594,7 +689,6 @@
             }
         }
 
-        // Admin Modal Controls
         function toggleAdminModal() {
             const modal = document.getElementById('adminModal');
             modal.classList.toggle('hidden');
