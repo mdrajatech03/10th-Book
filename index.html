@@ -359,24 +359,28 @@
 
                         <!-- 1. PERSONAL DETAILS SECTION -->
                         <div class="my-2">
-                            <div class="text-center mb-1.5">
+                            <div class="text-center mb-1">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Personal Details</h3>
                             </div>
-                            <div class="w-full space-y-1 text-[11px] text-slate-800 px-6 sm:px-12 max-w-lg mx-auto">
-                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Full Name :</span><span id="prevNameVal" class="font-bold text-slate-900">MD RAJA</span></div>
-                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Date of Birth :</span><span id="previewDob" class="font-bold text-slate-900">04-02-1999</span></div>
-                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Height :</span><span id="previewHeight" class="font-bold text-slate-900">5 Feet 4 Inch</span></div>
-                                <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Qualification :</span><span id="previewQual" class="font-bold text-slate-900">B.Tech in Computer Science</span></div>
+                            <div class="px-2">
+                                <div class="bg-amber-50/30 p-2 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
+                                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Full Name :</span><span id="prevNameVal" class="font-bold text-slate-900">MD RAJA</span></div>
+                                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Date of Birth :</span><span id="previewDob" class="font-bold text-slate-900">04-02-1999</span></div>
+                                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Height :</span><span id="previewHeight" class="font-bold text-slate-900">5 Feet 4 Inch</span></div>
+                                    <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Qualification :</span><span id="previewQual" class="font-bold text-slate-900">B.Tech in Computer Science</span></div>
+                                </div>
                             </div>
                         </div>
 
                         <!-- 2. CAREER & OCCUPATION DETAILS -->
                         <div class="my-2">
-                            <div class="text-center mb-1.5">
+                            <div class="text-center mb-1">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Career & Occupation</h3>
                             </div>
-                            <div id="previewCareerContainer" class="w-full space-y-1 text-[11px] text-slate-800 px-6 sm:px-12 max-w-lg mx-auto">
-                                <!-- Dynamic Career Fields loaded here -->
+                            <div class="px-2">
+                                <div id="previewCareerContainer" class="bg-amber-50/30 p-2 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
+                                    <!-- Dynamic Career Fields loaded here -->
+                                </div>
                             </div>
                         </div>
 
@@ -456,7 +460,8 @@
             </div>
         </section>
     </main>
-<!-- ADMIN STORAGE MODAL -->
+
+    <!-- ADMIN STORAGE MODAL -->
     <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl max-w-xl w-full overflow-hidden flex flex-col max-h-[85vh]">
             <div class="bg-slate-900 text-white px-5 py-3 flex justify-between items-center">
@@ -676,7 +681,7 @@
             `).join('');
         }
 
-           // --- CAREER DYNAMIC TABS ---
+        // --- CAREER DYNAMIC TABS ---
         function handleCareerTypeChange() {
             const type = document.getElementById('careerType').value;
             document.getElementById('jobFields').classList.add('hidden');
@@ -773,7 +778,7 @@
                 `;
             }
 
-            // Parents
+         // Parents
             document.getElementById('previewFatherName').textContent = document.getElementById('fatherName').value || '-';
             document.getElementById('previewFatherEdu').textContent = document.getElementById('fatherEdu').value || '-';
             document.getElementById('previewFatherStatus').textContent = document.getElementById('fatherStatus').value || '-';
@@ -896,7 +901,8 @@
 
             html2pdf().set(opt).from(element).save();
         }
-  // --- ADMIN STORAGE METHODS ---
+
+        // --- ADMIN STORAGE METHODS ---
         function saveRecord() {
             const record = {
                 id: Date.now(),
@@ -937,7 +943,7 @@
             if (pass === 'admin123') {
                 document.getElementById('adminLoginSec').classList.add('hidden');
                 document.getElementById('adminContentSec').classList.remove('hidden');
-                document.getElementById('adminErr').classList.add('hidden');
+                document.getElementById('adminErr').classList.remove('hidden');
                 renderRecords();
             } else {
                 document.getElementById('adminErr').classList.remove('hidden');
@@ -986,5 +992,3 @@
     </script>
 </body>
 </html>
-        
-    
