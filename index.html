@@ -7,27 +7,37 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
+    /* Fixed Standard Colors for HTML2Canvas Compatibility */
     .biodata-page {
       width: 210mm;
       min-height: 297mm;
       padding: 15mm 18mm;
-      background: #ffffff;
+      background-color: #ffffff !important;
+      color: #1e293b !important;
+      border: 2px solid #78350f !important;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
       margin: 0 auto;
       font-family: 'Georgia', serif;
+      box-sizing: border-box;
     }
-    .profile-hex-container {
-      width: 110px;
-      height: 110px;
-      clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-      background: linear-gradient(135deg, #b45309, #78350f);
+    .profile-9-16-container {
+      width: 108px;
+      height: 192px;
+      border-radius: 12px;
+      background: #78350f !important;
       padding: 3px;
     }
-    .profile-hex-inner {
+    .profile-9-16-inner {
       width: 100%;
       height: 100%;
-      clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-      background: #f1f5f9;
+      border-radius: 9px;
+      background-color: #f8fafc !important;
+    }
+    .pdf-header-border {
+      border-bottom: 2px solid #78350f !important;
+    }
+    .pdf-sec-border {
+      border-bottom: 1px solid #fcd34d !important;
     }
     [contenteditable="true"]:focus {
       outline: 2px dashed #d97706;
@@ -56,12 +66,16 @@
         </select>
       </div>
 
-      <!-- RELIGIOUS HEADER CUSTOMIZATION -->
+      <!-- RELIGIOUS HEADER SETTINGS -->
       <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
         <h3 class="font-bold text-slate-700 text-xs uppercase border-b pb-1">Religious Header Settings</h3>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Upload Custom Religious Icon / Banner (Optional)</label>
-          <input type="file" id="religionImageInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-amber-100 file:text-amber-800">
+          <label class="block text-xs font-medium text-slate-600 mb-1">Upload Custom Banner (16:9 Aspect Ratio)</label>
+          <p class="text-[10px] text-amber-700 font-medium mb-1">* Upload size 16:9 recommended. Default religion icon will be restored if deleted.</p>
+          <div class="flex items-center gap-2">
+            <input type="file" id="religionImageInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-amber-100 file:text-amber-800">
+            <button type="button" id="removeReligionImgBtn" class="hidden text-xs bg-red-100 text-red-700 px-2.5 py-1.5 rounded font-medium hover:bg-red-200">Delete Banner</button>
+          </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
@@ -75,42 +89,61 @@
         </div>
       </div>
 
-      <!-- PERSONAL PROFILE -->
+      <!-- CANDIDATE PROFILE -->
       <div class="space-y-3">
         <h3 class="font-bold text-slate-700 text-xs uppercase border-b pb-1">Candidate Profile</h3>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Upload Candidate Photo</label>
-          <input type="file" id="profileImageInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-slate-200 file:text-slate-700">
+          <label class="block text-xs font-medium text-slate-600 mb-1">Upload Candidate Photo (9:16 Aspect Ratio)</label>
+          <p class="text-[10px] text-amber-700 font-medium mb-1">* Upload image size 9:16 (Portrait format), otherwise it auto-adjusts.</p>
+          <div class="flex items-center gap-2">
+            <input type="file" id="profileImageInput" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:bg-slate-200 file:text-slate-700">
+            <button type="button" id="removeProfileImgBtn" class="hidden text-xs bg-red-100 text-red-700 px-2.5 py-1.5 rounded font-medium hover:bg-red-200">Delete Photo</button>
+          </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <input type="text" id="fullName" class="p-2 border rounded-md text-xs" placeholder="Full Name">
           <input type="text" id="dob" class="p-2 border rounded-md text-xs" placeholder="Date of Birth">
           <input type="text" id="height" class="p-2 border rounded-md text-xs" placeholder="Height">
           <input type="text" id="religionCaste" class="p-2 border rounded-md text-xs" placeholder="Religion / Sect / Caste">
-          <input type="text" id="myEducation" class="p-2 border rounded-md text-xs" placeholder="Candidate Education">
-          <input type="text" id="myOccupation" class="p-2 border rounded-md text-xs" placeholder="Candidate Profession">
+          <input type="text" id="myEducation" class="p-2 border rounded-md text-xs" placeholder="Education / Qualification">
+          <select id="myOccStatus" class="p-2 border rounded-md text-xs bg-white">
+            <option value="working">Working / Job / Business</option>
+            <option value="pursuing">Pursuing Education</option>
+            <option value="none">None / Not Working</option>
+          </select>
+          <input type="text" id="myJobDetails" class="p-2 border rounded-md text-xs col-span-2" placeholder="Job Title / Company / Course Details">
         </div>
       </div>
 
       <!-- PARENTS DETAILS -->
       <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
         <h3 class="font-bold text-slate-700 text-xs uppercase border-b pb-1">Parents Details</h3>
-        <!-- Father -->
+        
         <div class="p-2 bg-white rounded border space-y-2">
           <span class="text-xs font-bold text-amber-800">Father's Details:</span>
-          <div class="grid grid-cols-3 gap-2">
-            <input type="text" id="fatherName" class="p-1.5 border rounded text-xs" placeholder="Name">
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="fatherName" class="p-1.5 border rounded text-xs" placeholder="Father's Name">
             <input type="text" id="fatherEdu" class="p-1.5 border rounded text-xs" placeholder="Education">
-            <input type="text" id="fatherOcc" class="p-1.5 border rounded text-xs" placeholder="Occupation">
+            <select id="fatherOccStatus" class="p-1.5 border rounded text-xs bg-white">
+              <option value="working">Working / Business</option>
+              <option value="retired">Retired</option>
+              <option value="none">None</option>
+            </select>
+            <input type="text" id="fatherJobDetails" class="p-1.5 border rounded text-xs" placeholder="Occupation / Job Details">
           </div>
         </div>
-        <!-- Mother -->
+
         <div class="p-2 bg-white rounded border space-y-2">
           <span class="text-xs font-bold text-amber-800">Mother's Details:</span>
-          <div class="grid grid-cols-3 gap-2">
-            <input type="text" id="motherName" class="p-1.5 border rounded text-xs" placeholder="Name">
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="motherName" class="p-1.5 border rounded text-xs" placeholder="Mother's Name">
             <input type="text" id="motherEdu" class="p-1.5 border rounded text-xs" placeholder="Education">
-            <input type="text" id="motherOcc" class="p-1.5 border rounded text-xs" placeholder="Occupation">
+            <select id="motherOccStatus" class="p-1.5 border rounded text-xs bg-white">
+              <option value="homemaker">Homemaker</option>
+              <option value="working">Working / Business</option>
+              <option value="none">None</option>
+            </select>
+            <input type="text" id="motherJobDetails" class="p-1.5 border rounded text-xs" placeholder="Job / Profession Details (If any)">
           </div>
         </div>
       </div>
@@ -168,29 +201,28 @@
         </span>
       </div>
       
-      <!-- PREVIEW CARD -->
-      <div id="biodataPreview" class="biodata-page border-2 border-amber-900/40 rounded-sm relative text-slate-800">
+      <!-- PREVIEW CARD FOR PDF -->
+      <div id="biodataPreview" class="biodata-page rounded-sm relative">
         
-        <!-- HEADER WITH 16:9 RELIGION IMAGE CENTERED -->
-        <div class="grid grid-cols-3 items-center border-b-2 border-amber-800/80 pb-4 mb-5">
+        <!-- HEADER WITH 16:9 RELIGION BANNER -->
+        <div class="grid grid-cols-3 items-center pdf-header-border pb-4 mb-5">
           <div id="previewLeftText" contenteditable="true" class="text-[11px] font-bold text-amber-900 whitespace-pre-line text-left"></div>
           
-          <!-- 16:9 STYLISH ICON CONTAINER -->
           <div class="flex justify-center">
-            <div class="w-28 h-16 rounded-lg border border-amber-700/40 shadow-inner bg-amber-50/50 flex items-center justify-center p-1.5 overflow-hidden">
+            <div class="w-28 h-16 rounded-lg border border-amber-700/40 bg-amber-50 flex items-center justify-center p-1 overflow-hidden">
               <div id="previewReligionSvgContainer" class="w-full h-full flex items-center justify-center"></div>
-              <img id="previewReligionImg" src="" alt="" class="hidden w-full h-full object-contain">
+              <img id="previewReligionImg" src="" alt="" class="hidden w-full h-full object-cover rounded">
             </div>
           </div>
           
           <div id="previewRightText" contenteditable="true" class="text-[11px] font-bold text-amber-900 whitespace-pre-line text-right"></div>
         </div>
 
-        <!-- PROFILE PHOTO IN CENTER WITH HEXAGONAL FRAME -->
+        <!-- PROFILE PHOTO 9:16 -->
         <div class="flex flex-col items-center text-center mb-6">
-          <div class="profile-hex-container shadow-md mb-2">
-            <div class="profile-hex-inner flex items-center justify-center overflow-hidden">
-              <img id="previewProfileImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%2394a3b8'><circle cx='50' cy='35' r='25'/><path d='M10 90 C10 60, 90 60, 90 90 Z'/></svg>" alt="Profile Photo" class="w-full h-full object-cover">
+          <div class="profile-9-16-container shadow-md mb-2">
+            <div class="profile-9-16-inner flex items-center justify-center overflow-hidden">
+              <img id="previewProfileImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150' fill='%2394a3b8'><circle cx='50' cy='45' r='30'/><path d='M10 140 C10 95, 90 95, 90 140 Z'/></svg>" alt="Profile Photo" class="w-full h-full object-cover">
             </div>
           </div>
           <h1 id="previewName" contenteditable="true" class="text-2xl font-bold text-amber-900">Full Name</h1>
@@ -199,18 +231,18 @@
 
         <!-- PERSONAL DETAILS -->
         <div class="mb-4">
-          <h2 class="text-xs font-bold text-amber-900 border-b border-amber-300 pb-0.5 mb-2 uppercase tracking-wide">Personal Details</h2>
+          <h2 class="text-xs font-bold text-amber-900 pdf-sec-border pb-0.5 mb-2 uppercase tracking-wide">Personal Details</h2>
           <table class="w-full text-xs">
             <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600">Date of Birth:</td><td id="previewDob" contenteditable="true">-</td></tr>
             <tr class="py-0.5"><td class="font-semibold text-slate-600">Height:</td><td id="previewHeight" contenteditable="true">-</td></tr>
             <tr class="py-0.5"><td class="font-semibold text-slate-600">Qualification:</td><td id="previewMyEdu" contenteditable="true">-</td></tr>
-            <tr class="py-0.5"><td class="font-semibold text-slate-600">Occupation:</td><td id="previewMyOcc" contenteditable="true">-</td></tr>
+            <tr class="py-0.5"><td class="font-semibold text-slate-600">Occupation / Status:</td><td id="previewMyOcc" contenteditable="true">-</td></tr>
           </table>
         </div>
 
         <!-- PARENTS BACKGROUND -->
         <div class="mb-4">
-          <h2 class="text-xs font-bold text-amber-900 border-b border-amber-300 pb-0.5 mb-2 uppercase tracking-wide">Parents Details</h2>
+          <h2 class="text-xs font-bold text-amber-900 pdf-sec-border pb-0.5 mb-2 uppercase tracking-wide">Parents Details</h2>
           <table class="w-full text-xs">
             <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600">Father's Name:</td><td id="previewFatherName" contenteditable="true">-</td></tr>
             <tr class="py-0.5"><td class="font-semibold text-slate-600">Father's Info:</td><td id="previewFatherInfo" contenteditable="true">-</td></tr>
@@ -221,7 +253,7 @@
 
         <!-- SIBLINGS BACKGROUND -->
         <div class="mb-4">
-          <h2 class="text-xs font-bold text-amber-900 border-b border-amber-300 pb-0.5 mb-2 uppercase tracking-wide">Siblings Details</h2>
+          <h2 class="text-xs font-bold text-amber-900 pdf-sec-border pb-0.5 mb-2 uppercase tracking-wide">Siblings Details</h2>
           <table class="w-full text-xs">
             <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600 align-top">Brothers:</td><td id="previewBrothers" contenteditable="true" class="whitespace-pre-line align-top">None</td></tr>
             <tr class="py-0.5"><td class="font-semibold text-slate-600 align-top">Sisters:</td><td id="previewSisters" contenteditable="true" class="whitespace-pre-line align-top">None</td></tr>
@@ -230,13 +262,13 @@
 
         <!-- ADDRESS -->
         <div class="mb-4">
-          <h2 class="text-xs font-bold text-amber-900 border-b border-amber-300 pb-0.5 mb-2 uppercase tracking-wide">Address</h2>
+          <h2 class="text-xs font-bold text-amber-900 pdf-sec-border pb-0.5 mb-2 uppercase tracking-wide">Address</h2>
           <p id="previewAddress" contenteditable="true" class="text-xs leading-relaxed">-</p>
         </div>
 
         <!-- CONTACT DETAILS -->
         <div>
-          <h2 class="text-xs font-bold text-amber-900 border-b border-amber-300 pb-0.5 mb-2 uppercase tracking-wide">Contact Details</h2>
+          <h2 class="text-xs font-bold text-amber-900 pdf-sec-border pb-0.5 mb-2 uppercase tracking-wide">Contact Details</h2>
           <table class="w-full text-xs">
             <tr class="py-0.5"><td class="w-1/3 font-semibold text-slate-600">Phone Number:</td><td id="previewContact" contenteditable="true">-</td></tr>
             <tr class="py-0.5"><td class="font-semibold text-slate-600">Email Address:</td><td id="previewEmail" contenteditable="true">-</td></tr>
@@ -249,34 +281,35 @@
   </div>
 
   <script>
-    // Embedded Vectors for Reliable 16:9 Display
+    const defaultPlaceholderPhoto = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 150' fill='%2394a3b8'><circle cx='50' cy='45' r='30'/><path d='M10 140 C10 95, 90 95, 90 140 Z'/></svg>";
+
     const religionPresets = {
       islam: {
-        svg: `<svg viewBox="0 0 160 90" class="w-full h-full fill-amber-700"><path d="M80 15 a30 30 0 1 0 25 48 a24 24 0 1 1 -25 -48 z"/><polygon points="102,30 106,42 118,42 108,50 112,62 102,54 92,62 96,50 86,42 98,42"/></svg>`,
+        svg: `<svg viewBox="0 0 160 90" class="w-full h-full" style="fill:#b45309;"><path d="M80 15 a30 30 0 1 0 25 48 a24 24 0 1 1 -25 -48 z"/><polygon points="102,30 106,42 118,42 108,50 112,62 102,54 92,62 96,50 86,42 98,42"/></svg>`,
         leftText: 'Bismillah-ir-Rahman-ir-Raheem',
         rightText: 'In the name of Allah,\nthe Most Gracious',
         castePlaceholder: 'Islam, Sunni'
       },
       hindu: {
-        svg: `<svg viewBox="0 0 160 90" class="w-full h-full fill-amber-700"><text x="50%" y="55%" font-size="45" font-family="serif" text-anchor="middle" dominant-baseline="middle">🕉</text></svg>`,
+        svg: `<svg viewBox="0 0 160 90" class="w-full h-full" style="fill:#b45309;"><text x="50%" y="55%" font-size="45" font-family="serif" text-anchor="middle" dominant-baseline="middle">🕉</text></svg>`,
         leftText: '|| Shri Ganeshaya Namah ||\nSubh Vivah',
         rightText: 'Vakratunda Mahakaya\nSurya Koti Samaprabha',
         castePlaceholder: 'Hindu, Brahmin'
       },
       christian: {
-        svg: `<svg viewBox="0 0 160 90" class="w-full h-full fill-amber-700"><rect x="73" y="15" width="14" height="60" rx="2"/><rect x="50" y="30" width="60" height="14" rx="2"/></svg>`,
+        svg: `<svg viewBox="0 0 160 90" class="w-full h-full" style="fill:#b45309;"><rect x="73" y="15" width="14" height="60" rx="2"/><rect x="50" y="30" width="60" height="14" rx="2"/></svg>`,
         leftText: 'God is Love\n1 John 4:8',
         rightText: 'Walk in Love & Faith',
         castePlaceholder: 'Christian, Catholic'
       },
       sikh: {
-        svg: `<svg viewBox="0 0 160 90" class="w-full h-full fill-amber-700"><text x="50%" y="55%" font-size="45" font-family="serif" text-anchor="middle" dominant-baseline="middle">ੴ</text></svg>`,
+        svg: `<svg viewBox="0 0 160 90" class="w-full h-full" style="fill:#b45309;"><text x="50%" y="55%" font-size="45" font-family="serif" text-anchor="middle" dominant-baseline="middle">ੴ</text></svg>`,
         leftText: 'Ik Onkar (ੴ)',
         rightText: 'Waheguru Ji Ka Khalsa\nWaheguru Ji Ki Fateh',
         castePlaceholder: 'Sikh, Jatt'
       },
       modern: {
-        svg: `<svg viewBox="0 0 160 90" class="w-full h-full fill-amber-700"><path d="M80 68 C 50 45, 40 30, 55 20 C 68 12, 78 22, 80 25 C 82 22, 92 12, 105 20 C 120 30, 110 45, 80 68 Z"/></svg>`,
+        svg: `<svg viewBox="0 0 160 90" class="w-full h-full" style="fill:#b45309;"><path d="M80 68 C 50 45, 40 30, 55 20 C 68 12, 78 22, 80 25 C 82 22, 92 12, 105 20 C 120 30, 110 45, 80 68 Z"/></svg>`,
         leftText: 'Two Hearts, One Journey',
         rightText: 'Together is a Wonderful\nPlace to Be',
         castePlaceholder: 'Universal'
@@ -292,13 +325,11 @@
       document.getElementById('previewLeftText').innerText = preset.leftText;
       document.getElementById('previewRightText').innerText = preset.rightText;
 
-      const svgContainer = document.getElementById('previewReligionSvgContainer');
-      const imgElem = document.getElementById('previewReligionImg');
-      
-      svgContainer.innerHTML = preset.svg;
-      svgContainer.classList.remove('hidden');
-      imgElem.classList.add('hidden');
-      
+      const customImg = document.getElementById('previewReligionImg');
+      if (customImg.classList.contains('hidden')) {
+        document.getElementById('previewReligionSvgContainer').innerHTML = preset.svg;
+      }
+
       const casteInput = document.getElementById('religionCaste');
       casteInput.value = preset.castePlaceholder;
       document.getElementById('previewReligionCaste').innerText = preset.castePlaceholder;
@@ -306,101 +337,137 @@
 
     document.getElementById('religionSelect').addEventListener('change', (e) => applyReligionPreset(e.target.value));
 
-// Dynamic Sibling Management
-    let brothers = [];
-    let sisters = [];
+    // Dynamic Siblings Management
+    let brotherCount = 0;
+    let sisterCount = 0;
 
-    function renderSiblings() {
-      const broContainer = document.getElementById('brothersList');
-      broContainer.innerHTML = '';
-      brothers.forEach((b, index) => {
-        const div = document.createElement('div');
-        div.className = 'p-2 border rounded bg-white space-y-1';
-        div.innerHTML = `
-          <div class="flex justify-between text-xs font-semibold text-slate-600">
-            <span>Brother ${index + 1}</span>
-            <button type="button" class="text-red-500 hover:underline del-bro" data-index="${index}">Delete</button>
-          </div>
-          <div class="grid grid-cols-2 gap-1.5">
-            <input type="text" value="${b.name}" data-index="${index}" data-field="name" placeholder="Name" class="bro-input p-1 border rounded text-xs">
-            <input type="text" value="${b.status}" data-index="${index}" data-field="status" placeholder="Married/Unmarried" class="bro-input p-1 border rounded text-xs">
-            <input type="text" value="${b.edu}" data-index="${index}" data-field="edu" placeholder="Education" class="bro-input p-1 border rounded text-xs">
-            <input type="text" value="${b.occ}" data-index="${index}" data-field="occ" placeholder="Occupation" class="bro-input p-1 border rounded text-xs">
-          </div>`;
-        broContainer.appendChild(div);
-      });
-
-      const sisContainer = document.getElementById('sistersList');
-      sisContainer.innerHTML = '';
-      sisters.forEach((s, index) => {
-        const div = document.createElement('div');
-        div.className = 'p-2 border rounded bg-white space-y-1';
-        div.innerHTML = `
-          <div class="flex justify-between text-xs font-semibold text-slate-600">
-            <span>Sister ${index + 1}</span>
-            <button type="button" class="text-red-500 hover:underline del-sis" data-index="${index}">Delete</button>
-          </div>
-          <div class="grid grid-cols-2 gap-1.5">
-            <input type="text" value="${s.name}" data-index="${index}" data-field="name" placeholder="Name" class="sis-input p-1 border rounded text-xs">
-            <input type="text" value="${s.status}" data-index="${index}" data-field="status" placeholder="Married/Unmarried" class="sis-input p-1 border rounded text-xs">
-            <input type="text" value="${s.edu}" data-index="${index}" data-field="edu" placeholder="Education" class="sis-input p-1 border rounded text-xs">
-            <input type="text" value="${s.occ}" data-index="${index}" data-field="occ" placeholder="Occupation" class="sis-input p-1 border rounded text-xs">
-          </div>`;
-        sisContainer.appendChild(div);
-      });
-
-      // Update Preview Text
-      const broText = brothers.map(b => `${b.name || 'Brother'} (${b.status || 'Single'}) - ${b.edu || ''} ${b.occ ? '| ' + b.occ : ''}`).join('\n');
-      document.getElementById('previewBrothers').innerText = broText || 'None';
-
-      const sisText = sisters.map(s => `${s.name || 'Sister'} (${s.status || 'Single'}) - ${s.edu || ''} ${s.occ ? '| ' + s.occ : ''}`).join('\n');
-      document.getElementById('previewSisters').innerText = sisText || 'None';
+    function createSiblingElement(type, id) {
+      const div = document.createElement('div');
+      div.className = 'p-2 border rounded bg-white space-y-1';
+      div.id = `${type}-card-${id}`;
+      div.innerHTML = `
+        <div class="flex justify-between text-xs font-semibold text-slate-600">
+          <span class="capitalize">${type} ${id}</span>
+          <button type="button" class="text-red-500 hover:underline" onclick="removeSibling('${type}', ${id})">Delete</button>
+        </div>
+        <div class="grid grid-cols-2 gap-1.5">
+          <input type="text" id="${type}-name-${id}" placeholder="Name" class="p-1 border rounded text-xs">
+          <select id="${type}-marital-${id}" class="p-1 border rounded text-xs bg-white">
+            <option value="Unmarried">Unmarried</option>
+            <option value="Married">Married</option>
+          </select>
+          <input type="text" id="${type}-edu-${id}" placeholder="Education" class="p-1 border rounded text-xs">
+          <select id="${type}-occStatus-${id}" class="p-1 border rounded text-xs bg-white">
+            <option value="working">Working / Job</option>
+            <option value="pursuing">Pursuing Education</option>
+            <option value="none">None / Not Working</option>
+          </select>
+          <input type="text" id="${type}-job-${id}" placeholder="Job Profile / Course" class="p-1 border rounded text-xs col-span-2">
+        </div>`;
+      return div;
     }
 
-    // Event Delegation for Dynamic Inputs & Deletes
-    document.getElementById('brothersList').addEventListener('input', (e) => {
-      if (e.target.classList.contains('bro-input')) {
-        const idx = e.target.dataset.index;
-        const field = e.target.dataset.field;
-        brothers[idx][field] = e.target.value;
-        renderSiblings();
-      }
-    });
+    function updateSiblingsPreview() {
+      let broTexts = [];
+      document.querySelectorAll('#brothersList > div').forEach(card => {
+        const id = card.id.split('-')[2];
+        const name = document.getElementById(`brother-name-${id}`).value || 'Brother';
+        const marital = document.getElementById(`brother-marital-${id}`).value;
+        const edu = document.getElementById(`brother-edu-${id}`).value;
+        const occStatus = document.getElementById(`brother-occStatus-${id}`).value;
+        const job = document.getElementById(`brother-job-${id}`).value;
 
-    document.getElementById('brothersList').addEventListener('click', (e) => {
-      if (e.target.classList.contains('del-bro')) {
-        brothers.splice(e.target.dataset.index, 1);
-        renderSiblings();
-      }
-    });
+        let occStr = '';
+        if (occStatus === 'working') occStr = job ? `Working (${job})` : 'Working';
+        else if (occStatus === 'pursuing') occStr = job ? `Pursuing (${job})` : 'Pursuing';
 
-    document.getElementById('sistersList').addEventListener('input', (e) => {
-      if (e.target.classList.contains('sis-input')) {
-        const idx = e.target.dataset.index;
-        const field = e.target.dataset.field;
-        sisters[idx][field] = e.target.value;
-        renderSiblings();
-      }
-    });
+        let str = `${name} (${marital})`;
+        if (edu) str += ` - ${edu}`;
+        if (occStr) str += ` | ${occStr}`;
+        broTexts.push(str);
+      });
+      document.getElementById('previewBrothers').innerText = broTexts.join('\n') || 'None';
 
-    document.getElementById('sistersList').addEventListener('click', (e) => {
-      if (e.target.classList.contains('del-sis')) {
-        sisters.splice(e.target.dataset.index, 1);
-        renderSiblings();
-      }
-    });
+      let sisTexts = [];
+      document.querySelectorAll('#sistersList > div').forEach(card => {
+        const id = card.id.split('-')[2];
+        const name = document.getElementById(`sister-name-${id}`).value || 'Sister';
+        const marital = document.getElementById(`sister-marital-${id}`).value;
+        const edu = document.getElementById(`sister-edu-${id}`).value;
+        const occStatus = document.getElementById(`sister-occStatus-${id}`).value;
+        const job = document.getElementById(`sister-job-${id}`).value;
+
+        let occStr = '';
+        if (occStatus === 'working') occStr = job ? `Working (${job})` : 'Working';
+        else if (occStatus === 'pursuing') occStr = job ? `Pursuing (${job})` : 'Pursuing';
+
+        let str = `${name} (${marital})`;
+        if (edu) str += ` - ${edu}`;
+        if (occStr) str += ` | ${occStr}`;
+        sisTexts.push(str);
+      });
+      document.getElementById('previewSisters').innerText = sisTexts.join('\n') || 'None';
+    }
 
     document.getElementById('addBrotherBtn').addEventListener('click', () => {
-      brothers.push({ name: '', status: 'Unmarried', edu: '', occ: '' });
-      renderSiblings();
+      brotherCount++;
+      const elem = createSiblingElement('brother', brotherCount);
+      document.getElementById('brothersList').appendChild(elem);
+      elem.querySelectorAll('input, select').forEach(i => i.addEventListener('input', updateSiblingsPreview));
+      updateSiblingsPreview();
     });
 
     document.getElementById('addSisterBtn').addEventListener('click', () => {
-      sisters.push({ name: '', status: 'Unmarried', edu: '', occ: '' });
-      renderSiblings();
+      sisterCount++;
+      const elem = createSiblingElement('sister', sisterCount);
+      document.getElementById('sistersList').appendChild(elem);
+      elem.querySelectorAll('input, select').forEach(i => i.addEventListener('input', updateSiblingsPreview));
+      updateSiblingsPreview();
     });
 
-    // Helper Functions
+    window.removeSibling = function(type, id) {
+      const card = document.getElementById(`${type}-card-${id}`);
+      if (card) card.remove();
+      updateSiblingsPreview();
+    };
+
+    function updateCandidateOccupation() {
+      const status = document.getElementById('myOccStatus').value;
+      const details = document.getElementById('myJobDetails').value;
+      let text = '-';
+      if (status === 'working') text = details ? `Working as ${details}` : 'Working';
+      else if (status === 'pursuing') text = details ? `Pursuing ${details}` : 'Pursuing Education';
+      else text = 'None / Not Working';
+      document.getElementById('previewMyOcc').innerText = text;
+    }
+    document.getElementById('myOccStatus').addEventListener('change', updateCandidateOccupation);
+    document.getElementById('myJobDetails').addEventListener('input', updateCandidateOccupation);
+
+    function updateParents() {
+      const fName = document.getElementById('fatherName').value;
+      const fEdu = document.getElementById('fatherEdu').value;
+      const fStatus = document.getElementById('fatherOccStatus').value;
+      const fJob = document.getElementById('fatherJobDetails').value;
+
+      const mName = document.getElementById('motherName').value;
+      const mEdu = document.getElementById('motherEdu').value;
+      const mStatus = document.getElementById('motherOccStatus').value;
+      const mJob = document.getElementById('motherJobDetails').value;
+
+      let fOccStr = fStatus === 'retired' ? 'Retired' : (fJob || (fStatus === 'working' ? 'Working' : ''));
+      let mOccStr = mStatus === 'homemaker' ? 'Homemaker' : (mJob || (mStatus === 'working' ? 'Working' : ''));
+
+      document.getElementById('previewFatherName').innerText = fName || '-';
+      document.getElementById('previewFatherInfo').innerText = `${fEdu || '-'} ${fOccStr ? '| ' + fOccStr : ''}`;
+      document.getElementById('previewMotherName').innerText = mName || '-';
+      document.getElementById('previewMotherInfo').innerText = `${mEdu || '-'} ${mOccStr ? '| ' + mOccStr : ''}`;
+    }
+
+    ['fatherName','fatherEdu','fatherOccStatus','fatherJobDetails','motherName','motherEdu','motherOccStatus','motherJobDetails'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateParents);
+      document.getElementById(id).addEventListener('change', updateParents);
+    });
+
     function updateAddress() {
       const v = document.getElementById('addrVillage').value;
       const p = document.getElementById('addrPost').value;
@@ -417,24 +484,6 @@
       
       document.getElementById('previewAddress').innerText = addrStr.join(', ') || '-';
     }
-
-    function updateParents() {
-      const fName = document.getElementById('fatherName').value;
-      const fEdu = document.getElementById('fatherEdu').value;
-      const fOcc = document.getElementById('fatherOcc').value;
-      const mName = document.getElementById('motherName').value;
-      const mEdu = document.getElementById('motherEdu').value;
-      const mOcc = document.getElementById('motherOcc').value;
-
-      document.getElementById('previewFatherName').innerText = fName || '-';
-      document.getElementById('previewFatherInfo').innerText = `${fEdu || '-'} ${fOcc ? '| ' + fOcc : ''}`;
-      document.getElementById('previewMotherName').innerText = mName || '-';
-      document.getElementById('previewMotherInfo').innerText = `${mEdu || '-'} ${mOcc ? '| ' + mOcc : ''}`;
-    }
-
-    ['fatherName','fatherEdu','fatherOcc','motherName','motherEdu','motherOcc'].forEach(id => {
-      document.getElementById(id).addEventListener('input', updateParents);
-    });
 
     ['addrVillage','addrPost','addrDistrict','addrState','addrPincode'].forEach(id => {
       document.getElementById(id).addEventListener('input', updateAddress);
@@ -454,52 +503,82 @@
     bindInput('height', 'previewHeight');
     bindInput('religionCaste', 'previewReligionCaste');
     bindInput('myEducation', 'previewMyEdu');
-    bindInput('myOccupation', 'previewMyOcc');
     bindInput('contactNo', 'previewContact');
     bindInput('emailId', 'previewEmail');
 
-    // File Upload Handlers (Fixed Readers)
-    document.getElementById('religionImageInput').addEventListener('change', function(e) {
+    // Profile Photo Upload & Delete
+    const profileInput = document.getElementById('profileImageInput');
+    const removeProfileBtn = document.getElementById('removeProfileImgBtn');
+    const previewProfileImg = document.getElementById('previewProfileImg');
+
+    profileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = function(evt) {
-          const svgContainer = document.getElementById('previewReligionSvgContainer');
-          const imgElem = document.getElementById('previewReligionImg');
-          
-          svgContainer.classList.add('hidden');
-          imgElem.src = evt.target.result;
-          imgElem.classList.remove('hidden');
+          previewProfileImg.src = evt.target.result;
+          removeProfileBtn.classList.remove('hidden');
         };
         reader.readAsDataURL(file);
       }
     });
 
-    document.getElementById('profileImageInput').addEventListener('change', function(e) {
+    removeProfileBtn.addEventListener('click', function() {
+      profileInput.value = '';
+      previewProfileImg.src = defaultPlaceholderPhoto;
+      removeProfileBtn.classList.add('hidden');
+    });
+
+    // Religion Banner Upload & Delete
+    const religionImgInput = document.getElementById('religionImageInput');
+    const removeReligionBtn = document.getElementById('removeReligionImgBtn');
+    const previewReligionImg = document.getElementById('previewReligionImg');
+    const previewReligionSvgContainer = document.getElementById('previewReligionSvgContainer');
+
+    religionImgInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = function(evt) {
-          document.getElementById('previewProfileImg').src = evt.target.result;
+          previewReligionSvgContainer.classList.add('hidden');
+          previewReligionImg.src = evt.target.result;
+          previewReligionImg.classList.remove('hidden');
+          removeReligionBtn.classList.remove('hidden');
         };
         reader.readAsDataURL(file);
       }
     });
 
-    // Default Load Setup
+    removeReligionBtn.addEventListener('click', function() {
+      religionImgInput.value = '';
+      previewReligionImg.classList.add('hidden');
+      previewReligionSvgContainer.classList.remove('hidden');
+      removeReligionBtn.classList.add('hidden');
+      applyReligionPreset(document.getElementById('religionSelect').value);
+    });
+
     applyReligionPreset('islam');
 
-    // Download PDF
+    // FIXED PDF GENERATOR FUNCTION WITH HTML2CANVAS OPTIMIZATIONS
     document.getElementById('downloadBtn').addEventListener('click', function() {
       const element = document.getElementById('biodataPreview');
       const name = document.getElementById('previewName').innerText.trim() || 'Biodata';
+      
       const opt = {
-        margin: 0,
+        margin: [0, 0, 0, 0],
         filename: `${name}_Biodata.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
+        html2canvas: { 
+          scale: 2, 
+          useCORS: true, 
+          allowTaint: true,
+          scrollX: 0,
+          scrollY: 0,
+          windowWidth: document.documentElement.offsetWidth
+        },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
+      
       html2pdf().set(opt).from(element).save();
     });
   </script>
