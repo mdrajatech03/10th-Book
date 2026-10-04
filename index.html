@@ -36,18 +36,20 @@
         }
         .a4-page {
             width: 210mm;
-            min-height: 297mm;
-            padding: 8mm 10mm;
+            height: 297mm;
+            max-height: 297mm;
+            padding: 5mm 8mm;
             margin: 0 auto;
             background: #ffffff;
             box-sizing: border-box;
             position: relative;
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
             border: 2px double #8B5A2B;
+            overflow: hidden !important;
         }
         .biodata-section {
             page-break-inside: avoid;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.35rem;
         }
         .section-header-title {
             background: #fdf8f6;
@@ -56,17 +58,18 @@
             color: #7c2d12;
         }
 
-        /* DYNAMIC MULTI-PAGE PRINT STYLES */
+        /* STRICT SINGLE PAGE PRINT STYLES */
         @media print {
             @page {
                 size: A4 portrait;
                 margin: 0;
             }
             html, body {
-                height: auto;
+                height: 100%;
                 margin: 0 !important;
                 padding: 0 !important;
                 background: #ffffff !important;
+                overflow: hidden !important;
             }
             body * {
                 visibility: hidden !important;
@@ -79,15 +82,13 @@
                 left: 0 !important;
                 top: 0 !important;
                 width: 210mm !important;
-                min-height: 297mm !important;
-                height: auto !important;
+                height: 297mm !important;
+                max-height: 297mm !important;
                 margin: 0 !important;
-                padding: 8mm 10mm !important;
+                padding: 5mm 8mm !important;
                 box-shadow: none !important;
                 border: 2px double #8B5A2B !important;
-            }
-            .biodata-section {
-                page-break-inside: avoid !important;
+                overflow: hidden !important;
             }
         }
     </style>
@@ -296,9 +297,9 @@
                     </div>
                 </div>
 
-                <!-- 6. SIBLINGS DETAILS -->
+                <!-- 6. SIBLINGS DETAILS (MAX 3 LIMIT) -->
                 <div class="space-y-2">
-                    <h3 class="font-bold text-slate-800 border-b pb-0.5 text-[11px] uppercase tracking-wider text-amber-900">6. Siblings Details (Brothers & Sisters)</h3>
+                    <h3 class="font-bold text-slate-800 border-b pb-0.5 text-[11px] uppercase tracking-wider text-amber-900">6. Siblings Details (Brothers & Sisters - Max 3 Each)</h3>
                     
                     <!-- Brothers Sub-Section -->
                     <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 space-y-1.5">
@@ -306,7 +307,7 @@
                             <label class="flex items-center space-x-2 cursor-pointer">
                                 <input type="checkbox" id="enableBrothers" checked onchange="toggleBrothersSection()" class="rounded text-amber-700 focus:ring-amber-500 w-3.5 h-3.5">
                                 <span class="font-bold text-amber-900 text-[11px] flex items-center gap-1">
-                                    <i class="fa-solid fa-person text-amber-700"></i> Include Brothers
+                                    <i class="fa-solid fa-person text-amber-700"></i> Include Brothers (Max 3)
                                 </span>
                             </label>
                             <button type="button" id="addBrotherBtn" onclick="addBrotherInput()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-semibold text-[10px] transition border border-amber-300">
@@ -322,7 +323,7 @@
                             <label class="flex items-center space-x-2 cursor-pointer">
                                 <input type="checkbox" id="enableSisters" checked onchange="toggleSistersSection()" class="rounded text-amber-700 focus:ring-amber-500 w-3.5 h-3.5">
                                 <span class="font-bold text-amber-900 text-[11px] flex items-center gap-1">
-                                    <i class="fa-solid fa-person-dress text-amber-700"></i> Include Sisters
+                                    <i class="fa-solid fa-person-dress text-amber-700"></i> Include Sisters (Max 3)
                                 </span>
                             </label>
                             <button type="button" id="addSisterBtn" onclick="addSisterInput()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-semibold text-[10px] transition border border-amber-300">
@@ -365,44 +366,44 @@
             <div class="flex items-center justify-between mb-1.5 px-1 shrink-0">
                 <h2 class="font-bold text-slate-800 text-xs flex items-center gap-2 uppercase tracking-wide">
                     <i class="fa-solid fa-eye text-amber-700"></i>
-                    Live PDF Document Preview
+                    Live PDF Document Preview (Single Page)
                 </h2>
                 <span class="text-[10px] bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Dynamic PDF Mode
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Single Page Mode
                 </span>
             </div>
 
             <!-- Scrollable Container -->
             <div class="custom-scroll flex-1 overflow-y-auto overflow-x-auto flex justify-center items-start p-2 rounded-lg bg-slate-200/60 border border-slate-300">
                 
-                <!-- A4 PAGE DOCUMENT OUTPUT (DYNAMIC DYNAMIC MULTI-PAGE OUTPUT) -->
+                <!-- A4 PAGE DOCUMENT OUTPUT (STRICT SINGLE PAGE FIT) -->
                 <div id="biodataPreviewPage" class="a4-page font-biodata text-slate-800 relative flex flex-col justify-between">
                     
-                    <div class="space-y-2">
+                    <div>
                         <!-- Religious Symbol Header -->
-                        <div class="text-center pb-1 border-b border-amber-900/20 relative biodata-section">
-                            <div id="religionHeaderBox" class="flex justify-center items-center h-10 mb-0.5">
-                                <img id="previewHeaderImg" src="islam.png" onerror="handleHeaderImgFallback(this)" class="h-9 object-contain max-w-[180px]" alt="Symbol">
+                        <div class="text-center pb-0.5 border-b border-amber-900/25 relative biodata-section">
+                            <div id="religionHeaderBox" class="flex justify-center items-center h-7 mb-0.5">
+                                <img id="previewHeaderImg" src="islam.png" onerror="handleHeaderImgFallback(this)" class="h-6 object-contain max-w-[150px]" alt="Symbol">
                             </div>
-                            <p id="previewHeaderTagline" class="text-[11px] italic text-amber-950 font-serif tracking-wide">-</p>
+                            <p id="previewHeaderTagline" class="text-[10px] italic text-amber-950 font-serif tracking-wide">-</p>
                         </div>
 
                         <!-- Candidate Profile Image & Header -->
-                        <div class="flex flex-col items-center justify-center text-center biodata-section">
-                            <div class="w-20 h-24 border-2 border-amber-800/80 p-0.5 bg-white shadow-sm rounded-sm mb-1">
+                        <div class="flex flex-col items-center justify-center text-center biodata-section my-1">
+                            <div class="w-16 h-20 border-2 border-amber-800/80 p-0.5 bg-white shadow-sm rounded-sm mb-0.5">
                                 <img id="previewPhoto" src="profile.png" onerror="this.src='profile.png'" class="w-full h-full object-cover rounded-sm" alt="Profile">
                             </div>
-                            <h2 id="previewName" class="text-base font-bold tracking-wider text-amber-900 uppercase font-serif-header">-</h2>
-                            <p id="previewCaste" class="text-[10px] text-slate-600 font-bold uppercase tracking-widest mt-0.5">-</p>
+                            <h2 id="previewName" class="text-sm font-bold tracking-wider text-amber-900 uppercase font-serif-header">-</h2>
+                            <p id="previewCaste" class="text-[9px] text-slate-600 font-bold uppercase tracking-widest">-</p>
                         </div>
 
                         <!-- 1. PERSONAL DETAILS SECTION -->
                         <div class="biodata-section">
                             <div class="text-center mb-0.5">
-                                <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Personal Details</h3>
+                                <h3 class="text-[9px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Personal Details</h3>
                             </div>
                             <div class="px-2">
-                                <div class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
+                                <div class="bg-amber-50/30 p-1 rounded border border-amber-100/80 w-full space-y-0.5 text-[10px] text-slate-800">
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Full Name :</span><span id="prevNameVal" class="font-bold text-slate-900">-</span></div>
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Date of Birth :</span><span id="previewDob" class="font-bold text-slate-900">-</span></div>
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Height :</span><span id="previewHeight" class="font-bold text-slate-900">-</span></div>
@@ -414,10 +415,10 @@
                         <!-- 2. CAREER & OCCUPATION DETAILS -->
                         <div class="biodata-section">
                             <div class="text-center mb-0.5">
-                                <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Career & Occupation</h3>
+                                <h3 class="text-[9px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Career & Occupation</h3>
                             </div>
                             <div class="px-2">
-                                <div id="previewCareerContainer" class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
+                                <div id="previewCareerContainer" class="bg-amber-50/30 p-1 rounded border border-amber-100/80 w-full space-y-0.5 text-[10px] text-slate-800">
                                     <!-- Dynamic Career Fields -->
                                 </div>
                             </div>
@@ -426,13 +427,13 @@
                         <!-- 3. PARENTS DETAILS SECTION -->
                         <div class="biodata-section">
                             <div class="text-center mb-0.5">
-                                <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Parents Details</h3>
+                                <h3 class="text-[9px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Parents Details</h3>
                             </div>
                             
                             <div class="w-full grid grid-cols-2 gap-2 px-2">
-                                <div class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
-                                    <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">FATHER'S DETAILS</p>
-                                    <div class="space-y-0.5 text-[10px]">
+                                <div class="bg-amber-50/30 p-1 rounded border border-amber-100/80">
+                                    <p class="text-[8px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">FATHER'S DETAILS</p>
+                                    <div class="space-y-0.5 text-[9px]">
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Name:</span><span id="previewFatherName" class="font-bold text-slate-900">-</span></div>
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Edu:</span><span id="previewFatherEdu" class="text-slate-800">-</span></div>
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Status:</span><span id="previewFatherStatus" class="text-slate-800">-</span></div>
@@ -440,9 +441,9 @@
                                     </div>
                                 </div>
 
-                                <div class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
-                                    <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">MOTHER'S DETAILS</p>
-                                    <div class="space-y-0.5 text-[10px]">
+                                <div class="bg-amber-50/30 p-1 rounded border border-amber-100/80">
+                                    <p class="text-[8px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">MOTHER'S DETAILS</p>
+                                    <div class="space-y-0.5 text-[9px]">
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Name:</span><span id="previewMotherName" class="font-bold text-slate-900">-</span></div>
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Edu:</span><span id="previewMotherEdu" class="text-slate-800">-</span></div>
                                         <div class="flex justify-between"><span class="font-semibold text-slate-600">Status:</span><span id="previewMotherStatus" class="text-slate-800">-</span></div>
@@ -452,21 +453,21 @@
                             </div>
                         </div>
 
-                        <!-- 4. SIBLINGS PREVIEW -->
+                        <!-- 4. SIBLINGS PREVIEW (MAX 3 WITH BORDER) -->
                         <div id="previewSiblingsSection" class="biodata-section">
                             <div class="text-center mb-0.5">
-                                <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Siblings Details</h3>
+                                <h3 class="text-[9px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Siblings Details (Max 3)</h3>
                             </div>
                             
                             <div id="previewSiblingsGrid" class="w-full grid grid-cols-2 gap-2 px-2 text-xs">
-                                <div id="previewBrothersCard" class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
-                                    <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">BROTHERS</p>
-                                    <div id="previewBrothersList" class="space-y-1 text-[10px]"></div>
+                                <div id="previewBrothersCard" class="bg-amber-50/30 p-1 rounded border border-amber-100/80">
+                                    <p class="text-[8px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">BROTHERS</p>
+                                    <div id="previewBrothersList" class="space-y-1 text-[9px]"></div>
                                 </div>
 
-                                <div id="previewSistersCard" class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80">
-                                    <p class="text-[9px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">SISTERS</p>
-                                    <div id="previewSistersList" class="space-y-1 text-[10px]"></div>
+                                <div id="previewSistersCard" class="bg-amber-50/30 p-1 rounded border border-amber-100/80">
+                                    <p class="text-[8px] font-bold text-amber-900 uppercase mb-0.5 border-b border-amber-200/50 pb-0.5 text-center">SISTERS</p>
+                                    <div id="previewSistersList" class="space-y-1 text-[9px]"></div>
                                 </div>
                             </div>
                         </div>
@@ -474,10 +475,10 @@
                         <!-- 5. PERMANENT ADDRESS & CONTACT -->
                         <div class="biodata-section">
                             <div class="text-center mb-0.5">
-                                <h3 class="text-[10px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Permanent Address & Contact</h3>
+                                <h3 class="text-[9px] font-bold uppercase tracking-widest section-header-title py-0.5 px-3 inline-block">Permanent Address & Contact</h3>
                             </div>
                             <div class="px-2">
-                                <div class="bg-amber-50/30 p-1.5 rounded border border-amber-100/80 w-full space-y-0.5 text-[11px] text-slate-800">
+                                <div class="bg-amber-50/30 p-1 rounded border border-amber-100/80 w-full space-y-0.5 text-[10px] text-slate-800">
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Address :</span><span id="previewAddr" class="font-bold text-slate-900">-</span></div>
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">Post Office :</span><span id="previewPo" class="font-bold text-slate-900">-</span></div>
                                     <div class="flex justify-between items-center border-b border-slate-100 pb-0.5"><span class="font-semibold text-slate-600">District / State :</span><span id="previewDistrict" class="font-bold text-slate-900">-</span></div>
@@ -490,7 +491,7 @@
                     </div>
 
                     <!-- Footer Line -->
-                    <div class="pt-2 border-t border-amber-800/20 text-center text-[9px] text-slate-400 mt-4">
+                    <div class="pt-0.5 border-t border-amber-800/20 text-center text-[8px] text-slate-400">
                         Biodata generated with Biodata Maker Pro
                     </div>
 
@@ -552,6 +553,17 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             loadSavedRecordsFromStorage();
+            // Default 3 brothers and 3 sisters initialized as requested
+            brothersList = [
+                { id: 1, name: '', relation: 'Elder', edu: '', job: '' },
+                { id: 2, name: '', relation: 'Elder', edu: '', job: '' },
+                { id: 3, name: '', relation: 'Younger', edu: '', job: '' }
+            ];
+            sistersList = [
+                { id: 101, name: '', relation: 'Elder', edu: '', job: '' },
+                { id: 102, name: '', relation: 'Younger', edu: '', job: '' },
+                { id: 103, name: '', relation: 'Younger', edu: '', job: '' }
+            ];
             renderBrothersInputs();
             renderSistersInputs();
             updateReligionHeader();
@@ -565,7 +577,7 @@
             const config = religionConfig[relKey] || religionConfig.islam;
 
             const parent = imgElem.parentElement || document.getElementById('religionHeaderBox');
-            parent.innerHTML = `<span class="text-2xl text-amber-900 font-bold leading-none select-none">${config.symbolSvg}</span>`;
+            parent.innerHTML = `<span class="text-xl text-amber-900 font-bold leading-none select-none">${config.symbolSvg}</span>`;
         }
 
         // --- TOGGLE BROTHERS & SISTERS SECTION ---
@@ -599,8 +611,12 @@
             updatePreview();
         }
 
-        // --- DYNAMIC BROTHERS & SISTERS LOGIC ---
+        // --- DYNAMIC BROTHERS & SISTERS LOGIC (MAX 3 LIMIT) ---
         function addBrotherInput() {
+            if (brothersList.length >= 3) {
+                alert('Maximum 3 brothers can be added.');
+                return;
+            }
             brothersList.push({ id: Date.now(), name: '', relation: 'Elder', edu: '', job: '' });
             renderBrothersInputs();
             updatePreview();
@@ -622,13 +638,21 @@
 
         function renderBrothersInputs() {
             const container = document.getElementById('brothersInputContainer');
+            const addBtn = document.getElementById('addBrotherBtn');
+            
+            if (brothersList.length >= 3) {
+                addBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                addBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
             if (brothersList.length === 0) {
                 container.innerHTML = `<p class="text-[10px] text-slate-400 italic">No brothers added.</p>`;
                 return;
             }
 
             container.innerHTML = brothersList.map((bro, idx) => `
-                <div class="bg-white p-1.5 rounded border border-slate-200 space-y-1 relative">
+                <div class="bg-white p-1 rounded border border-slate-200 space-y-0.5 relative">
                     <div class="flex justify-between items-center">
                         <span class="font-semibold text-[9px] text-slate-500">Brother #${idx + 1}</span>
                         <button type="button" onclick="removeBrotherInput(${bro.id})" class="text-rose-500 hover:text-rose-700 text-[10px] font-bold">&times; Remove</button>
@@ -647,6 +671,10 @@
         }
 
         function addSisterInput() {
+            if (sistersList.length >= 3) {
+                alert('Maximum 3 sisters can be added.');
+                return;
+            }
             sistersList.push({ id: Date.now(), name: '', relation: 'Elder', edu: '', job: '' });
             renderSistersInputs();
             updatePreview();
@@ -668,13 +696,21 @@
 
         function renderSistersInputs() {
             const container = document.getElementById('sistersInputContainer');
+            const addBtn = document.getElementById('addSisterBtn');
+
+            if (sistersList.length >= 3) {
+                addBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                addBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
             if (sistersList.length === 0) {
                 container.innerHTML = `<p class="text-[10px] text-slate-400 italic">No sisters added.</p>`;
                 return;
             }
 
             container.innerHTML = sistersList.map((sis, idx) => `
-                <div class="bg-white p-1.5 rounded border border-slate-200 space-y-1 relative">
+                <div class="bg-white p-1 rounded border border-slate-200 space-y-0.5 relative">
                     <div class="flex justify-between items-center">
                         <span class="font-semibold text-[9px] text-slate-500">Sister #${idx + 1}</span>
                         <button type="button" onclick="removeSisterInput(${sis.id})" class="text-rose-500 hover:text-rose-700 text-[10px] font-bold">&times; Remove</button>
@@ -714,7 +750,7 @@
             const config = religionConfig[religionKey] || religionConfig.islam;
             
             const headerBox = document.getElementById('religionHeaderBox');
-            headerBox.innerHTML = `<img id="previewHeaderImg" src="${config.img}" onerror="handleHeaderImgFallback(this)" class="h-9 object-contain max-w-[180px]" alt="Symbol">`;
+            headerBox.innerHTML = `<img id="previewHeaderImg" src="${config.img}" onerror="handleHeaderImgFallback(this)" class="h-6 object-contain max-w-[150px]" alt="Symbol">`;
             
             if(!document.getElementById('headerTagline').value) {
                 document.getElementById('previewHeaderTagline').textContent = config.tagline;
@@ -837,7 +873,7 @@
                 }
             }
 
-            // Render Brothers List
+            // Render Brothers List with Bordered Card
             const prevBroContainer = document.getElementById('previewBrothersList');
             if (brothersList.length === 0) {
                 prevBroContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
@@ -852,7 +888,7 @@
                 `).join('');
             }
 
-            // Render Sisters List
+            // Render Sisters List with Bordered Card
             const prevSisContainer = document.getElementById('previewSistersList');
             if (sistersList.length === 0) {
                 prevSisContainer.innerHTML = `<p class="text-slate-400 italic font-normal text-center">None</p>`;
@@ -923,9 +959,17 @@
             document.getElementById('motherStatus').value = '';
             document.getElementById('motherJob').value = '';
 
-            // Siblings list reset
-            brothersList = [];
-            sistersList = [];
+            // Siblings list reset (default 3 each)
+            brothersList = [
+                { id: 1, name: '', relation: 'Elder', edu: '', job: '' },
+                { id: 2, name: '', relation: 'Elder', edu: '', job: '' },
+                { id: 3, name: '', relation: 'Younger', edu: '', job: '' }
+            ];
+            sistersList = [
+                { id: 101, name: '', relation: 'Elder', edu: '', job: '' },
+                { id: 102, name: '', relation: 'Younger', edu: '', job: '' },
+                { id: 103, name: '', relation: 'Younger', edu: '', job: '' }
+            ];
             document.getElementById('enableBrothers').checked = true;
             document.getElementById('enableSisters').checked = true;
             toggleBrothersSection();
@@ -943,13 +987,13 @@
             updatePreview();
         }
 
-        // --- DYNAMIC MULTI-PAGE PDF DOWNLOAD FUNCTION ---
+        // --- SINGLE PAGE PDF DOWNLOAD FUNCTION ---
         function downloadPDF() {
             const element = document.getElementById('biodataPreviewPage');
             const name = document.getElementById('fullName').value.trim() || 'Biodata';
             
             const opt = {
-                margin:       [5, 0, 5, 0],
+                margin:       0,
                 filename:     `${name.replace(/\s+/g, '_')}_Biodata.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { 
@@ -959,8 +1003,7 @@
                     scrollX: 0,
                     windowWidth: document.documentElement.offsetWidth
                 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save();
